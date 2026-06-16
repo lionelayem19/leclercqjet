@@ -1,0 +1,353 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0A1628;
+    color: #1A1A2E;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cormorant), Georgia, serif;
+  }
+
+  input, select, textarea {
+    background: transparent;
+    outline: none;
+    border-radius: 0;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.4);
+    cursor: pointer;
+  }
+
+  ::selection {
+    background-color: #C9A96E;
+    color: #0A1628;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #C9A96E;
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #C9A96E; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #b8934a; }
+
+  a { transition: color 0.2s ease; }
+}
+
+/* Hide the native cursor while the custom golden airplane is active (desktop only) */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}
+
+/* Subtle film grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Star twinkle animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.5; }
+}
+
+/* ─── Destinations infinite marquee ─── */
+@keyframes destinations-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.destinations-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.destinations-track {
+  display: inline-flex;
+  width: max-content;
+  animation: destinations-scroll 45s linear infinite;
+  will-change: transform;
+}
+.destinations-marquee:hover .destinations-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .destinations-track { animation: none; }
+}
+
+/* ─── Navbar ─── */
+.glass-dark {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 22, 40, 0.95);
+  border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+  transition: background 0.35s ease, backdrop-filter 0.35s ease,
+    border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Scrolled state — frosted glass + subtle elevation shadow */
+.glass-dark.nav-scrolled {
+  background: rgba(10, 22, 40, 0.78);
+  backdrop-filter: blur(26px) saturate(140%);
+  -webkit-backdrop-filter: blur(26px) saturate(140%);
+  border-bottom-color: rgba(201, 169, 110, 0.22);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(201, 169, 110, 0.08);
+}
+
+.glass-transparent {
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+/* Nav underline from centre */
+.nav-link-center {
+  position: relative;
+  padding-bottom: 4px;
+}
+.nav-link-center::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background-color: #C9A96E;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+.nav-link-center:hover::after {
+  width: 100%;
+}
+
+/* Legacy underline (left-to-right) */
+.nav-link-underline {
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-link-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #C9A96E;
+  transition: width 0.3s ease;
+}
+.nav-link-underline:hover::after {
+  width: 100%;
+}
+
+/* ─── "Demande de devis" CTA — looping shine + golden glow ─── */
+@keyframes devis-shine {
+  0% { transform: translateX(-140%) skewX(-22deg); }
+  55%, 100% { transform: translateX(360%) skewX(-22deg); }
+}
+.btn-devis {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(201, 169, 110, 0.38);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background-color 0.2s ease;
+}
+.btn-devis::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  transform: translateX(-140%) skewX(-22deg);
+  animation: devis-shine 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.btn-devis:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(201, 169, 110, 0.58);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-devis::before { animation: none; }
+  .btn-devis:hover { transform: none; }
+}
+
+/* ─── Service cards ─── */
+.service-card-overlay {
+  background-color: rgba(10,22,40,0.55);
+  transition: background-color 0.5s ease;
+}
+.service-card:hover .service-card-overlay {
+  background-color: rgba(10,22,40,0.3);
+}
+.service-card-img {
+  transition: transform 0.8s ease;
+}
+.service-card:hover .service-card-img {
+  transform: scale(1.06);
+}
+.service-card-desc {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.service-card:hover .service-card-desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Micro-interactions ─── */
+.btn-micro {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.btn-micro:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card-micro {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-micro:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.empty-leg-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.empty-leg-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.article-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+/* ─── Elegant hover — cards & buttons ─── */
+/* Light surfaces — soft navy shadow + lift */
+.card-lift {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+  will-change: transform;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px rgba(10, 22, 40, 0.13);
+}
+
+/* Dark/navy surfaces — gold-tinted glow + brightened border */
+.card-lift-dark {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+  will-change: transform;
+}
+.card-lift-dark:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201, 169, 110, 0.5) !important;
+  box-shadow: 0 26px 55px rgba(0, 0, 0, 0.5), 0 8px 28px rgba(201, 169, 110, 0.12);
+}
+
+/* Trust-band cells — warm tint + icon lift (keeps shared grid lines intact) */
+.why-cell {
+  transition: background-color 0.45s ease;
+}
+.why-cell:hover {
+  background-color: #FBF8F1;
+}
+.why-cell svg {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.why-cell:hover svg {
+  transform: translateY(-3px) scale(1.08);
+}
+
+/* Buttons — subtle lift + shadow (composes with colour-swap hovers) */
+.btn-lift {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease,
+    background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+}
+.btn-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(10, 22, 40, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-lift, .card-lift-dark, .why-cell, .why-cell svg, .btn-lift { transition: none; }
+  .card-lift:hover, .card-lift-dark:hover, .btn-lift:hover { transform: none; }
+  .why-cell:hover svg { transform: none; }
+}
+
+/* Scroll-reveal utility (applied via JS/framer) */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@layer utilities {
+  .section-pad {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .section-pad-sm {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .gold-line {
+    display: inline-block;
+    height: 1px;
+    width: 50px;
+    background-color: #C9A96E;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
