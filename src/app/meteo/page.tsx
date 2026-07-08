@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Météo",
-  description: "Conditions météo en temps réel pour les destinations LECLERCQ'JET — bientôt disponible.",
+  description: "Conditions météo en temps réel pour les destinations LECLERCQ'JET, bientôt disponible.",
 };
 
 export default function MeteoPage() {

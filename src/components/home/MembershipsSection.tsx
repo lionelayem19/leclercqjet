@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useModal } from "@/contexts/ModalContext";
 
-function CheckIcon() {
+function CheckIcon({ color = "#C9A96E" }: { color?: string }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px" }}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} style={{ flexShrink: 0, marginTop: "2px" }}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
   );
@@ -16,28 +16,29 @@ const POPULAR: Record<string, string> = {
   fr: "LE PLUS POPULAIRE", en: "MOST POPULAR", zh: "最受欢迎", ar: "الأكثر شعبية",
 };
 
+// Couleurs d'identité par formule : Aube (champagne), Azur (bleu), Astre (or intense)
+const PLAN_ACCENTS = [
+  { accent: "#E8C4A0", soft: "rgba(232,196,160,0.5)", glow: "" },
+  { accent: "#4FA3D9", soft: "rgba(79,163,217,0.55)", glow: "" },
+  { accent: "#D4A845", soft: "rgba(212,168,69,0.5)", glow: "0 0 30px rgba(212,168,69,0.16)" },
+];
+
 export default function MembershipsSection() {
   const { t, lang } = useLanguage();
   const { openWaitlist } = useModal();
   const mb = t.home.memberships;
 
-  const getCardStyle = (index: number, isPopular?: boolean) => {
-    if (index === 2) {
-      return {
-        background: "linear-gradient(135deg, #0D1E35, #060E1A)",
-        border: "1px solid rgba(201,169,110,0.2)",
-      };
-    }
-    if (isPopular) {
-      return {
-        backgroundColor: "#0D1E35",
-        border: "2px solid #C9A96E",
-      };
-    }
+  const getCardStyle = (index: number, isPopular?: boolean): React.CSSProperties => {
+    const acc = PLAN_ACCENTS[index] ?? PLAN_ACCENTS[0];
+    const base: React.CSSProperties = index === 2
+      ? { background: "linear-gradient(135deg, #0D1E35, #060E1A)" }
+      : { backgroundColor: "#0D1E35" };
     return {
-      backgroundColor: "#0D1E35",
-      border: "1px solid rgba(201,169,110,0.15)",
-    };
+      ...base,
+      border: isPopular ? `2px solid ${acc.accent}` : `1px solid ${acc.soft}`,
+      boxShadow: acc.glow || undefined,
+      ["--accent" as string]: acc.accent,
+    } as React.CSSProperties;
   };
 
   const getCtaStyle = (index: number, isPopular?: boolean): React.CSSProperties => {
@@ -71,8 +72,8 @@ export default function MembershipsSection() {
           <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
             {mb.badge}
           </p>
-          <h2 className="font-serif" style={{ fontSize: "42px", color: "#FFFFFF" }}>
-            {mb.title} <span className="italic">{mb.titleItalic}</span>
+          <h2 className="section-title font-serif" style={{ color: "#f8f5f0" }}>
+            {mb.title} <span className="italic" style={{ color: "#E8C77E" }}>{mb.titleItalic}</span>
           </h2>
         </motion.div>
 
@@ -81,6 +82,7 @@ export default function MembershipsSection() {
             const isPopular = plan.popular;
             const cardStyle = getCardStyle(i, isPopular);
             const ctaStyle = getCtaStyle(i, isPopular);
+            const acc = PLAN_ACCENTS[i] ?? PLAN_ACCENTS[0];
 
             return (
               <motion.div
@@ -89,12 +91,12 @@ export default function MembershipsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="card-lift-dark relative flex flex-col overflow-hidden"
+                className="gold-hover card-lift-dark glass-panel relative flex flex-col overflow-hidden"
                 style={cardStyle}
               >
                 {/* Popular badge */}
                 {isPopular && (
-                  <div className="text-center py-2" style={{ backgroundColor: "#C9A96E" }}>
+                  <div className="text-center py-2" style={{ background: "linear-gradient(135deg, #4FA3D9, #7FC4EC)" }}>
                     <span className="font-sans uppercase" style={{ fontSize: "9px", letterSpacing: "0.15em", color: "#0A1628", fontWeight: 700 }}>
                       {POPULAR[lang] || POPULAR.fr}
                     </span>
@@ -108,7 +110,7 @@ export default function MembershipsSection() {
                   </p>
 
                   {/* Plan name */}
-                  <p className="font-serif mb-1" style={{ fontSize: "26px", color: "#FFFFFF" }}>
+                  <p className="font-serif mb-1" style={{ fontSize: "26px", color: acc.accent }}>
                     {plan.name}
                   </p>
 
@@ -122,11 +124,11 @@ export default function MembershipsSection() {
                     </span>
                   </div>
 
-                  {/* Gold separator */}
-                  <div style={{ width: "40px", height: "1px", backgroundColor: "#C9A96E", margin: "12px 0" }} />
+                  {/* Accent separator */}
+                  <div style={{ width: "40px", height: "1px", backgroundColor: acc.accent, margin: "12px 0" }} />
 
                   {/* Tagline */}
-                  <p className="font-sans italic mb-6" style={{ fontSize: "13px", color: "#C0C8D4", lineHeight: 1.65 }}>
+                  <p className="font-sans italic mb-6" style={{ fontSize: "16px", color: "#C0C8D4", lineHeight: 1.65 }}>
                     {plan.tagline}
                   </p>
 
@@ -134,8 +136,8 @@ export default function MembershipsSection() {
                   <ul className="flex-1 mb-8" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     {plan.benefits.slice(0, 4).map((b) => (
                       <li key={b} className="flex items-start gap-2.5">
-                        <CheckIcon />
-                        <span className="font-sans" style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                        <CheckIcon color={acc.accent} />
+                        <span className="font-sans" style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
                           {b}
                         </span>
                       </li>

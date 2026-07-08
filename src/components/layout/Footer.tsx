@@ -9,14 +9,14 @@ import LogoMark from "@/components/ui/LogoMark";
 const NEWSLETTER: Record<Lang, { title: string; subtitle: string; placeholder: string; cta: string; success: string }> = {
   fr: {
     title: "Rejoignez l'excellence",
-    subtitle: "Disponibilités exclusives, empty legs et privilèges — en avant-première, dans votre boîte mail.",
+    subtitle: "Disponibilités exclusives, vols partagés et privilèges, en avant-première, dans votre boîte mail.",
     placeholder: "Votre adresse email",
     cta: "S'abonner",
     success: "Merci. Votre inscription est confirmée.",
   },
   en: {
     title: "Join excellence",
-    subtitle: "Exclusive availability, empty legs and privileges — previewed first, straight to your inbox.",
+    subtitle: "Exclusive availability, shared flights and privileges. Previewed first, straight to your inbox.",
     placeholder: "Your email address",
     cta: "Subscribe",
     success: "Thank you. Your subscription is confirmed.",
@@ -30,12 +30,29 @@ const NEWSLETTER: Record<Lang, { title: string; subtitle: string; placeholder: s
   },
   ar: {
     title: "انضمّ إلى التميّز",
-    subtitle: "توافر حصري، رحلات فارغة وامتيازات — في معاينة أولى، إلى بريدك مباشرة.",
+    subtitle: "توافر حصري، رحلات فارغة وامتيازات. في معاينة أولى، إلى بريدك مباشرة.",
     placeholder: "بريدك الإلكتروني",
     cta: "اشترك",
     success: "شكراً لك. تم تأكيد اشتراكك.",
   },
 };
+
+// Réseaux sociaux — pour ajouter Facebook / TikTok, ajoutez simplement une entrée ici.
+const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/leclercqjet/",
+    icon: (
+      <svg width="23" height="23" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth={1.5} />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" strokeWidth={2} />
+      </svg>
+    ),
+  },
+  // { label: "Facebook", href: "https://www.facebook.com/...", icon: (<svg …/>) },
+  // { label: "TikTok",   href: "https://www.tiktok.com/@...",  icon: (<svg …/>) },
+];
 
 export default function Footer() {
   const { t, lang } = useLanguage();
@@ -58,7 +75,7 @@ export default function Footer() {
     setSent(true);
   };
 
-  const linkStyle: React.CSSProperties = { fontSize: "12px", color: "rgba(255,255,255,0.4)", textDecoration: "none", lineHeight: 2 };
+  const linkStyle: React.CSSProperties = { fontSize: "15px", color: "rgba(255,255,255,0.4)", textDecoration: "none", lineHeight: 1.8 };
   const hoverHandlers = {
     onMouseEnter: (e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = "#C9A96E"),
     onMouseLeave: (e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)"),
@@ -83,9 +100,9 @@ export default function Footer() {
         {/* Signature quote */}
         <p
           className="font-serif italic text-center mb-12"
-          style={{ fontSize: "14px", letterSpacing: "0.04em", color: "rgba(201,169,110,0.55)", lineHeight: 1.6 }}
+          style={{ fontSize: "23px", letterSpacing: "0.04em", color: "rgba(201,169,110,0.55)", lineHeight: 1.6 }}
         >
-          Courage, Confidence, Love &amp; Hope
+          Courage, Confidence, Love, Hope
         </p>
 
         {/* Premium newsletter */}
@@ -106,8 +123,15 @@ export default function Footer() {
             {nl.title}
           </h3>
           <p
-            className="font-sans mx-auto mb-8"
-            style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: "420px" }}
+            className="mx-auto mb-8"
+            style={{
+              fontFamily: "var(--font-cormorant), Georgia, serif",
+              fontWeight: 500,
+              fontSize: "clamp(17px, 1.6vw, 20px)",
+              color: "rgba(255,255,255,0.4)",
+              lineHeight: 1.7,
+              maxWidth: "420px",
+            }}
           >
             {nl.subtitle}
           </p>
@@ -175,7 +199,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           {/* Services */}
           <div>
-            <p className="font-sans uppercase mb-5" style={{ fontSize: "9px", letterSpacing: "0.35em", color: "#C9A96E" }}>
+            <p className="font-sans uppercase mb-5" style={{ fontSize: "16px", letterSpacing: "0.18em", color: "#C9A96E" }}>
               {f.cols.services.title}
             </p>
             <ul>
@@ -189,7 +213,7 @@ export default function Footer() {
 
           {/* Destinations */}
           <div>
-            <p className="font-sans uppercase mb-5" style={{ fontSize: "9px", letterSpacing: "0.35em", color: "#C9A96E" }}>
+            <p className="font-sans uppercase mb-5" style={{ fontSize: "16px", letterSpacing: "0.18em", color: "#C9A96E" }}>
               {f.cols.destinations.title}
             </p>
             <ul>
@@ -203,7 +227,7 @@ export default function Footer() {
 
           {/* About */}
           <div>
-            <p className="font-sans uppercase mb-5" style={{ fontSize: "9px", letterSpacing: "0.35em", color: "#C9A96E" }}>
+            <p className="font-sans uppercase mb-5" style={{ fontSize: "16px", letterSpacing: "0.18em", color: "#C9A96E" }}>
               {f.cols.about.title}
             </p>
             <ul>
@@ -217,7 +241,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="font-sans uppercase mb-5" style={{ fontSize: "9px", letterSpacing: "0.35em", color: "#C9A96E" }}>
+            <p className="font-sans uppercase mb-5" style={{ fontSize: "16px", letterSpacing: "0.18em", color: "#C9A96E" }}>
               {f.cols.contact.title}
             </p>
             <ul>
@@ -227,38 +251,40 @@ export default function Footer() {
               <li>
                 <a href={`tel:${f.cols.contact.phone.replace(/\s/g, "")}`} style={linkStyle} {...hoverHandlers}>{f.cols.contact.phone}</a>
               </li>
-              <li style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 2 }}>{f.cols.contact.address}</li>
+              <li style={{ fontSize: "15px", color: "rgba(255,255,255,0.4)", lineHeight: 1.8 }}>{f.cols.contact.address}</li>
             </ul>
           </div>
         </div>
 
-        {/* Social icons */}
-        <div className="flex justify-center gap-5 mb-8">
-          <a
-            href="#"
-            aria-label="LinkedIn"
-            style={{ color: "rgba(255,255,255,0.4)", transition: "color 0.2s ease", textDecoration: "none" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#FFFFFF")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
-          >
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
-              <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth={1.5} />
-            </svg>
-          </a>
-          <a
-            href="#"
-            aria-label="Instagram"
-            style={{ color: "rgba(255,255,255,0.4)", transition: "color 0.2s ease", textDecoration: "none" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#FFFFFF")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
-          >
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth={1.5} />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" strokeWidth={2} />
-            </svg>
-          </a>
+        {/* Social icons — rangée extensible (Facebook / TikTok à ajouter dans SOCIALS) */}
+        <div className="flex justify-center items-center gap-6 mb-8">
+          {SOCIALS.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              style={{
+                display: "inline-flex",
+                color: "#C9A96E",
+                textDecoration: "none",
+                transition: "transform 0.25s ease, color 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#E8C77E";
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.filter = "drop-shadow(0 0 8px rgba(232,199,126,0.55))";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#C9A96E";
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.filter = "none";
+              }}
+            >
+              {s.icon}
+            </a>
+          ))}
         </div>
 
         {/* Certifications */}
@@ -270,6 +296,14 @@ export default function Footer() {
             <span className="font-sans uppercase" style={{ fontSize: "9px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.4)" }}>AOC Certified</span>
           </div>
         </div>
+
+        {/* Mots-clés secteur — discret (SEO) */}
+        <p
+          className="font-sans text-center mb-6"
+          style={{ fontSize: "10px", letterSpacing: "0.05em", color: "rgba(248,245,240,0.28)", lineHeight: 1.8 }}
+        >
+          Jet privé Paris · Empty Legs · Jet Card · Charter VIP · Affrètement d&apos;avion privé · Aviation d&apos;affaires
+        </p>
 
         {/* Bottom row */}
         <div

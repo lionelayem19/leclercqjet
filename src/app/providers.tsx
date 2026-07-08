@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 import { ModalProvider } from "@/contexts/ModalContext";
 import WaitlistModal from "@/components/ui/WaitlistModal";
-import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import JetBot from "@/components/ui/JetBot";
 import CustomCursor from "@/components/ui/CustomCursor";
 import RouteProgress from "@/components/ui/RouteProgress";
 
@@ -24,7 +24,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <RouteProgress />
         {children}
         <WaitlistModal />
-        <WhatsAppButton />
+        <JetBot />
         <CustomCursor />
       </ModalProvider>
     </LanguageProvider>

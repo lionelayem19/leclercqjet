@@ -130,7 +130,7 @@ export default function AnimationJourney() {
           </h2>
           <p
             className="font-sans text-center mx-auto"
-            style={{ fontSize: "15px", color: "rgba(232,237,242,0.6)", maxWidth: "540px", lineHeight: 1.85 }}
+            style={{ fontSize: "16px", color: "rgba(232,237,242,0.6)", maxWidth: "540px", lineHeight: 1.85 }}
           >
             {label.desc}
           </p>

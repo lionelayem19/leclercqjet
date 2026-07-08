@@ -1,52 +1,88 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+const GOLD = "#C9A96E";
+
 export default function CharterManagementSection() {
+  const ref = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setInView(true);
+          observer.disconnect(); // play once
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="py-[100px] bg-white" style={{ paddingLeft: "8%", paddingRight: "8%" }}>
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-xl"
+    <section
+      ref={ref}
+      className={`flex items-center justify-center section-pad px-6 md:px-12${inView ? " cm-in" : ""}`}
+      style={{ backgroundColor: "#0A1628" }}
+    >
+      <div
+        className="flex flex-col items-center text-center w-full"
+        style={{ gap: "20px", maxWidth: "800px" }}
+      >
+        <h2
+          className="font-serif cm-reveal cm-reveal-1"
+          style={{ fontSize: "32px", fontWeight: 500, letterSpacing: "2px", lineHeight: 1.2, color: "#f8f5f0" }}
         >
-          <p className="font-sans uppercase mb-4" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-            CHARTER MANAGEMENT
-          </p>
-          <h2 className="font-serif mb-5" style={{ fontSize: "clamp(28px, 3.5vw, 42px)", color: "#0A1628", lineHeight: 1.15 }}>
-            Votre jet travaille pour vous.
-          </h2>
-          <p className="font-sans mb-8" style={{ fontSize: "15px", color: "#666666", lineHeight: 1.8 }}>
-            Propriétaire ou investisseur, mettez votre appareil en exploitation commerciale et générez des revenus pendant vos absences. Notre équipe gère tout.
-          </p>
+          CHARTER MANAGEMENT
+        </h2>
+
+        <div aria-hidden="true" className="cm-reveal cm-reveal-2" style={{ width: "50px", height: "1px", backgroundColor: GOLD }} />
+
+        <p
+          className="font-serif cm-reveal cm-reveal-2 section-lead"
+          style={{ fontStyle: "italic" }}
+        >
+          Votre jet travaille pour vous.
+        </p>
+
+        <p
+          className="cm-reveal cm-reveal-3 section-body"
+          style={{
+            maxWidth: "600px",
+            fontFamily: "var(--font-cormorant), Georgia, serif",
+            fontWeight: 500,
+            fontSize: "clamp(17px, 1.6vw, 20px)",
+            lineHeight: 1.7,
+          }}
+        >
+          Propriétaire ou investisseur, mettez votre appareil en exploitation commerciale et générez des revenus pendant vos absences. Notre équipe gère tout.
+        </p>
+
+        {/* Wrapper handles the cascade reveal; inner link handles the glow/sweep (kept on
+            separate elements so the two CSS `animation`s never override each other). */}
+        <span className="cm-reveal cm-reveal-4" style={{ display: "inline-block" }}>
           <Link
             href="/charter-management"
-            className="btn-lift inline-block font-sans uppercase"
+            className="cm-cta inline-block font-sans uppercase"
             style={{
-              padding: "12px 28px",
+              padding: "14px 32px",
               fontSize: "11px",
               letterSpacing: "0.2em",
               fontWeight: 700,
-              border: "1px solid #0A1628",
+              backgroundColor: "#E0BC6E",
               color: "#0A1628",
               textDecoration: "none",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#0A1628";
-              e.currentTarget.style.color = "#FFFFFF";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = "#0A1628";
             }}
           >
             En savoir plus
           </Link>
-        </motion.div>
+        </span>
       </div>
     </section>
   );

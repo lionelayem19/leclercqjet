@@ -77,7 +77,7 @@ export default function ActualitesPage() {
               >
                 <Link
                   href={`/actualites/${featured.slug}`}
-                  className="group grid grid-cols-1 md:grid-cols-2 gap-0 bg-white border border-gray-100 shadow-card hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 overflow-hidden"
+                  className="gold-hover group grid grid-cols-1 md:grid-cols-2 gap-0 bg-white border border-gray-100 shadow-card hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 overflow-hidden"
                 >
                   <GrillePhoto
                     zone={featured.imgZone}
@@ -96,7 +96,7 @@ export default function ActualitesPage() {
                     <h2 className="font-serif text-[26px] md:text-[32px] text-text-dark leading-tight mb-4 group-hover:text-navy transition-colors">
                       {lang === "en" ? featured.titleEn : featured.title}
                     </h2>
-                    <p className="font-sans text-[14px] text-gray-500 leading-relaxed mb-6">
+                    <p className="font-sans text-[16px] text-gray-500 leading-relaxed mb-6">
                       {lang === "en" ? featured.excerptEn : featured.excerpt}
                     </p>
                     <p className="font-sans text-[11px] tracking-[0.18em] text-gold uppercase">
@@ -123,7 +123,7 @@ export default function ActualitesPage() {
                 >
                   <Link
                     href={`/actualites/${article.slug}`}
-                    className="group flex flex-col bg-white border border-gray-100 shadow-card hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 overflow-hidden h-full"
+                    className="gold-hover group flex flex-col bg-white border border-gray-100 shadow-card hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 overflow-hidden h-full"
                   >
                     <GrillePhoto
                       zone={article.imgZone}
@@ -140,7 +140,7 @@ export default function ActualitesPage() {
                       <h3 className="font-serif text-[20px] text-text-dark leading-tight mb-3 group-hover:text-navy transition-colors flex-1">
                         {lang === "en" ? article.titleEn : article.title}
                       </h3>
-                      <p className="font-sans text-[13px] text-gray-400 leading-relaxed mb-4 line-clamp-2">
+                      <p className="font-sans text-[16px] text-gray-400 leading-relaxed mb-4 line-clamp-2">
                         {lang === "en" ? article.excerptEn : article.excerpt}
                       </p>
                       <p className="font-sans text-[11px] tracking-[0.15em] text-gold uppercase mt-auto">

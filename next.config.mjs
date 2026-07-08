@@ -6,6 +6,11 @@ const nextConfig = {
       { protocol: "https", hostname: "**.supabase.co" },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/notre-histoire", destination: "/nos-engagements", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

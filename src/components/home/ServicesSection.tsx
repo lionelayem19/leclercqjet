@@ -1,34 +1,33 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 const DISCOVER: Record<string, string> = {
   fr: "Découvrir →", en: "Discover →", zh: "了解 →", ar: "اكتشف →",
 };
 
-const SERVICE_IMAGES = [
-  "/images/cabine.png",
-  "/images/voiture-jet.png",
-  "/images/chauffeur.webp",
-  "/images/acquisition.png",
-  "/images/empty-legs.png",
-  "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80",
-];
+// Image keyed by the service's href (stable identity) so the picture always
+// follows its service, whatever the display order of the cards.
+const SERVICE_IMAGES: Record<string, string> = {
+  "/vols-prives": "/images/cabine.png", // intérieur de jet luxueux
+  "/empty-legs": "/images/voiture-jet.png", // jet + voiture de nuit (tarmac)
+  "/charter-management": "/images/empty-legs.png", // jet
+  "/acquisition": "/images/acquisition.png", // jet en vol
+  "/conciergerie": "/images/chauffeur.webp", // chauffeur / majordome
+  "/gastronomie": "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=800&q=80", // cuisine / chef
+};
 
 export default function ServicesSection() {
   const { t, lang } = useLanguage();
   const s = t.home.services;
-  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <section
-      className="bg-white"
+      className="bg-white section-pad"
       style={{
-        paddingTop: "100px",
-        paddingBottom: "100px",
         paddingLeft: "8%",
         paddingRight: "8%",
       }}
@@ -41,15 +40,13 @@ export default function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-            {s.badge}
-          </p>
-          <h2 className="font-serif" style={{ fontSize: "42px", color: "#0A1628" }}>
+          <SectionEyebrow tone="beige">{s.badge}</SectionEyebrow>
+          <h2 className="title-gold font-serif section-title" style={{ fontStyle: "italic" }}>
             {s.title}
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {s.items.map((item, i) => (
             <motion.div
               key={item.title}
@@ -60,67 +57,67 @@ export default function ServicesSection() {
             >
               <Link
                 href={item.href}
-                className="block relative overflow-hidden"
+                className="home-service-card"
                 style={{
                   height: "320px",
+                  borderRadius: "12px",
                   textDecoration: "none",
-                  display: "block",
-                  transform: hovered === i ? "translateY(-4px)" : "translateY(0)",
-                  transition: "transform 0.4s ease",
                 }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={SERVICE_IMAGES[i]}
+                  src={SERVICE_IMAGES[item.href]}
                   alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  className="home-service-card__img absolute inset-0 w-full h-full object-cover object-center"
                   loading="lazy"
-                  style={{
-                    transform: hovered === i ? "scale(1.04)" : "scale(1)",
-                    transition: "transform 0.4s ease",
-                  }}
                 />
-                {/* Gradient overlay from bottom */}
+                {/* Gradient overlay: top transparent vers navy foncé en bas pour la lisibilité des titres */}
                 <div
                   className="absolute inset-0"
+                  aria-hidden="true"
                   style={{
-                    background: hovered === i
-                      ? "linear-gradient(to top, rgba(6,14,26,0.8) 0%, rgba(6,14,26,0.1) 60%, transparent 100%)"
-                      : "linear-gradient(to top, rgba(6,14,26,0.95) 0%, rgba(6,14,26,0.2) 60%, transparent 100%)",
-                    transition: "background 0.4s ease",
+                    background: "linear-gradient(to bottom, transparent 0%, transparent 45%, rgba(10,22,40,0.9) 100%)",
                   }}
                 />
-                {/* Content at bottom */}
-                <div className="absolute inset-x-0 bottom-0 p-6 z-10">
+                {/* Overlay doré — apparaît en fondu au survol */}
+                <div
+                  className="home-service-card__wash absolute inset-0"
+                  aria-hidden="true"
+                  style={{ background: "rgba(201,169,110,0.15)" }}
+                />
+                {/* Titre + accents, bas-gauche, identiques pour les 6 cartes */}
+                <div className="absolute z-10" style={{ left: "24px", right: "24px", bottom: "24px" }}>
                   <h3
-                    className="font-sans uppercase"
-                    style={{ fontSize: "13px", letterSpacing: "0.2em", fontWeight: 700, color: "#FFFFFF", marginBottom: "8px" }}
+                    className="home-service-card__title font-sans uppercase"
+                    style={{
+                      fontSize: "18px",
+                      letterSpacing: "0.15em",
+                      fontWeight: 700,
+                      color: "#FFFFFF",
+                      lineHeight: 1.2,
+                      textShadow: "0 2px 8px rgba(0,0,0,0.6)",
+                    }}
                   >
                     {item.title}
                   </h3>
-                  <p
-                    className="font-sans"
+                  {/* Liseré doré : 40px qui se déploie à 70px au survol */}
+                  <div
+                    className="home-service-card__rule"
+                    aria-hidden="true"
                     style={{
-                      fontSize: "13px",
-                      color: "#C0C8D4",
-                      lineHeight: 1.65,
-                      opacity: hovered === i ? 1 : 0,
-                      transform: hovered === i ? "translateY(0)" : "translateY(6px)",
-                      transition: "opacity 0.3s ease, transform 0.3s ease",
-                      marginBottom: "8px",
+                      height: "2px",
+                      backgroundColor: "#C9A96E",
+                      marginTop: "12px",
                     }}
-                  >
-                    {item.desc}
-                  </p>
+                  />
+                  {/* "Découvrir →" en doré, fade-in au survol */}
                   <span
-                    className="font-sans"
+                    className="home-service-card__discover font-sans block"
                     style={{
                       fontSize: "12px",
+                      letterSpacing: "0.1em",
                       color: "#C9A96E",
-                      opacity: hovered === i ? 1 : 0,
-                      transition: "opacity 0.3s ease 0.05s",
+                      marginTop: "12px",
                     }}
                   >
                     {DISCOVER[lang] || DISCOVER.fr}

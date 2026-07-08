@@ -1,29 +1,62 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-function IconPlane() {
+const ICON_PROPS = {
+  className: "hero-field__icon shrink-0",
+  width: 16,
+  height: 16,
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  strokeWidth: 1.6,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  style: { color: "#E8C77E" },
+};
+
+function IconPlaneDeparture() {
   return (
-    <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ color: "#C9A96E" }}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+    <svg {...ICON_PROPS}>
+      <path d="M2 22h20" />
+      <path d="M6.36 17.4 4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l1.9-.95a2 2 0 0 1 1.8 0l9.5 5.5a2.71 2.71 0 0 1 1.5 2.45 2.71 2.71 0 0 1-3.74 2.5L4 17" />
+    </svg>
+  );
+}
+
+function IconPlaneArrival() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M2 22h20" />
+      <path d="M3.77 10.77 2 9l2-4.5 1.1.55a2 2 0 0 1 1 1.8V8l4 2 3.5-6 1.95.97a2 2 0 0 1 1.05 1.78V12c0 .5-.34.94-.85 1.06l-7.34 1.84a2 2 0 0 1-1.42-.18L4.4 10.5" />
     </svg>
   );
 }
 
 function IconCalendar() {
   return (
-    <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ color: "#C9A96E" }}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+    <svg {...ICON_PROPS}>
+      <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
     </svg>
   );
 }
 
 function IconUsers() {
   return (
-    <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ color: "#C9A96E" }}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+    <svg {...ICON_PROPS}>
+      <path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+    </svg>
+  );
+}
+
+function IconSearch() {
+  return (
+    <svg width={17} height={17} className="shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round" style={{ color: "#0A1628" }}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="M21 21l-4.35-4.35" />
     </svg>
   );
 }
@@ -42,16 +75,23 @@ const TAGLINE: Record<string, string> = {
   ar: "وساطة الطيران الخاص من باريس",
 };
 
+// Animated hero quote — alternates FR/EN every 3s, one language at a time.
+const HERO_QUOTE: Record<"fr" | "en", string> = {
+  fr: "Chaque vol rapproche un enfant de son avenir.",
+  en: "Every flight brings a child closer to their future.",
+};
+
 const fieldInputStyle: React.CSSProperties = {
   width: "100%",
   border: "none",
   background: "transparent",
   fontFamily: "var(--font-inter), Inter, sans-serif",
-  fontSize: "14px",
-  color: "#1A1A2E",
-  fontWeight: 500,
-  padding: "6px 0",
+  fontSize: "15px",
+  color: "#FFFFFF",
+  fontWeight: 600,
+  padding: "2px 0",
   outline: "none",
+  textShadow: "0 1px 6px rgba(0,0,0,0.7)",
 };
 
 const NAVY = "#0A1628";
@@ -107,9 +147,9 @@ function useOutsideClose(onClose: () => void) {
 
 /** City / airport field with live suggestions */
 function CityField({
-  label, placeholder, value, onChange, borderRight,
+  label, placeholder, value, onChange, icon,
 }: {
-  label: string; placeholder: string; value: string; onChange: (v: string) => void; borderRight?: boolean;
+  label: string; placeholder: string; value: string; onChange: (v: string) => void; icon: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -128,29 +168,30 @@ function CityField({
   };
 
   return (
-    <div ref={ref} className="p-5" style={{ borderRight: borderRight ? "1px solid #F0F0F0" : undefined, position: "relative" }}>
-      <div className="flex items-center gap-2 mb-2">
-        <IconPlane />
-        <label className="font-sans uppercase" style={{ fontSize: "9px", letterSpacing: "0.2em", color: GOLD }}>
+    <div ref={ref} className="hero-field" style={{ position: "relative" }}>
+      <span className="hero-field__pastille">{icon}</span>
+      <div className="hero-field__textcol">
+        <label className="font-sans uppercase hero-field__label" style={{ fontSize: "10px", letterSpacing: "0.18em", color: "#E8C77E", fontWeight: 700, textShadow: "0 1px 5px rgba(0,0,0,0.7)" }}>
           {label}
         </label>
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => { onChange(e.target.value); setOpen(true); setActive(0); }}
+          onFocus={() => setOpen(true)}
+          onKeyDown={(e) => {
+            if (!open && (e.key === "ArrowDown" || e.key === "Enter")) { setOpen(true); return; }
+            if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, matches.length - 1)); }
+            else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
+            else if (e.key === "Enter" && matches[active]) { e.preventDefault(); choose(matches[active]); }
+            else if (e.key === "Escape") setOpen(false);
+          }}
+          placeholder={placeholder}
+          autoComplete="off"
+          className="hero-input whitespace-nowrap"
+          style={fieldInputStyle}
+        />
       </div>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => { onChange(e.target.value); setOpen(true); setActive(0); }}
-        onFocus={() => setOpen(true)}
-        onKeyDown={(e) => {
-          if (!open && (e.key === "ArrowDown" || e.key === "Enter")) { setOpen(true); return; }
-          if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, matches.length - 1)); }
-          else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
-          else if (e.key === "Enter" && matches[active]) { e.preventDefault(); choose(matches[active]); }
-          else if (e.key === "Escape") setOpen(false);
-        }}
-        placeholder={placeholder}
-        autoComplete="off"
-        style={fieldInputStyle}
-      />
       <AnimatePresence>
         {open && matches.length > 0 && (
           <motion.ul
@@ -160,7 +201,7 @@ function CityField({
             transition={{ duration: 0.18, ease: "easeOut" }}
             className="absolute left-0 right-0"
             style={{
-              top: "100%", marginTop: "6px", zIndex: 40, backgroundColor: "#FFFFFF",
+              top: "100%", marginTop: "6px", zIndex: 9999, backgroundColor: "#FFFFFF",
               border: "1px solid #ECECEC", borderTop: `2px solid ${GOLD}`,
               boxShadow: "0 16px 44px rgba(10,22,40,0.20)", listStyle: "none", padding: "4px 0",
             }}
@@ -196,12 +237,23 @@ function CityField({
 
 /** Elegant calendar date picker */
 function DateField({
-  label, value, onChange, borderRight,
+  label, placeholder, value, onChange,
 }: {
-  label: string; value: string; onChange: (v: string) => void; borderRight?: boolean;
+  label: string; placeholder: string; value: string; onChange: (v: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [openUp, setOpenUp] = useState(false);
   const ref = useOutsideClose(() => setOpen(false));
+
+  // Flip the calendar above the field when there isn't enough room below it,
+  // so it never gets clipped by the bottom of the viewport.
+  useEffect(() => {
+    if (!open || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const PANEL_H = 360; // approximate calendar height incl. margin
+    const spaceBelow = window.innerHeight - rect.bottom;
+    setOpenUp(spaceBelow < PANEL_H && rect.top > spaceBelow);
+  }, [open, ref]);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -216,31 +268,32 @@ function DateField({
   const atCurrentMonth = year === today.getFullYear() && month === today.getMonth();
 
   return (
-    <div ref={ref} className="p-5" style={{ borderRight: borderRight ? "1px solid #F0F0F0" : undefined, position: "relative" }}>
-      <div className="flex items-center gap-2 mb-2">
-        <IconCalendar />
-        <label className="font-sans uppercase" style={{ fontSize: "9px", letterSpacing: "0.2em", color: GOLD }}>
+    <div ref={ref} className="hero-field" style={{ position: "relative" }}>
+      <span className="hero-field__pastille"><IconCalendar /></span>
+      <div className="hero-field__textcol">
+        <label className="font-sans uppercase hero-field__label" style={{ fontSize: "10px", letterSpacing: "0.18em", color: "#E8C77E", fontWeight: 700, textShadow: "0 1px 5px rgba(0,0,0,0.7)" }}>
           {label}
         </label>
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="w-full text-left font-sans hero-input whitespace-nowrap"
+          style={{ ...fieldInputStyle, cursor: "pointer", color: "#FFFFFF" }}
+        >
+          {value ? formatDateFR(value) : placeholder}
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="w-full text-left font-sans"
-        style={{ ...fieldInputStyle, cursor: "pointer", color: value ? "#1A1A2E" : "#999" }}
-      >
-        {value ? formatDateFR(value) : "Sélectionner une date"}
-      </button>
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -6 }}
+            initial={{ opacity: 0, y: openUp ? 6 : -6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
+            exit={{ opacity: 0, y: openUp ? 6 : -6 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             className="absolute"
             style={{
-              top: "100%", left: 0, marginTop: "6px", zIndex: 40, width: "300px", maxWidth: "86vw",
+              ...(openUp ? { bottom: "100%", marginBottom: "6px" } : { top: "100%", marginTop: "6px" }),
+              left: 0, zIndex: 9999, width: "300px", maxWidth: "86vw",
               backgroundColor: "#FFFFFF", border: "1px solid #ECECEC", borderTop: `2px solid ${GOLD}`,
               boxShadow: "0 16px 44px rgba(10,22,40,0.20)", padding: "16px",
             }}
@@ -312,9 +365,9 @@ function DateField({
 
 /** Passenger stepper */
 function PaxField({
-  label, value, onChange, borderRight,
+  label, unitOne, unitMany, value, onChange,
 }: {
-  label: string; value: number; onChange: (v: number) => void; borderRight?: boolean;
+  label: string; unitOne: string; unitMany: string; value: number; onChange: (v: number) => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose(() => setOpen(false));
@@ -323,21 +376,21 @@ function PaxField({
   const clamp = (n: number) => Math.max(MIN, Math.min(MAX, n));
 
   return (
-    <div ref={ref} className="p-5" style={{ borderRight: borderRight ? "1px solid #F0F0F0" : undefined, position: "relative" }}>
-      <div className="flex items-center gap-2 mb-2">
-        <IconUsers />
-        <label className="font-sans uppercase" style={{ fontSize: "9px", letterSpacing: "0.2em", color: GOLD }}>
+    <div ref={ref} className="hero-field" style={{ position: "relative" }}>
+      <span className="hero-field__pastille"><IconUsers /></span>
+      <div className="hero-field__textcol">
+        <label className="font-sans uppercase hero-field__label" style={{ fontSize: "10px", letterSpacing: "0.18em", color: "#E8C77E", fontWeight: 700, textShadow: "0 1px 5px rgba(0,0,0,0.7)" }}>
           {label}
         </label>
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="w-full text-left font-sans hero-input whitespace-nowrap"
+          style={{ ...fieldInputStyle, cursor: "pointer" }}
+        >
+          {value} {value > 1 ? unitMany : unitOne}
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="w-full text-left font-sans"
-        style={{ ...fieldInputStyle, cursor: "pointer" }}
-      >
-        {value} {value > 1 ? "passagers" : "passager"}
-      </button>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -347,13 +400,13 @@ function PaxField({
             transition={{ duration: 0.18, ease: "easeOut" }}
             className="absolute"
             style={{
-              top: "100%", left: 0, marginTop: "6px", zIndex: 40, width: "240px", maxWidth: "86vw",
+              top: "100%", left: 0, marginTop: "6px", zIndex: 9999, width: "240px", maxWidth: "86vw",
               backgroundColor: "#FFFFFF", border: "1px solid #ECECEC", borderTop: `2px solid ${GOLD}`,
               boxShadow: "0 16px 44px rgba(10,22,40,0.20)", padding: "16px",
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="font-sans" style={{ fontSize: "13px", fontWeight: 600, color: NAVY }}>Passagers</span>
+              <span className="font-sans" style={{ fontSize: "13px", fontWeight: 600, color: NAVY }}>{label}</span>
               <div className="flex items-center gap-3">
                 {([["−", -1], ["+", 1]] as const).map(([sym, delta]) => {
                   const disabled = delta < 0 ? value <= MIN : value >= MAX;
@@ -416,6 +469,15 @@ export default function HeroSection() {
   const guarantee = GUARANTEES[lang] || GUARANTEES.fr;
   const tagline = TAGLINE[lang] || TAGLINE.fr;
 
+  // Hero quote alternates FR ⇄ EN every 3s, looping infinitely.
+  const [quoteLang, setQuoteLang] = useState<"fr" | "en">("fr");
+  useEffect(() => {
+    const id = setInterval(() => {
+      setQuoteLang((prev) => (prev === "fr" ? "en" : "fr"));
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
   // Parallax: the background image drifts slower than the page scroll for a sense of depth.
   const prefersReducedMotion = useReducedMotion();
   const { scrollY } = useScroll();
@@ -441,35 +503,56 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative flex flex-col overflow-hidden" style={{ height: "100vh", minHeight: "700px" }}>
-      {/* Background photo — slow parallax drift (image is oversized so edges never reveal) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <motion.img
-        src="/images/acquisition.png"
-        alt="Falcon en vol au-dessus des nuages"
-        className="absolute object-cover"
-        style={{
-          top: "-17.5%",
-          left: 0,
-          width: "100%",
-          height: "135%",
-          objectPosition: "center 40%",
-          y: prefersReducedMotion ? 0 : parallaxY,
-          willChange: "transform",
-        }}
-      />
+    <section className="relative flex flex-col" style={{ minHeight: "100vh" }}>
+      {/* Background layers wrapper — clips the oversized parallax image + clouds
+          to the hero WITHOUT an overflow:hidden on the <section> itself, which
+          was cropping the search-bar suggestion dropdowns. */}
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+        {/* Background photo — slow parallax drift (image is oversized so edges never reveal) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <motion.img
+          src="/images/acquisition.png"
+          alt="Falcon en vol au-dessus des nuages"
+          className="absolute object-cover"
+          style={{
+            top: "-17.5%",
+            left: 0,
+            width: "100%",
+            height: "135%",
+            objectPosition: "center 40%",
+            y: prefersReducedMotion ? 0 : parallaxY,
+            willChange: "transform",
+          }}
+        />
 
-      {/* Overlay #0A1628 38% */}
-      <div
-        className="absolute inset-0"
-        style={{ backgroundColor: "rgba(10,22,40,0.38)" }}
-      />
+        {/* Overlay #0A1628 38% */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: "rgba(10,22,40,0.38)" }}
+        />
+
+        {/* Calques de nuages : CSS pur, dérive horizontale lente et subtile (sous le contenu) */}
+        <div className="hero-clouds">
+          <div className="hero-clouds__layer hero-clouds__layer--1" />
+          <div className="hero-clouds__layer hero-clouds__layer--2" />
+        </div>
+
+        {/* Fondu bas de la photo → couleur de la section suivante (#0A1628).
+            Dégradé statique pur CSS : la photo se fond au lieu de se couper net. */}
+        <div
+          className="absolute inset-x-0 bottom-0"
+          aria-hidden="true"
+          style={{ height: "170px", background: "linear-gradient(to bottom, rgba(10,22,40,0), #0A1628)" }}
+        />
+      </div>
 
       {/* Content — left-aligned */}
       <div
         className="relative z-10 flex flex-col justify-center flex-1 pt-20"
         style={{ paddingLeft: "8%", paddingRight: "8%", paddingBottom: "0" }}
       >
+        {/* Inner column — capped width so the content stays contained and aligned on ultra-wide screens */}
+        <div className="w-full max-w-7xl mx-auto">
         {/* Destinations — infinite marquee */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -478,7 +561,7 @@ export default function HeroSection() {
           className="destinations-marquee"
           style={{ marginBottom: "24px" }}
           role="marquee"
-          aria-label="Paris · Londres · Genève · Monaco · Dubaï · New York · Tokyo"
+          aria-label="Paris · Londres · Genève · Monaco · Dubaï · New York · Tokyo · Los Angeles · Miami · Saint-Tropez · Ibiza · Mykonos · Marrakech · Courchevel · Saint-Barthélemy · Singapour · Hong Kong · Le Cap · Maldives · Bora Bora · Rome · Milan · Zurich · Vienne"
         >
           <div className="destinations-track" aria-hidden="true">
             {[0, 1].map((i) => (
@@ -489,108 +572,123 @@ export default function HeroSection() {
                   fontSize: "11px",
                   letterSpacing: "0.3em",
                   color: "#FFFFFF",
+                  backgroundColor: "transparent",
                   textTransform: "uppercase",
                 }}
               >
-                Paris · Londres · Genève · Monaco · Dubaï · New York · Tokyo&nbsp;·&nbsp;
+                Paris · Londres · Genève · Monaco · Dubaï · New York · Tokyo · Los Angeles · Miami · Saint-Tropez · Ibiza · Mykonos · Marrakech · Courchevel · Saint-Barthélemy · Singapour · Hong Kong · Le Cap · Maldives · Bora Bora · Rome · Milan · Zurich · Vienne&nbsp;·&nbsp;
               </span>
             ))}
           </div>
         </motion.div>
 
-        {/* Title — 3 lines, Cormorant Garamond italic, slow luxurious fade-in */}
-        <h1 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", lineHeight: 1.04, letterSpacing: "0.005em", marginBottom: "28px", color: "#F5F0E8" }}>
-          {["Votre temps est", "le seul luxe", "qui compte."].map((line, i) => (
+        {/* Animated quote — alterne FR/EN une langue à la fois (cycle 5s inchangé).
+            Texte doré clair (couleur de base), sans contour, ombre portée très légère
+            pour la lisibilité — appliqué à l'élément qui affiche la citation
+            → les deux versions FR/EN en héritent. */}
+        <h1 className="hero-quote-in" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", lineHeight: 1.4, letterSpacing: "0.005em", marginBottom: "14px" }}>
+          <AnimatePresence mode="wait">
+            {/* key={quoteLang} → remount à chaque phrase (relance l'entrée) */}
             <motion.span
-              key={i}
-              className="block"
-              initial={{ opacity: 0, y: 16, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.8, delay: 0.5 + i * 0.45, ease: [0.22, 1, 0.36, 1] }}
-              style={{ fontSize: "clamp(48px, 6.5vw, 80px)", fontWeight: 700 }}
+              key={quoteLang}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+              exit={{ opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } }}
+              style={{
+                position: "relative",
+                display: "inline-block",
+                fontSize: "clamp(28px, 5vw, 56px)",
+                fontWeight: 400,
+                color: "#E8C77E",
+                textShadow: "0 2px 14px rgba(10,22,40,0.75), 0 0 30px rgba(10,22,40,0.5)",
+              }}
             >
-              {line}
+              {HERO_QUOTE[quoteLang]}
             </motion.span>
-          ))}
+          </AnimatePresence>
         </h1>
 
-        {/* Decorative tagline */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.6 }}
-          className="flex items-center gap-4 mb-10"
-        >
-          <div style={{ width: "50px", height: "1px", backgroundColor: "#C9A96E" }} />
-          <p className="font-sans" style={{ fontSize: "13px", color: "#C0C8D4", letterSpacing: "0.15em" }}>
+        {/* Lien d'invitation vers Legacy — seul renvoi, visible en permanence,
+            placé sous le slogan animé (n'affecte pas l'animation FR/EN). */}
+        <div className="hero-engagement-wrap">
+          <Link href="/legacy" className="hero-engagement-link">
+            <span>Découvrir notre histoire</span>
+            <span className="hero-engagement-arrow" aria-hidden="true">→</span>
+          </Link>
+        </div>
+
+        {/* Decorative tagline — entrance handled in CSS (.hero-tagline) */}
+        <div className="hero-tagline mb-10">
+          <p
+            style={{
+              fontFamily: "var(--font-cormorant), Georgia, serif",
+              fontStyle: "italic",
+              fontWeight: 500,
+              fontSize: "clamp(15px, 1.5vw, 20px)",
+              color: "#FFFFFF",
+              letterSpacing: "0.04em",
+              textShadow: "0 1px 6px rgba(0,0,0,0.6)",
+            }}
+          >
             {tagline}
           </p>
-        </motion.div>
+        </div>
 
-        {/* Search engine */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.8 }}
-          style={{ maxWidth: "860px" }}
-        >
+        {/* Search engine — entrance animation handled in CSS (.hero-search / .hero-field / .hero-cta) */}
+        <div style={{ maxWidth: "1240px" }}>
           <form onSubmit={handleSearch}>
-            <div
-              className="bg-white"
-              style={{ borderTop: "3px solid #C9A96E", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-5">
+            <div className="hero-search overflow-visible">
+              <div className="hero-search__row overflow-visible">
                 {/* Départ */}
                 <CityField
                   label={h.from}
-                  placeholder="Ville ou aéroport de départ"
+                  placeholder={h.fromPlaceholder}
                   value={from}
                   onChange={(v) => { setFrom(v); if (error) setError(false); }}
-                  borderRight
+                  icon={<IconPlaneDeparture />}
                 />
 
                 {/* Arrivée */}
                 <CityField
                   label={h.to}
-                  placeholder="Ville ou aéroport d'arrivée"
+                  placeholder={h.toPlaceholder}
                   value={to}
                   onChange={(v) => { setTo(v); if (error) setError(false); }}
-                  borderRight
+                  icon={<IconPlaneArrival />}
                 />
 
                 {/* Date */}
                 <DateField
                   label={h.date}
+                  placeholder={h.datePlaceholder}
                   value={date}
                   onChange={(v) => { setDate(v); if (error) setError(false); }}
-                  borderRight
                 />
 
                 {/* Passagers */}
                 <PaxField
                   label={h.passengers}
+                  unitOne={h.passengerOne}
+                  unitMany={h.passengerMany}
                   value={passengers}
                   onChange={setPassengers}
-                  borderRight
                 />
 
                 {/* CTA */}
                 <button
                   type="submit"
-                  className="font-sans uppercase flex items-center justify-center gap-2 min-h-[72px] md:min-h-0 transition-opacity hover:opacity-90"
+                  className="font-sans uppercase flex items-center justify-center gap-2 hero-cta"
                   style={{
-                    backgroundColor: "#0A1628",
-                    color: "#FFFFFF",
+                    color: NAVY,
                     fontSize: "11px",
-                    letterSpacing: "0.2em",
+                    letterSpacing: "0.18em",
                     fontWeight: 700,
-                    padding: "0 32px",
                     border: "none",
                     cursor: "pointer",
                   }}
                 >
-                  {h.cta}
-                  <span aria-hidden="true" style={{ color: GOLD, fontSize: "13px" }}>→</span>
+                  <IconSearch />
+                  <span className="whitespace-nowrap">{h.cta}</span>
                 </button>
               </div>
             </div>
@@ -606,7 +704,7 @@ export default function HeroSection() {
                 className="font-sans mt-3"
                 style={{ fontSize: "12px", letterSpacing: "0.04em", color: GOLD }}
               >
-                Merci de renseigner le départ, l&apos;arrivée et la date du vol.
+                {h.search.errorRequired}
               </motion.p>
             )}
           </AnimatePresence>
@@ -614,14 +712,27 @@ export default function HeroSection() {
           {/* Guarantees */}
           <motion.p
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.55 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 2.2 }}
-            className="font-sans mt-4"
-            style={{ fontSize: "11px", letterSpacing: "0.1em", color: "#E8EDF2" }}
+            className="mt-4"
+            style={{
+              fontFamily: "var(--font-cormorant), Georgia, serif",
+              fontWeight: 500,
+              fontSize: "clamp(15px, 1.3vw, 16px)",
+              letterSpacing: "0.05em",
+              color: "#f8f5f0",
+              textShadow: "0 1px 6px rgba(0,0,0,0.6)",
+            }}
           >
-            {guarantee}
+            {guarantee.split("·").map((part, i, arr) => (
+              <span key={i}>
+                {part}
+                {i < arr.length - 1 && <span style={{ color: "#C9A96E" }}>·</span>}
+              </span>
+            ))}
           </motion.p>
-        </motion.div>
+        </div>
+        </div>
       </div>
 
       {/* Premium confirmation modal */}
@@ -642,9 +753,9 @@ export default function HeroSection() {
               exit={{ opacity: 0, y: 16, scale: 0.98 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
+              className="glass-panel"
               style={{
                 position: "relative", width: "100%", maxWidth: "460px",
-                background: "linear-gradient(160deg, #0E1B30 0%, #0A1628 100%)",
                 borderTop: `3px solid ${GOLD}`, boxShadow: "0 40px 90px rgba(0,0,0,0.55)",
                 padding: "44px 40px 38px",
               }}
@@ -676,36 +787,36 @@ export default function HeroSection() {
               </div>
 
               <p className="font-sans uppercase text-center" style={{ fontSize: "10px", letterSpacing: "0.32em", color: GOLD, marginBottom: "12px" }}>
-                Demande reçue
+                {h.search.confirmBadge}
               </p>
               <h3 className="font-serif text-center" style={{ fontSize: "28px", fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2, marginBottom: "10px" }}>
-                Votre recherche est confirmée
+                {h.search.confirmTitle}
               </h3>
-              <p className="font-sans text-center" style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6, marginBottom: "26px" }}>
-                Un conseiller LeclercqJet vous recontacte sous <span style={{ color: GOLD }}>2 heures</span> avec une sélection d&apos;appareils.
+              <p className="font-sans text-center" style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6, marginBottom: "26px" }}>
+                {h.search.confirmLead}<span style={{ color: GOLD }}>{h.search.confirmHighlight}</span>{h.search.confirmLeadEnd}
               </p>
 
               {/* Itinerary summary */}
               <div style={{ border: "1px solid rgba(201,169,110,0.18)", padding: "20px 22px", marginBottom: "24px" }}>
                 <div className="flex items-center justify-between" style={{ marginBottom: "16px" }}>
                   <div style={{ maxWidth: "42%" }}>
-                    <p className="font-sans uppercase" style={{ fontSize: "8px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.7)", marginBottom: "4px" }}>Départ</p>
+                    <p className="font-sans uppercase" style={{ fontSize: "8px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.7)", marginBottom: "4px" }}>{h.from}</p>
                     <p className="font-sans" style={{ fontSize: "14px", color: "#FFFFFF", fontWeight: 600 }}>{confirmed.from}</p>
                   </div>
                   <span aria-hidden="true" style={{ color: GOLD, fontSize: "16px" }}>✈</span>
                   <div style={{ maxWidth: "42%", textAlign: "right" }}>
-                    <p className="font-sans uppercase" style={{ fontSize: "8px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.7)", marginBottom: "4px" }}>Arrivée</p>
+                    <p className="font-sans uppercase" style={{ fontSize: "8px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.7)", marginBottom: "4px" }}>{h.to}</p>
                     <p className="font-sans" style={{ fontSize: "14px", color: "#FFFFFF", fontWeight: 600 }}>{confirmed.to}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "14px" }}>
                   <span className="font-sans" style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)" }}>{formatDateFR(confirmed.date)}</span>
-                  <span className="font-sans" style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)" }}>{confirmed.passengers} {confirmed.passengers > 1 ? "passagers" : "passager"}</span>
+                  <span className="font-sans" style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)" }}>{confirmed.passengers} {confirmed.passengers > 1 ? h.passengerMany : h.passengerOne}</span>
                 </div>
               </div>
 
               <p className="font-sans text-center" style={{ fontSize: "11px", letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)", marginBottom: "22px" }}>
-                Référence&nbsp;: <span style={{ color: GOLD, fontWeight: 600 }}>{confirmed.ref}</span>
+                {h.search.reference}&nbsp;: <span style={{ color: GOLD, fontWeight: 600 }}>{confirmed.ref}</span>
               </p>
 
               <button
@@ -714,7 +825,7 @@ export default function HeroSection() {
                 className="font-sans uppercase w-full transition-opacity hover:opacity-90"
                 style={{ backgroundColor: GOLD, color: NAVY, fontSize: "11px", letterSpacing: "0.2em", fontWeight: 700, padding: "15px 0", border: "none", cursor: "pointer" }}
               >
-                Parfait, merci
+                {h.search.done}
               </button>
             </motion.div>
           </motion.div>

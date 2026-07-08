@@ -38,11 +38,19 @@ export default function NewsletterSection() {
           <p className="font-sans text-[14px] text-white/45 mb-10">{n.subtitle}</p>
 
           {sent ? (
-            <div className="flex items-center justify-center gap-3">
-              <svg className="w-5 h-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-              <p className="font-sans text-[14px] text-white/70">{n.success}</p>
+            <div className="nl-confirm">
+              <div className="nl-takeoff" aria-hidden="true">
+                <span className="nl-trail" />
+                <svg className="nl-plane" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+                </svg>
+              </div>
+              <p className="nl-confirm__title font-serif text-white text-[26px] md:text-[30px] leading-tight">
+                Merci.
+              </p>
+              <p className="nl-confirm__msg font-sans text-[14px] text-white/70 mt-1">
+                Votre inscription est confirmée.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex gap-0 max-w-md mx-auto">

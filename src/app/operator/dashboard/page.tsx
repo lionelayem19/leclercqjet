@@ -244,7 +244,7 @@ export default function OperatorDashboard() {
                   { label: op.stats.requests, value: String(newRequests), color: "text-yellow-300" },
                   { label: op.stats.alerts, value: String(requests.length), color: "text-white/70" },
                 ].map((stat) => (
-                  <div key={stat.label} className="bg-navy-card border border-white/12 p-8">
+                  <div key={stat.label} className="gold-hover bg-navy-card border border-white/12 p-8">
                     <p className={`font-serif text-[48px] ${stat.color} leading-none mb-2`}>{stat.value}</p>
                     <p className="font-sans text-[13px] text-white/50">{stat.label}</p>
                   </div>
@@ -319,9 +319,9 @@ export default function OperatorDashboard() {
                               onChange={(e) => handleFlightStatus(f.id, e.target.value as Flight["status"])}
                               className="font-sans text-[11px] bg-transparent border border-white/15 text-white/60 px-2 py-1 focus:border-accent transition-colors"
                             >
-                              <option value="active" className="bg-navy-card">Actif</option>
-                              <option value="filled" className="bg-navy-card">Complet</option>
-                              <option value="cancelled" className="bg-navy-card">Annulé</option>
+                              <option value="active" className="bg-navy-card">{op.flights.statuses.active}</option>
+                              <option value="filled" className="bg-navy-card">{op.flights.statuses.filled}</option>
+                              <option value="cancelled" className="bg-navy-card">{op.flights.statuses.cancelled}</option>
                             </select>
                           </td>
                           <td className="py-3">
@@ -386,7 +386,7 @@ export default function OperatorDashboard() {
                 </div>
 
                 {addError && <p className="font-sans text-[12px] text-red-400">{addError}</p>}
-                {addSuccess && <p className="font-sans text-[12px] text-green-400">Vol publié avec succès.</p>}
+                {addSuccess && <p className="font-sans text-[12px] text-green-400">{op.addFlight.success}</p>}
 
                 <div className="flex gap-3">
                   <button type="submit" className="bg-gold text-navy font-sans text-[12px] tracking-[0.2em] uppercase px-8 py-3 hover:bg-[#b8934a] transition-colors font-semibold">
@@ -486,7 +486,7 @@ export default function OperatorDashboard() {
               ) : (
                 <div className="space-y-3">
                   {requests.map((req) => (
-                    <div key={req.id} className="bg-navy-card border border-white/12 p-5 flex flex-col md:flex-row md:items-center gap-4">
+                    <div key={req.id} className="gold-hover bg-navy-card border border-white/12 p-5 flex flex-col md:flex-row md:items-center gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-1">
                           <p className="font-serif text-[17px] text-white">{req.client}</p>

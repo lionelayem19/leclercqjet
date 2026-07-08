@@ -5,52 +5,110 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const steps = [
-  {
-    num: "01",
-    title: "Vous nous confiez votre appareil",
-    desc: "Nous analysons votre usage et identifions les créneaux disponibles pour la mise en exploitation commerciale.",
-  },
-  {
-    num: "02",
-    title: "Nous gérons tout",
-    desc: "Notre réseau d'opérateurs certifiés AOC prend en charge l'exploitation, la maintenance et la gestion administrative.",
-  },
-  {
-    num: "03",
-    title: "Vous percevez des revenus",
-    desc: "Votre jet génère des revenus pendant vos absences. Vous le récupérez quand vous en avez besoin.",
-  },
-];
+const CM_ICON = {
+  width: 22,
+  height: 22,
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  strokeWidth: 1.6,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+} as const;
 
-const stats = [
-  { value: "500 000€", label: "Revenus annuels moyens générés" },
-  { value: "50%", label: "Des coûts fixes couverts en moyenne" },
-  { value: "72h", label: "Préavis pour récupérer votre appareil" },
-  { value: "100%", label: "Opérateurs certifiés AOC" },
-];
+// Avion — en-tête du tableau de bord
+function IconPlane() {
+  return (
+    <svg {...CM_ICON}>
+      <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+    </svg>
+  );
+}
 
-const whyUs = [
-  {
-    title: "Réseau d'opérateurs de confiance",
-    desc: "Nos partenaires sont certifiés AOC et sélectionnés pour leur sérieux et leur réputation dans l'aviation privée.",
-  },
-  {
-    title: "Transparence totale sur les revenus générés",
-    desc: "Reporting mensuel détaillé. Vous savez à tout moment combien votre appareil génère et comment il est exploité.",
-  },
-  {
-    title: "Votre appareil disponible quand vous le souhaitez",
-    desc: "Préavis de 72 heures maximum. Votre jet reste le vôtre, disponible à tout moment selon vos besoins.",
-  },
-];
+// Clé — Étape 01 : vous nous confiez votre appareil
+function IconKey() {
+  return (
+    <svg {...CM_ICON}>
+      <circle cx="7.5" cy="15.5" r="4" />
+      <path d="M10.3 12.7 21 2" />
+      <path d="M16.5 6.5l3 3" />
+      <path d="M13.5 9.5l2.5 2.5" />
+    </svg>
+  );
+}
 
-const labelClass = "block font-sans text-[11px] tracking-[0.15em] text-gray-400 uppercase mb-2";
+// Engrenage — Étape 02 : nous gérons tout
+function IconSettings() {
+  return (
+    <svg {...CM_ICON}>
+      <circle cx="12" cy="12" r="3.2" />
+      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" />
+    </svg>
+  );
+}
+
+// Pièces — Étape 03 : vous percevez des revenus
+function IconCoins() {
+  return (
+    <svg {...CM_ICON}>
+      <circle cx="8" cy="8" r="6" />
+      <path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+      <path d="M7 6h1v4" />
+      <path d="m16.71 13.88.7.71-2.82 2.82" />
+    </svg>
+  );
+}
+
+// Réseau — atout 1
+function IconNetwork() {
+  return (
+    <svg {...CM_ICON}>
+      <circle cx="18" cy="5" r="3" />
+      <circle cx="6" cy="12" r="3" />
+      <circle cx="18" cy="19" r="3" />
+      <path d="M8.59 13.51 15.42 17.49M15.41 6.51 8.59 10.49" />
+    </svg>
+  );
+}
+
+// Œil — atout 2 : transparence
+function IconEye() {
+  return (
+    <svg {...CM_ICON}>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+// Calendrier validé — atout 3 : disponibilité
+function IconCalendarCheck() {
+  return (
+    <svg {...CM_ICON}>
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" />
+      <path d="m9 16 2 2 4-4" />
+    </svg>
+  );
+}
+
+const STEP_ICONS = [IconKey, IconSettings, IconCoins];
+const WHY_ICONS = [IconNetwork, IconEye, IconCalendarCheck];
+
+// Mini-graphique décoratif — hauteurs fixes (déterministes), une barre mise en avant
+const CHART_BARS = [32, 44, 38, 54, 48, 62, 58, 74, 100, 86, 70];
+const CHART_HI = 8;
+
+const labelClass = "block font-sans text-[11px] tracking-[0.15em] text-white/50 uppercase mb-2";
 const inputClass =
-  "w-full border-b border-gray-200 text-[#0A1628] placeholder:text-gray-300 py-2.5 font-sans text-[14px] focus:border-[#0A1628] transition-colors bg-transparent outline-none";
+  "w-full border-b border-white/15 text-white placeholder:text-white/30 py-2.5 font-sans text-[14px] focus:border-gold transition-colors bg-transparent outline-none";
 
 export default function CharterManagementPage() {
+  const { t } = useLanguage();
+  const cm = t.charterManagement;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -94,10 +152,10 @@ export default function CharterManagementPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="font-sans uppercase mb-5"
-              style={{ fontSize: "11px", letterSpacing: "0.3em", color: "#C9A96E" }}
+              className="uppercase mb-5"
+              style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", letterSpacing: "0.3em", color: "#C9A96E" }}
             >
-              CHARTER MANAGEMENT
+              {cm.hero.badge}
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}
@@ -106,203 +164,225 @@ export default function CharterManagementPage() {
               className="font-serif text-white"
               style={{ fontSize: "clamp(40px, 5vw, 64px)", lineHeight: 1.1 }}
             >
-              Rentabilisez votre jet privé.
+              {cm.hero.title}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="font-sans mt-6 max-w-2xl mx-auto"
-              style={{ fontSize: "16px", color: "#C0C8D4", lineHeight: 1.8 }}
+              className="mt-6 max-w-2xl mx-auto"
+              style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 400, fontSize: "19px", color: "#C0C8D4", lineHeight: 1.7 }}
             >
-              {"Vous possédez un jet privé ? Confiez-le à des opérateurs certifiés et générez des revenus lorsque vous ne l'utilisez pas."}
+              {cm.hero.subtitle}
             </motion.p>
           </div>
         </section>
 
-        {/* Comment ça marche — fond #0A1628 */}
-        <section className="py-20 px-6" style={{ backgroundColor: "#0A1628" }}>
-          <div className="max-w-6xl mx-auto" style={{ paddingLeft: "max(24px, 4%)", paddingRight: "max(24px, 4%)" }}>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-14"
-            >
-              <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-                COMMENT ÇA MARCHE
-              </p>
-              <h2 className="font-serif text-white" style={{ fontSize: "clamp(28px, 4vw, 44px)" }}>
-                Trois étapes simples.
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-3">
-              {steps.map((step, i) => (
-                <motion.div
-                  key={step.num}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.12 }}
-                  className={`p-8 md:p-10 ${i < steps.length - 1 ? "border-b md:border-b-0 md:border-r" : ""}`}
-                  style={{ borderColor: "rgba(201,169,110,0.12)" }}
-                >
-                  <span
-                    className="font-serif block mb-5 select-none"
-                    style={{ fontSize: "56px", color: "rgba(201,169,110,0.15)", lineHeight: 1 }}
-                  >
-                    {step.num}
-                  </span>
-                  <h3 className="font-serif text-white mb-3" style={{ fontSize: "22px" }}>
-                    {step.title}
-                  </h3>
-                  <p className="font-sans" style={{ fontSize: "15px", color: "#C0C8D4", lineHeight: 1.8 }}>
-                    {step.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stats — fond blanc */}
-        <section className="py-20 px-6 bg-white">
-          <div className="max-w-6xl mx-auto" style={{ paddingLeft: "max(24px, 4%)", paddingRight: "max(24px, 4%)" }}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-100">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="bg-white text-center p-10"
-                >
-                  <p
-                    className="font-serif"
-                    style={{ fontSize: "clamp(28px, 4vw, 44px)", color: "#0A1628", lineHeight: 1 }}
-                  >
-                    {stat.value}
-                  </p>
-                  <p className="font-sans mt-3" style={{ fontSize: "12px", color: "#888888", letterSpacing: "0.03em" }}>
-                    {stat.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pourquoi nous choisir — fond #0A1628 */}
-        <section className="py-20 px-6" style={{ backgroundColor: "#0A1628" }}>
-          <div className="max-w-6xl mx-auto" style={{ paddingLeft: "max(24px, 4%)", paddingRight: "max(24px, 4%)" }}>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-14"
-            >
-              <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-                NOS ATOUTS
-              </p>
-              <h2 className="font-serif text-white" style={{ fontSize: "clamp(28px, 4vw, 44px)" }}>
-                Pourquoi nous choisir.
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {whyUs.map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="p-8"
-                  style={{ border: "1px solid rgba(201,169,110,0.15)" }}
-                >
-                  <div className="w-8 h-px mb-6" style={{ backgroundColor: "#C9A96E" }} />
-                  <h3 className="font-serif text-white mb-3" style={{ fontSize: "20px" }}>
-                    {item.title}
-                  </h3>
-                  <p className="font-sans" style={{ fontSize: "14px", color: "#C0C8D4", lineHeight: 1.8 }}>
-                    {item.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Vous êtes investisseur ? — fond blanc */}
-        <section className="py-20 px-6 bg-white">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <p className="font-sans uppercase mb-4" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-                INVESTISSEMENT
-              </p>
-              <h2 className="font-serif mb-6" style={{ fontSize: "clamp(26px, 4vw, 44px)", color: "#0A1628" }}>
-                {"Investir dans un jet privé, c'est possible."}
-              </h2>
-              <p className="font-sans mb-8 max-w-2xl mx-auto" style={{ fontSize: "16px", color: "#444444", lineHeight: 1.85 }}>
-                {"Certains investisseurs acquièrent des jets privés uniquement pour les mettre en exploitation commerciale. Rendement brut estimé entre 6 et 12% selon l'appareil. Notre équipe vous accompagne de l'acquisition à l'exploitation."}
-              </p>
-              <Link
-                href="/contact"
-                className="inline-block font-sans uppercase"
-                style={{
-                  padding: "14px 36px",
-                  fontSize: "11px",
-                  letterSpacing: "0.2em",
-                  fontWeight: 700,
-                  backgroundColor: "#0A1628",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  transition: "background-color 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#C9A96E")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0A1628")}
+        {/* Tableau de bord de rentabilité (100% CSS pur) */}
+        <section className="cm-section py-20 px-6">
+          <div className="relative max-w-5xl mx-auto">
+            {/* En-tête */}
+            <div className="text-center" style={{ marginBottom: "48px" }}>
+              <p
+                className="uppercase"
+                style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", letterSpacing: "0.3em", color: "#C9A96E", marginBottom: "16px" }}
               >
-                Nous contacter
-              </Link>
-            </motion.div>
+                {cm.dashboard.badge}
+              </p>
+              <h2 className="font-serif" style={{ fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.15, color: "#FFFFFF" }}>
+                {cm.dashboard.titlePlain}
+                <span style={{ fontStyle: "italic", color: "#E8C77E" }}>{cm.dashboard.titleAccent}</span>
+              </h2>
+            </div>
+
+            {/* Le dashboard */}
+            <div className="cm-dashboard">
+              {/* En-tête du dashboard */}
+              <div className="flex items-center justify-between" style={{ padding: "20px 26px", gap: "16px" }}>
+                <div className="flex items-center" style={{ gap: "14px" }}>
+                  <span
+                    aria-hidden="true"
+                    style={{ width: "44px", height: "44px", borderRadius: "50%", border: "1px solid rgba(201,169,110,0.5)", backgroundColor: "rgba(201,169,110,0.08)", color: "#E8C77E", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+                  >
+                    <IconPlane />
+                  </span>
+                  <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "18px", color: "#C9A96E" }}>
+                    {cm.dashboard.device}
+                  </span>
+                </div>
+                <div className="flex items-center" style={{ gap: "9px", flexShrink: 0 }}>
+                  <span className="cm-status-dot" aria-hidden="true" />
+                  <span className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "12px", letterSpacing: "0.18em", color: "#5DCAA5", whiteSpace: "nowrap" }}>
+                    {cm.dashboard.status}
+                  </span>
+                </div>
+              </div>
+
+              <hr className="cm-dashed" />
+
+              {/* 4 métriques */}
+              <div className="cm-metrics">
+                {cm.dashboard.metrics.map((m, i) => (
+                  <div key={i} className="cm-metric">
+                    <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "34px", lineHeight: 1, color: "#FFFFFF" }}>
+                      {m.num}
+                      <span style={{ color: "#E8C77E" }}>{m.unit}</span>
+                    </p>
+                    <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", color: "rgba(255,255,255,0.55)", lineHeight: 1.5, marginTop: "12px" }}>
+                      {m.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <hr className="cm-dashed" />
+
+              {/* Mini-graphique + légende */}
+              <div style={{ padding: "28px 26px 26px" }}>
+                <div className="cm-chart" aria-hidden="true">
+                  {CHART_BARS.map((h, i) => (
+                    <span key={i} className={i === CHART_HI ? "cm-bar-hi" : ""} style={{ height: `${h}%` }} />
+                  ))}
+                </div>
+                <p className="text-center" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontStyle: "italic", fontSize: "14px", color: "rgba(232,199,126,0.85)", marginTop: "16px" }}>
+                  {cm.dashboard.chartLegend}
+                </p>
+              </div>
+            </div>
+
+            {/* Accroche finale */}
+            <p
+              className="text-center"
+              style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontStyle: "italic", fontSize: "clamp(20px, 2.2vw, 26px)", color: "#E8C77E", marginTop: "44px" }}
+            >
+              {cm.dashboard.closing}
+            </p>
+          </div>
+        </section>
+
+        {/* Comment ça marche — cartes premium (100% CSS pur) */}
+        <section className="py-20 px-6" style={{ backgroundColor: "#0A1628" }}>
+          <div className="max-w-6xl mx-auto" style={{ paddingLeft: "max(24px, 4%)", paddingRight: "max(24px, 4%)" }}>
+            <div className="text-center mb-14">
+              <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", letterSpacing: "0.3em", color: "#C9A96E", marginBottom: "14px" }}>
+                {cm.howItWorks.badge}
+              </p>
+              <h2 className="font-serif text-white" style={{ fontSize: "clamp(28px, 4vw, 44px)" }}>
+                {cm.howItWorks.title}
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {cm.howItWorks.steps.map((step, i) => {
+                const Icon = STEP_ICONS[i] ?? STEP_ICONS[0];
+                return (
+                  <div key={step.num} className="el-card" style={{ position: "relative", padding: "40px 30px", textAlign: "center" }}>
+                    <span
+                      aria-hidden="true"
+                      className="font-serif"
+                      style={{ position: "absolute", top: "16px", right: "22px", fontSize: "52px", lineHeight: 1, color: "rgba(201,169,110,0.12)", userSelect: "none" }}
+                    >
+                      {step.num}
+                    </span>
+                    <div className="el-medallion" style={{ width: "56px", height: "56px", border: "1px solid rgba(201,169,110,0.4)", backgroundColor: "rgba(201,169,110,0.08)", color: "#E8C77E", marginBottom: "22px" }} aria-hidden="true">
+                      <Icon />
+                    </div>
+                    <h3 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "20px", lineHeight: 1.3, color: "#FFFFFF" }}>
+                      {step.title}
+                    </h3>
+                    <div className="el-goldline" />
+                    <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "15px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                      {step.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Pourquoi nous choisir — cartes premium (100% CSS pur) */}
+        <section className="py-20 px-6" style={{ backgroundColor: "#0A1628" }}>
+          <div className="max-w-6xl mx-auto" style={{ paddingLeft: "max(24px, 4%)", paddingRight: "max(24px, 4%)" }}>
+            <div className="text-center mb-14">
+              <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", letterSpacing: "0.3em", color: "#C9A96E", marginBottom: "14px" }}>
+                {cm.whyUs.badge}
+              </p>
+              <h2 className="font-serif text-white" style={{ fontSize: "clamp(28px, 4vw, 44px)" }}>
+                {cm.whyUs.title}
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {cm.whyUs.items.map((item, i) => {
+                const Icon = WHY_ICONS[i] ?? WHY_ICONS[0];
+                return (
+                  <div key={item.title} className="el-card" style={{ padding: "40px 30px", textAlign: "center" }}>
+                    <div className="el-medallion" style={{ width: "56px", height: "56px", border: "1px solid rgba(201,169,110,0.4)", backgroundColor: "rgba(201,169,110,0.08)", color: "#E8C77E", marginBottom: "22px" }} aria-hidden="true">
+                      <Icon />
+                    </div>
+                    <h3 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "20px", lineHeight: 1.3, color: "#FFFFFF" }}>
+                      {item.title}
+                    </h3>
+                    <div className="el-goldline" />
+                    <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "15px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Vous êtes investisseur ? — fond navy */}
+        <section className="py-20 px-6 bg-navy">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="font-sans uppercase mb-4" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
+              {cm.investment.badge}
+            </p>
+            <h2 className="title-gold font-serif mb-6" style={{ fontSize: "clamp(26px, 4vw, 44px)", color: "#FFFFFF" }}>
+              {cm.investment.title}
+            </h2>
+            <p className="mb-8 max-w-2xl mx-auto" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "17px", color: "rgba(255,255,255,0.6)", lineHeight: 1.8 }}>
+              {cm.investment.text}
+            </p>
+            <Link
+              href="/contact"
+              className="inline-block font-sans uppercase"
+              style={{
+                padding: "14px 36px",
+                fontSize: "11px",
+                letterSpacing: "0.2em",
+                fontWeight: 700,
+                backgroundColor: "#C9A96E",
+                color: "#0A1628",
+                textDecoration: "none",
+                transition: "background-color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a8874a")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C9A96E")}
+            >
+              {cm.investment.cta}
+            </Link>
           </div>
         </section>
 
         {/* Formulaire de contact */}
-        <section className="py-20 px-6" style={{ backgroundColor: "#F7F7F5" }}>
+        <section className="py-20 px-6" style={{ backgroundColor: "#0A1628" }}>
           <div className="max-w-2xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-10"
-            >
+            <div className="mb-10">
               <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-                NOUS CONTACTER
+                {cm.form.badge}
               </p>
-              <h2 className="font-serif" style={{ fontSize: "clamp(26px, 4vw, 40px)", color: "#0A1628" }}>
-                {"Confiez-nous votre appareil."}
+              <h2 className="title-gold font-serif" style={{ fontSize: "clamp(26px, 4vw, 40px)", color: "#FFFFFF" }}>
+                {cm.form.title}
               </h2>
-              <p className="font-sans mt-2" style={{ fontSize: "14px", color: "#888888" }}>
-                Notre équipe vous recontacte sous 48 heures.
+              <p className="mt-2" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "17px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                {cm.form.subtitle}
               </p>
-            </motion.div>
+            </div>
 
             {status === "success" ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-16"
-                style={{ border: "1px solid rgba(201,169,110,0.2)" }}
-              >
+              <div className="text-center py-16" style={{ border: "1px solid rgba(201,169,110,0.2)" }}>
                 <div
                   className="w-12 h-12 flex items-center justify-center mx-auto mb-5"
                   style={{ border: "1px solid rgba(201,169,110,0.4)" }}
@@ -311,15 +391,15 @@ export default function CharterManagementPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p className="font-sans text-[15px] text-gray-600">
-                  {"Votre demande a bien été transmise. Nous vous recontactons sous 48h."}
+                <p className="font-sans text-[16px] text-white/60 leading-[1.6]">
+                  {cm.form.success}
                 </p>
-              </motion.div>
+              </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-7">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className={labelClass}>Nom</label>
+                    <label className={labelClass}>{cm.form.name}</label>
                     <input
                       type="text"
                       required
@@ -329,7 +409,7 @@ export default function CharterManagementPage() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Email</label>
+                    <label className={labelClass}>{cm.form.email}</label>
                     <input
                       type="email"
                       required
@@ -341,7 +421,7 @@ export default function CharterManagementPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className={labelClass}>Téléphone</label>
+                    <label className={labelClass}>{cm.form.phone}</label>
                     <input
                       type="tel"
                       value={formData.phone}
@@ -350,36 +430,36 @@ export default function CharterManagementPage() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>{"Type d'appareil"}</label>
+                    <label className={labelClass}>{cm.form.aircraft}</label>
                     <input
                       type="text"
                       value={formData.aircraft}
                       onChange={(e) => setFormData({ ...formData, aircraft: e.target.value })}
-                      placeholder="Ex : Falcon 900, Citation XLS..."
+                      placeholder={cm.form.aircraftPlaceholder}
                       className={inputClass}
                     />
                   </div>
                 </div>
                 <div>
-                  <label className={labelClass}>Message</label>
+                  <label className={labelClass}>{cm.form.message}</label>
                   <textarea
                     rows={5}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Décrivez votre projet, usage actuel de l'appareil..."
+                    placeholder={cm.form.messagePlaceholder}
                     className={inputClass + " resize-none"}
                   />
                 </div>
                 {status === "error" && (
-                  <p className="font-sans text-[13px] text-red-500">Une erreur est survenue. Veuillez réessayer.</p>
+                  <p className="font-sans text-[13px] text-red-500">{cm.form.error}</p>
                 )}
                 <button
                   type="submit"
                   disabled={status === "sending"}
                   className="w-full font-sans uppercase py-4 disabled:opacity-60"
                   style={{
-                    backgroundColor: "#0A1628",
-                    color: "#FFFFFF",
+                    backgroundColor: "#C9A96E",
+                    color: "#0A1628",
                     fontSize: "12px",
                     letterSpacing: "0.2em",
                     fontWeight: 700,
@@ -387,10 +467,10 @@ export default function CharterManagementPage() {
                     cursor: "pointer",
                     transition: "background-color 0.2s ease",
                   }}
-                  onMouseEnter={(e) => { if (status !== "sending") e.currentTarget.style.backgroundColor = "#C9A96E"; }}
-                  onMouseLeave={(e) => { if (status !== "sending") e.currentTarget.style.backgroundColor = "#0A1628"; }}
+                  onMouseEnter={(e) => { if (status !== "sending") e.currentTarget.style.backgroundColor = "#a8874a"; }}
+                  onMouseLeave={(e) => { if (status !== "sending") e.currentTarget.style.backgroundColor = "#C9A96E"; }}
                 >
-                  {status === "sending" ? "Envoi en cours..." : "Envoyer ma demande"}
+                  {status === "sending" ? cm.form.sending : cm.form.submit}
                 </button>
               </form>
             )}

@@ -46,7 +46,7 @@ export default function ContactSection() {
         >
           <p className="font-sans text-[11px] tracking-[0.3em] text-gold uppercase mb-4">Contact</p>
           <h2 className="font-serif text-[32px] md:text-[40px] text-white mb-3">{c.hero.title}</h2>
-          <p className="font-sans text-[15px] text-white/40">{c.hero.subtitle}</p>
+          <p className="font-sans text-[16px] leading-[1.6] text-white/40">{c.hero.subtitle}</p>
         </motion.div>
 
         {success ? (
@@ -116,7 +116,7 @@ export default function ContactSection() {
                   className={inputClass + " text-white/70"}
                   required
                 >
-                  <option value="" disabled style={{ backgroundColor: "#0D1E35" }}>— Sélectionner —</option>
+                  <option value="" disabled style={{ backgroundColor: "#0D1E35" }}>{t.common.select}</option>
                   {c.form.subjects.map((s) => (
                     <option key={s} value={s} style={{ backgroundColor: "#0D1E35" }}>{s}</option>
                   ))}

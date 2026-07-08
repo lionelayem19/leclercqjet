@@ -50,7 +50,7 @@ export default function ActualitesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="article-card"
+              className="gold-hover article-card"
               style={{ border: "1px solid #E8EDF2", overflow: "hidden" }}
             >
               <Link href={`/actualites/${article.slug}`} className="group block">
@@ -77,7 +77,7 @@ export default function ActualitesSection() {
                   <h3 className="font-sans font-semibold mb-3 leading-snug" style={{ fontSize: "16px", color: "#0A1628", lineHeight: "1.45" }}>
                     {lang === "en" ? article.titleEn : article.title}
                   </h3>
-                  <p className="font-sans line-clamp-2 mb-4" style={{ fontSize: "13px", color: "#777777", lineHeight: "1.75" }}>
+                  <p className="font-sans line-clamp-2 mb-4" style={{ fontSize: "16px", color: "#777777", lineHeight: "1.75" }}>
                     {lang === "en" ? article.excerptEn : article.excerpt}
                   </p>
                   <span className="font-sans transition-colors duration-200 group-hover:text-gold" style={{ fontSize: "11px", color: "#C9A96E", letterSpacing: "0.08em" }}>

@@ -26,10 +26,10 @@ const TESTIMONIALS = [
   },
   {
     quote: {
-      fr: "Réactivité exemplaire, cabine parfaite, départ en moins de deux heures. Je ne voyage plus autrement.",
-      en: "Exemplary responsiveness, perfect cabin, departure in under two hours. I no longer travel any other way.",
-      zh: "响应迅速，机舱完美，两小时内出发。我再也不会以其他方式旅行了。",
-      ar: "استجابة مثالية، مقصورة رائعة، مغادرة في أقل من ساعتين. لم أعد أسافر بأي طريقة أخرى.",
+      fr: "Réactivité exemplaire, cabine parfaite, départ dans des délais record. Je ne voyage plus autrement.",
+      en: "Exemplary responsiveness, perfect cabin, departure at remarkably short notice. I no longer travel any other way.",
+      zh: "响应迅速，机舱完美，极短时间内出发。我再也不会以其他方式旅行了。",
+      ar: "استجابة مثالية، مقصورة رائعة، مغادرة في وقت قياسي. لم أعد أسافر بأي طريقة أخرى.",
     },
     author: "Thomas R.",
     role: { fr: "Fondateur, Renard Capital", en: "Founder, Renard Capital", zh: "创始人", ar: "المؤسس" },
@@ -79,7 +79,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="relative"
+              className="gold-hover relative"
               style={{ border: "1px solid rgba(201,169,110,0.15)", padding: "36px 32px" }}
             >
               {/* Decorative guillemet */}
@@ -91,7 +91,7 @@ export default function TestimonialsSection() {
                 &ldquo;
               </p>
 
-              <p className="font-sans relative z-10 mb-8 leading-[1.85]" style={{ fontSize: "15px", color: "rgba(255,255,255,0.72)", fontStyle: "italic" }}>
+              <p className="font-sans relative z-10 mb-8 leading-[1.85]" style={{ fontSize: "16px", color: "rgba(255,255,255,0.72)", fontStyle: "italic" }}>
                 {t.quote[lang as keyof typeof t.quote] || t.quote.fr}
               </p>
 

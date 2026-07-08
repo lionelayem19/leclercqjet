@@ -83,6 +83,7 @@ export default function EmptyLegsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="gold-hover"
               style={{ border: "1px solid rgba(201,169,110,0.2)" }}
             >
               {/* Card header */}
@@ -124,7 +125,7 @@ export default function EmptyLegsSection() {
                     className="font-sans uppercase"
                     style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(201,169,110,0.6)", border: "1px solid rgba(201,169,110,0.2)", padding: "3px 8px" }}
                   >
-                    Empty Leg
+                    Vol Partagé
                   </span>
                 )}
               </div>
@@ -167,7 +168,7 @@ export default function EmptyLegsSection() {
         </div>
 
         {/* Disclaimer */}
-        <p className="font-sans text-center italic mb-8" style={{ fontSize: "12px", color: "#666666" }}>
+        <p className="font-sans text-center italic mb-8" style={{ fontSize: "16px", color: "#666666", lineHeight: 1.6 }}>
           {DISCLAIMER[lang] || DISCLAIMER.fr}
         </p>
 

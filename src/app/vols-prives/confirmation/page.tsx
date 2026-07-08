@@ -13,7 +13,7 @@ export default function ConfirmationPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-white min-h-screen flex items-center justify-center px-6 py-24">
+      <main className="bg-navy min-h-screen flex items-center justify-center px-6 py-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -43,25 +43,25 @@ export default function ConfirmationPage() {
             </motion.svg>
           </div>
 
-          <h1 className="font-serif text-[42px] md:text-[52px] text-text-dark leading-tight mb-4">
+          <h1 className="font-serif text-[42px] md:text-[52px] text-white leading-tight mb-4">
             {conf.title}
           </h1>
-          <p className="font-sans text-[15px] text-gray-400 mb-10 leading-relaxed">
+          <p className="font-sans text-[16px] text-white/50 mb-10 leading-relaxed">
             {conf.subtitle}
           </p>
 
           <div className="flex flex-col items-center gap-4">
             <Link
               href="/"
-              className="font-sans text-[12px] tracking-[0.2em] uppercase bg-navy text-white px-8 py-3.5 hover:bg-navy-card transition-colors"
+              className="font-sans text-[12px] tracking-[0.2em] uppercase bg-gold text-navy px-8 py-3.5 hover:bg-[#a8874a] transition-colors font-semibold"
             >
               {conf.back}
             </Link>
             <a
-              href="mailto:contact@leclercqjet.com"
+              href="mailto:contact@leclercqjetinternational.com"
               className="font-sans text-[12px] text-gray-400 hover:text-gold transition-colors"
             >
-              contact@leclercqjet.com
+              contact@leclercqjetinternational.com
             </a>
           </div>
         </motion.div>

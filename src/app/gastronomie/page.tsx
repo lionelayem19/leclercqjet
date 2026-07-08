@@ -153,7 +153,7 @@ export default function GastronomiePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: i * 0.12 }}
-                  className="p-8"
+                  className="gold-hover p-8"
                   style={{ border: "1px solid rgba(201,169,110,0.2)", backgroundColor: "#0D1E35" }}
                 >
                   <div className="mb-6">
@@ -162,7 +162,7 @@ export default function GastronomiePage() {
                   <h3 className="font-serif text-white mb-3" style={{ fontSize: "22px" }}>
                     {title}
                   </h3>
-                  <p className="font-sans" style={{ fontSize: "14px", color: "#C0C8D4", lineHeight: 1.8 }}>
+                  <p className="font-sans" style={{ fontSize: "16px", color: "#C0C8D4", lineHeight: 1.8 }}>
                     {desc}
                   </p>
                 </motion.div>
@@ -187,7 +187,7 @@ export default function GastronomiePage() {
                 Chaque vol est unique.
               </h2>
               <p className="font-sans mb-8 max-w-xl mx-auto" style={{ fontSize: "16px", color: "#444444", lineHeight: 1.85 }}>
-                {"Anniversaire, dîner d'affaires, voyage de noces — nous créons des expériences gastronomiques personnalisées pour chaque occasion."}
+                {"Anniversaire, dîner d'affaires, voyage de noces, nous créons des expériences gastronomiques personnalisées pour chaque occasion."}
               </p>
               <Link
                 href="/contact"
@@ -224,10 +224,10 @@ export default function GastronomiePage() {
               <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
                 DEMANDE GASTRONOMIE
               </p>
-              <h2 className="font-serif" style={{ fontSize: "clamp(26px, 4vw, 40px)", color: "#0A1628" }}>
+              <h2 className="title-gold font-serif" style={{ fontSize: "clamp(26px, 4vw, 40px)", color: "#0A1628" }}>
                 Composez votre menu.
               </h2>
-              <p className="font-sans mt-2" style={{ fontSize: "14px", color: "#888888" }}>
+              <p className="font-sans mt-2" style={{ fontSize: "16px", color: "#888888", lineHeight: 1.6 }}>
                 Notre équipe vous recontacte sous 24 heures.
               </p>
             </motion.div>
@@ -247,7 +247,7 @@ export default function GastronomiePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p className="font-sans text-[15px] text-gray-600">
+                <p className="font-sans text-[16px] text-gray-600 leading-[1.6]">
                   Votre demande a bien été transmise. Nous vous recontactons sous 24h.
                 </p>
               </motion.div>

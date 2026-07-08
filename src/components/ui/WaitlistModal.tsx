@@ -61,7 +61,7 @@ export default function WaitlistModal() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
           >
             <div
-              className="bg-white border border-gray-100 w-full max-w-md p-8 pointer-events-auto shadow-card"
+              className="glass-panel-light bg-white border border-gray-100 w-full max-w-md p-8 pointer-events-auto shadow-card"
               style={{ borderTop: "3px solid #C9A96E" }}
             >
               <div className="flex items-start justify-between mb-6">

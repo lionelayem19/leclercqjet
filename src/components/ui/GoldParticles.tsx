@@ -55,7 +55,7 @@ export default function GoldParticles() {
       canvas.style.height = height + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.min(55, Math.round(width / 26));
+      const count = Math.min(8, Math.round(width / 26));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,

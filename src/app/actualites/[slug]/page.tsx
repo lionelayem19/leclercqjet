@@ -35,7 +35,7 @@ function renderContent(content: string) {
         return part;
       });
       elements.push(
-        <p key={i} className="font-sans text-[15px] text-gray-600 leading-[1.85] mb-4">
+        <p key={i} className="font-sans text-[16px] text-gray-600 leading-[1.85] mb-4">
           {parsed}
         </p>
       );
@@ -132,7 +132,7 @@ export default function ActualiteArticlePage({ params }: { params: { slug: strin
                 >
                   <Link
                     href={`/actualites/${other.slug}`}
-                    className="group flex flex-col bg-white border border-gray-100 shadow-card hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 overflow-hidden"
+                    className="gold-hover group flex flex-col bg-white border border-gray-100 shadow-card hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 overflow-hidden"
                   >
                     <GrillePhoto
                       zone={other.imgZone}

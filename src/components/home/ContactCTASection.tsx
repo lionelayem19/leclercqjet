@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 const LABELS: Record<string, { call: string; write: string; whatsapp: string; subtitle: string }> = {
   fr: { call: "APPELER", write: "ÉCRIRE", whatsapp: "WHATSAPP", subtitle: "Notre équipe répond personnellement à chaque demande." },
@@ -11,17 +12,16 @@ const LABELS: Record<string, { call: string; write: string; whatsapp: string; su
   ar: { call: "اتصل", write: "اكتب", whatsapp: "واتساب", subtitle: "فريقنا يردّ شخصياً على كل طلب." },
 };
 
-export default function ContactCTASection() {
+export default function ContactCTASection({ dark = false }: { dark?: boolean }) {
   const { t, lang } = useLanguage();
   const c = t.home.contactCta;
   const labels = LABELS[lang] || LABELS.fr;
 
   return (
     <section
-      className="bg-white"
+      className="section-pad"
       style={{
-        paddingTop: "100px",
-        paddingBottom: "100px",
+        backgroundColor: dark ? "#0A1628" : "#f8f5f0",
         paddingLeft: "8%",
         paddingRight: "8%",
         textAlign: "center",
@@ -34,13 +34,11 @@ export default function ContactCTASection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <p className="font-sans uppercase mb-5" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-            {c.badge}
-          </p>
-          <h2 className="font-serif mb-4" style={{ fontSize: "52px", color: "#0A1628", lineHeight: 1.1 }}>
+          <SectionEyebrow tone={dark ? "navy" : "beige"}>{c.badge}</SectionEyebrow>
+          <h2 className="font-serif section-title mb-4" style={{ color: dark ? "#f8f5f0" : "#8B6F3F", WebkitTextFillColor: dark ? "#f8f5f0" : "#8B6F3F" }}>
             {c.title}
           </h2>
-          <p className="font-sans mb-10" style={{ fontSize: "16px", color: "#666666", lineHeight: 1.7 }}>
+          <p className="font-sans section-body mb-10" style={{ color: dark ? "#9fb0c2" : "#4b5563" }}>
             {labels.subtitle}
           </p>
 
@@ -52,8 +50,8 @@ export default function ContactCTASection() {
               style={{
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                backgroundColor: "#0A1628",
-                color: "#FFFFFF",
+                backgroundColor: dark ? "#C9A96E" : "#0A1628",
+                color: dark ? "#0A1628" : "#FFFFFF",
                 padding: "16px 40px",
                 textDecoration: "none",
                 fontWeight: 700,
@@ -65,12 +63,12 @@ export default function ContactCTASection() {
             {/* ÉCRIRE */}
             <Link
               href="/contact"
-              className="btn-lift font-sans uppercase whitespace-nowrap hover:bg-navy hover:text-white"
+              className={`btn-lift font-sans uppercase whitespace-nowrap ${dark ? "hover:bg-gold hover:text-navy" : "hover:bg-navy hover:text-white"}`}
               style={{
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                border: "1px solid #0A1628",
-                color: "#0A1628",
+                border: dark ? "1px solid #C9A96E" : "1px solid #0A1628",
+                color: dark ? "#FFFFFF" : "#0A1628",
                 padding: "16px 40px",
                 textDecoration: "none",
               }}

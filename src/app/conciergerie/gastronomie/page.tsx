@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -15,39 +15,90 @@ const TITLE: Record<string, string> = {
 const SUBTITLE: Record<string, string> = {
   fr: "L'excellence culinaire à trente mille pieds.", en: "Culinary excellence at thirty thousand feet.", zh: "三万英尺高空的烹饪艺术。", ar: "التميز الطهوي على ارتفاع ثلاثين ألف قدم.",
 };
+const MENU_EYEBROW: Record<string, string> = {
+  fr: "LECLERCQ'JET · À BORD", en: "LECLERCQ'JET · ON BOARD", zh: "LECLERCQ'JET · 机上", ar: "LECLERCQ'JET · على المتن",
+};
+const MENU_TITLE: Record<string, string> = {
+  fr: "La Carte", en: "The Menu", zh: "菜单", ar: "القائمة",
+};
+const MENU_SIGNATURE: Record<string, string> = {
+  fr: "Le goût de l'exception, jusque dans les nuages.",
+  en: "The taste of exception, all the way to the clouds.",
+  zh: "卓越之味，直抵云端。",
+  ar: "مذاق الاستثناء، حتى في السحاب.",
+};
+
+// Étoiles dorées scintillantes — positions fixes (déterministes)
+const STARS = [
+  { top: "10%", left: "9%", delay: "0s" },
+  { top: "18%", left: "85%", delay: "1.2s" },
+  { top: "34%", left: "14%", delay: "0.6s" },
+  { top: "48%", left: "88%", delay: "1.8s" },
+  { top: "62%", left: "10%", delay: "0.9s" },
+  { top: "76%", left: "82%", delay: "2.2s" },
+  { top: "84%", left: "28%", delay: "1.5s" },
+  { top: "90%", left: "66%", delay: "0.3s" },
+];
+
+// Icônes du menu (stroke doré)
+const MENU_ICON = {
+  width: 22, height: 22, fill: "none", viewBox: "0 0 24 24",
+  stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round",
+} as const;
+
+function IconToolsKitchen() {
+  return <svg {...MENU_ICON}><path d="M7 3v7a2 2 0 0 0 4 0V3" /><path d="M9 10v11" /><path d="M16 3c-1.6 1.6-2 4-2 7 0 2 1 3 2 3v8" /></svg>;
+}
+function IconChefHat() {
+  return <svg {...MENU_ICON}><path d="M6 12a3 3 0 0 1-1-5.8A3.5 3.5 0 0 1 12 5a3.5 3.5 0 0 1 7 .2A3 3 0 0 1 18 12z" /><path d="M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7" /><path d="M9 16h6" /></svg>;
+}
+function IconGlassFull() {
+  return <svg {...MENU_ICON}><path d="M8 3h8l-1 7a3 3 0 0 1-6 0z" /><path d="M8.4 7h7.2" /><path d="M12 13v6" /><path d="M9 21h6" /></svg>;
+}
+function IconGlassChampagne() {
+  return <svg {...MENU_ICON}><path d="M10 3h4l-.6 8a1.4 1.4 0 0 1-2.8 0z" /><path d="M12 13v6" /><path d="M9.5 21h5" /></svg>;
+}
+function IconAward() {
+  return <svg {...MENU_ICON}><circle cx="12" cy="9" r="6" /><path d="M9 14.5 7.5 21l4.5-2.6 4.5 2.6L15 14.5" /></svg>;
+}
+function IconHeart() {
+  return <svg {...MENU_ICON}><path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" /></svg>;
+}
+
+const MENU_ICONS = [IconToolsKitchen, IconChefHat, IconGlassFull, IconGlassChampagne, IconAward, IconHeart];
 
 const SERVICES: Record<string, { title: string; desc: string }[]> = {
   fr: [
     { title: "Menus sur mesure", desc: "Chaque repas est conçu selon vos goûts, vos contraintes alimentaires et la durée de votre vol." },
     { title: "Chefs étoilés", desc: "Nous collaborons avec des chefs reconnus pour créer des expériences gastronomiques uniques à bord." },
     { title: "Cave à bord", desc: "Sélection de grands crus, champagnes et spiritueux choisis pour accompagner chaque occasion." },
-    { title: "Décoration de table", desc: "Nappe en lin, porcelaine fine, cristal — la table dressée selon vos souhaits avant le décollage." },
-    { title: "Plateaux de luxe", desc: "Foie gras, caviar, homard, truffes — disponibles à la demande pour sublimer vos vols d'affaires ou de loisirs." },
-    { title: "Thèmes & occasions", desc: "Anniversaires, propositions, dîners romantiques — chaque célébration mérite un cadre exceptionnel." },
+    { title: "Décoration de table", desc: "Nappe en lin, porcelaine fine, cristal. La table dressée selon vos souhaits avant le décollage." },
+    { title: "Plateaux de luxe", desc: "Foie gras, caviar, homard, truffes, disponibles à la demande pour sublimer vos vols d'affaires ou de loisirs." },
+    { title: "Thèmes & occasions", desc: "Anniversaires, propositions, dîners romantiques. Chaque célébration mérite un cadre exceptionnel." },
   ],
   en: [
     { title: "Bespoke menus", desc: "Every meal is designed around your tastes, dietary requirements and flight duration." },
     { title: "Starred chefs", desc: "We collaborate with acclaimed chefs to create unique gastronomic experiences onboard." },
     { title: "Onboard cellar", desc: "Selection of grand crus, champagnes and spirits chosen to complement every occasion." },
-    { title: "Table decoration", desc: "Linen tablecloth, fine porcelain, crystal — the table set to your wishes before takeoff." },
-    { title: "Luxury platters", desc: "Foie gras, caviar, lobster, truffles — available on request to elevate your flights." },
-    { title: "Themes & occasions", desc: "Birthdays, proposals, romantic dinners — every celebration deserves an exceptional setting." },
+    { title: "Table decoration", desc: "Linen tablecloth, fine porcelain, crystal. The table set to your wishes before takeoff." },
+    { title: "Luxury platters", desc: "Foie gras, caviar, lobster, truffles. Available on request to elevate your flights." },
+    { title: "Themes & occasions", desc: "Birthdays, proposals, romantic dinners. Every celebration deserves an exceptional setting." },
   ],
   zh: [
     { title: "定制菜单", desc: "每一道菜都根据您的口味、饮食要求和飞行时长精心设计。" },
     { title: "米其林大厨", desc: "我们与知名大厨合作，在机舱内打造独一无二的美食体验。" },
     { title: "机载酒窖", desc: "精选名庄葡萄酒、香槟及烈酒，为每个场合锦上添花。" },
-    { title: "餐桌布置", desc: "亚麻桌布、精美瓷器、水晶器皿——按您的心意在起飞前布置完毕。" },
-    { title: "豪华拼盘", desc: "鹅肝、鱼子酱、龙虾、松露——应您要求，让每次飞行都成为美食之旅。" },
-    { title: "主题与特殊场合", desc: "生日、求婚、浪漫晚餐——每一个庆典都值得一个非凡的舞台。" },
+    { title: "餐桌布置", desc: "亚麻桌布、精美瓷器、水晶器皿，按您的心意在起飞前布置完毕。" },
+    { title: "豪华拼盘", desc: "鹅肝、鱼子酱、龙虾、松露，应您要求，让每次飞行都成为美食之旅。" },
+    { title: "主题与特殊场合", desc: "生日、求婚、浪漫晚餐，每一个庆典都值得一个非凡的舞台。" },
   ],
   ar: [
     { title: "قوائم طعام مخصصة", desc: "كل وجبة مصممة وفق أذواقك ومتطلباتك الغذائية ومدة رحلتك." },
     { title: "طهاة نجوم ميشلان", desc: "نتعاون مع طهاة مشهورين لخلق تجارب طهو فريدة على متن الطائرة." },
     { title: "خزانة نبيذ على المتن", desc: "تشكيلة من أجود النبيذ والشمبانيا والمشروبات الروحية لكل مناسبة." },
-    { title: "تزيين الطاولة", desc: "مفرش كتاني، خزف فاخر، كريستال — الطاولة مُرتَّبة وفق رغباتك قبل الإقلاع." },
-    { title: "أطباق فاخرة", desc: "كبد الإوز، الكافيار، الكركند، الكمأ — متاحة عند الطلب لرفع مستوى رحلاتك." },
-    { title: "مناسبات وتصاميم خاصة", desc: "أعياد الميلاد، خطوبة، عشاء رومانسي — كل احتفال يستحق إطاراً استثنائياً." },
+    { title: "تزيين الطاولة", desc: "مفرش كتاني، خزف فاخر، كريستال. الطاولة مُرتَّبة وفق رغباتك قبل الإقلاع." },
+    { title: "أطباق فاخرة", desc: "كبد الإوز، الكافيار، الكركند، الكمأ. متاحة عند الطلب لرفع مستوى رحلاتك." },
+    { title: "مناسبات وتصاميم خاصة", desc: "أعياد الميلاد، خطوبة، عشاء رومانسي. كل احتفال يستحق إطاراً استثنائياً." },
   ],
 };
 
@@ -146,40 +197,84 @@ export default function ConciergerieGastronomie() {
           </div>
         </section>
 
-        {/* Services grid */}
-        <section style={{ padding: "80px 8%" }}>
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((svc, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.07 }}
-                  style={{
-                    backgroundColor: "#0D1E35",
-                    border: "1px solid rgba(201,169,110,0.15)",
-                    padding: "28px 24px",
-                  }}
-                >
-                  <p className="font-sans text-white mb-3" style={{ fontSize: "13px", letterSpacing: "0.08em", fontWeight: 600 }}>
-                    {svc.title}
-                  </p>
-                  <p className="font-sans" style={{ fontSize: "13px", color: "rgba(232,237,242,0.5)", lineHeight: 1.8 }}>
-                    {svc.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Ambiance gastronomique continue — carte de menu + formulaire (100% CSS pur) */}
+        <div className="detente-spa">
+          {/* Halo lumineux central */}
+          <div className="detente-spa__halo" aria-hidden="true" />
+          {/* Étoiles scintillantes */}
+          {STARS.map((s, i) => (
+            <span key={i} className="spa-star" style={{ top: s.top, left: s.left, animationDelay: s.delay }} aria-hidden="true" />
+          ))}
 
-        {/* Form */}
-        <section style={{ padding: "0 8% 100px" }}>
+          {/* La Carte — menu de restaurant gastronomique */}
+          <section className="relative" style={{ padding: "88px 6%", zIndex: 1 }}>
+            <div className="menu-card">
+              {/* Coins ornementaux */}
+              <span className="menu-corner menu-corner--tl" aria-hidden="true" />
+              <span className="menu-corner menu-corner--tr" aria-hidden="true" />
+              <span className="menu-corner menu-corner--bl" aria-hidden="true" />
+              <span className="menu-corner menu-corner--br" aria-hidden="true" />
+
+              {/* En-tête */}
+              <div className="text-center" style={{ marginBottom: "34px" }}>
+                <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "12px", letterSpacing: "5px", color: "#C9A96E", marginBottom: "18px" }}>
+                  {MENU_EYEBROW[lang] || MENU_EYEBROW.fr}
+                </p>
+                <div className="flex items-center justify-center" style={{ gap: "14px", marginBottom: "14px" }}>
+                  <span aria-hidden="true" style={{ width: "44px", height: "1px", background: "linear-gradient(to right, transparent, #C9A96E)" }} />
+                  <span aria-hidden="true" style={{ color: "#E8C77E", display: "flex" }}><IconChefHat /></span>
+                  <span aria-hidden="true" style={{ width: "44px", height: "1px", background: "linear-gradient(to left, transparent, #C9A96E)" }} />
+                </div>
+                <h2 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "clamp(30px, 4vw, 38px)", lineHeight: 1.1, color: "#FFFFFF" }}>
+                  {MENU_TITLE[lang] || MENU_TITLE.fr}
+                </h2>
+                <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "18px", color: "#E8C77E", marginTop: "10px" }}>
+                  {SUBTITLE[lang] || SUBTITLE.fr}
+                </p>
+              </div>
+
+              {/* Les 6 plats */}
+              <div>
+                {services.map((svc, i) => {
+                  const Icon = MENU_ICONS[i] ?? MENU_ICONS[0];
+                  return (
+                    <Fragment key={i}>
+                      {i === 3 && (
+                        <div className="menu-divider" aria-hidden="true">
+                          <span>◆</span>
+                        </div>
+                      )}
+                      <div className="menu-dish-row">
+                        <div className="menu-dish">
+                          <span className="menu-dish__name" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "22px", color: "#FFFFFF" }}>
+                            {svc.title}
+                          </span>
+                          <span className="menu-dish__leader" aria-hidden="true" />
+                          <span className="menu-dish__icon" aria-hidden="true"><Icon /></span>
+                        </div>
+                        <p className="menu-dish__desc" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "15px", color: "rgba(232,237,242,0.55)", lineHeight: 1.5 }}>
+                          {svc.desc}
+                        </p>
+                      </div>
+                    </Fragment>
+                  );
+                })}
+              </div>
+
+              {/* Pied du menu */}
+              <div style={{ borderTop: "1px solid rgba(201,169,110,0.3)", marginTop: "34px", paddingTop: "24px" }}>
+                <p className="text-center" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(17px, 2vw, 20px)", color: "#E8C77E", lineHeight: 1.4 }}>
+                  {MENU_SIGNATURE[lang] || MENU_SIGNATURE.fr}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Formulaire — même ambiance continue */}
+          <section className="relative" style={{ padding: "0 8% 100px", zIndex: 1 }}>
           <div className="max-w-2xl mx-auto">
             <div style={{ borderTop: "1px solid rgba(201,169,110,0.2)", paddingTop: "60px" }}>
-              <h2 className="font-serif text-white mb-8" style={{ fontSize: "32px" }}>
+              <h2 className="title-gold font-serif text-white mb-8" style={{ fontSize: "32px" }}>
                 {f.title}
               </h2>
 
@@ -230,7 +325,8 @@ export default function ConciergerieGastronomie() {
               )}
             </div>
           </div>
-        </section>
+          </section>
+        </div>
       </main>
       <Footer />
     </>

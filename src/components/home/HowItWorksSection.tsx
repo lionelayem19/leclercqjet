@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 export default function HowItWorksSection() {
   const { t } = useLanguage();
@@ -10,10 +11,9 @@ export default function HowItWorksSection() {
 
   return (
     <section
-      className="bg-white"
+      className="section-pad"
       style={{
-        paddingTop: "100px",
-        paddingBottom: "100px",
+        backgroundColor: "#f8f5f0",
         paddingLeft: "8%",
         paddingRight: "8%",
       }}
@@ -26,10 +26,8 @@ export default function HowItWorksSection() {
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
-          <p className="font-sans uppercase mb-3" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-            {hiw.badge}
-          </p>
-          <h2 className="font-serif" style={{ fontSize: "42px", color: "#0A1628" }}>
+          <SectionEyebrow tone="beige">{hiw.badge}</SectionEyebrow>
+          <h2 className="font-serif section-title" style={{ color: "#8B6F3F", fontStyle: "italic" }}>
             {hiw.title}
           </h2>
         </motion.div>
@@ -54,7 +52,7 @@ export default function HowItWorksSection() {
               <div className="relative mb-4" style={{ height: "100px", overflow: "hidden" }}>
                 <span
                   className="font-serif select-none absolute left-0 top-0 leading-none"
-                  style={{ fontSize: "140px", fontWeight: 700, color: "#0A1628", opacity: 0.05, lineHeight: 1 }}
+                  style={{ fontSize: "140px", fontWeight: 700, color: "#8B6F3F", opacity: 0.3, lineHeight: 1 }}
                 >
                   {step.num}
                 </span>
@@ -65,10 +63,10 @@ export default function HowItWorksSection() {
                 />
               </div>
 
-              <h3 className="font-sans mb-3" style={{ fontSize: "15px", fontWeight: 700, color: "#0A1628" }}>
+              <h3 className="font-sans mb-3" style={{ fontSize: "16px", fontWeight: 700, color: "#0A1628" }}>
                 {step.title}
               </h3>
-              <p className="font-sans" style={{ fontSize: "14px", color: "#666666", lineHeight: 1.8 }}>
+              <p className="font-sans" style={{ fontSize: "16px", color: "#0A1628", lineHeight: 1.6 }}>
                 {step.desc}
               </p>
 

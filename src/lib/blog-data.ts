@@ -72,52 +72,52 @@ Before selecting an aircraft, clearly define: the number of passengers, total di
   },
   {
     slug: "empty-legs-opportunite-voyage-prive",
-    title: "Empty legs : l'opportunité méconnue du voyage privé",
-    titleEn: "Empty legs: the overlooked opportunity in private travel",
-    excerpt: "Réductions pouvant atteindre 75% sur des jets de grande qualité. Comprendre le mécanisme des empty legs pour en profiter pleinement.",
-    excerptEn: "Discounts reaching up to 75% on high-quality jets. Understanding empty legs to make the most of them.",
+    title: "Vols partagés : l'opportunité méconnue du voyage privé",
+    titleEn: "Shared flights: the overlooked opportunity in private travel",
+    excerpt: "Réductions pouvant atteindre 75% sur des jets de grande qualité. Comprendre le mécanisme des vols partagés pour en profiter pleinement.",
+    excerptEn: "Discounts reaching up to 75% on high-quality jets. Understanding shared flights to make the most of them.",
     category: "Conseils",
     categoryEn: "Tips",
     date: "8 avril 2026",
     readTime: 4,
     img: "/images/grille.png",
     imgZone: 6,
-    content: `Un empty leg, ou vol de repositionnement, est un vol effectué par un jet privé sans passager commercial à bord, afin de ramener l'appareil à sa base ou de le positionner pour un autre vol. Pour l'opérateur, ce vol représente un coût fixe inévitable. Pour vous, c'est une opportunité unique de voyager en jet privé à un prix considérablement réduit.
+    content: `Un vol partagé, ou vol de repositionnement, est un vol effectué par un jet privé sans passager commercial à bord, afin de ramener l'appareil à sa base ou de le positionner pour un autre vol. Pour l'opérateur, ce vol représente un coût fixe inévitable. Pour vous, c'est une opportunité unique de voyager en jet privé à un prix considérablement réduit.
 
-## Comment fonctionne un empty leg ?
+## Comment fonctionne un vol partagé ?
 
 Prenons un exemple concret. Un opérateur affrète un Falcon 2000 de Paris à Ibiza pour un client. À l'issue du voyage, l'avion doit rentrer à Paris à vide. Plutôt que de voler sans passagers, l'opérateur ou son courtier propose ce trajet retour Ibiza–Paris à prix réduit, parfois jusqu'à 75% du prix habituel.
 
-## Les avantages des empty legs
+## Les avantages des vols partagés
 
 Les réductions sont substantielles et permettent d'accéder à des appareils que l'on ne pourrait pas s'offrir à tarif plein. Un Challenger 604 ou un Falcon 7X devient soudainement accessible pour un budget de jet léger. C'est aussi une façon élégante de découvrir des catégories d'appareils supérieures.
 
 ## Les contraintes à connaître
 
-Un empty leg s'accompagne de contraintes. La route est fixe : vous ne pouvez pas modifier le point de départ ou d'arrivée. L'horaire peut évoluer si le vol principal est décalé. Et l'opportunité peut disparaître si le vol commanditaire est annulé. Il faut donc faire preuve de flexibilité.
+Un vol partagé s'accompagne de contraintes. La route est fixe : vous ne pouvez pas modifier le point de départ ou d'arrivée. L'horaire peut évoluer si le vol principal est décalé. Et l'opportunité peut disparaître si le vol commanditaire est annulé. Il faut donc faire preuve de flexibilité.
 
 ## Comment en profiter avec LECLERCQ'JET
 
-Notre plateforme publie en temps réel les empty legs disponibles auprès de nos opérateurs partenaires. Nos membres Silver, Gold et Platinum reçoivent les alertes en avant-première, 24 à 48 heures avant la publication publique. Pour les voyageurs flexibles, c'est l'accès à l'aviation privée dans ses meilleures conditions tarifaires.
+Notre plateforme publie en temps réel les vols partagés disponibles auprès de nos opérateurs partenaires. Nos membres Aube, Azur et Astre reçoivent les alertes en avant-première, 24 à 48 heures avant la publication publique. Pour les voyageurs flexibles, c'est l'accès à l'aviation privée dans ses meilleures conditions tarifaires.
 
 Inscrivez-vous à notre alerte email pour être informé dès qu'une opportunité correspond à vos destinations habituelles.`,
-    contentEn: `An empty leg, or repositioning flight, is a flight operated by a private jet without commercial passengers on board, to return the aircraft to its base or position it for another flight. For the operator, this flight represents an unavoidable fixed cost. For you, it is a unique opportunity to fly privately at a significantly reduced price.
+    contentEn: `A shared flight, or repositioning flight, is a flight operated by a private jet without commercial passengers on board, to return the aircraft to its base or position it for another flight. For the operator, this flight represents an unavoidable fixed cost. For you, it is a unique opportunity to fly privately at a significantly reduced price.
 
-## How does an empty leg work?
+## How does a shared flight work?
 
 A concrete example: an operator charters a Falcon 2000 from Paris to Ibiza for a client. After the journey, the aircraft must return to Paris empty. Rather than flying without passengers, the operator or their broker offers this return Ibiza–Paris leg at a reduced price, sometimes up to 75% off the normal rate.
 
-## The advantages of empty legs
+## The advantages of shared flights
 
 The discounts are substantial and provide access to aircraft that would otherwise be out of reach at full price. A Challenger 604 or Falcon 7X suddenly becomes accessible on a light jet budget. It's also an elegant way to discover higher aircraft categories.
 
 ## Constraints to be aware of
 
-Empty legs come with constraints. The route is fixed: you cannot change the departure or arrival point. The schedule may shift if the main flight is delayed. And the opportunity can disappear if the originating flight is cancelled. Flexibility is therefore essential.
+Shared flights come with constraints. The route is fixed: you cannot change the departure or arrival point. The schedule may shift if the main flight is delayed. And the opportunity can disappear if the originating flight is cancelled. Flexibility is therefore essential.
 
 ## How to benefit with LECLERCQ'JET
 
-Our platform publishes empty legs in real time from our partner operators. Silver, Gold and Platinum members receive alerts first, 24 to 48 hours before public listing. For flexible travellers, it's access to private aviation at its best value.
+Our platform publishes shared flights in real time from our partner operators. Aube, Azur and Astre members receive alerts first, 24 to 48 hours before public listing. For flexible travellers, it's access to private aviation at its best value.
 
 Sign up for our email alert to be notified whenever an opportunity matches your usual destinations.`,
   },
@@ -311,11 +311,11 @@ For Dubai flights, a heavy jet cabin becomes a major asset: ability to sleep, wo
 
 ## Comment optimiser son budget
 
-**Les empty legs** permettent de réduire le coût de 40 à 75% sur des trajets fixes. Si votre planning est flexible, c'est la meilleure façon d'accéder à l'aviation privée.
+**Les vols partagés** permettent de réduire le coût de 40 à 75% sur des trajets fixes. Si votre planning est flexible, c'est la meilleure façon d'accéder à l'aviation privée.
 
 **Voyager en groupe** divise naturellement le coût par passager. Un Falcon 2000 à 20 000€ pour un Paris–Mykonos aller-retour représente 2 000€ par personne pour un groupe de 10.
 
-**Les memberships** de type Gold ou Platinum permettent d'accéder à des tarifs préférentiels négociés auprès de nos opérateurs partenaires.
+**Les memberships** de type Azur ou Astre permettent d'accéder à des tarifs préférentiels négociés auprès de nos opérateurs partenaires.
 
 Notre équipe est à votre disposition pour vous fournir un devis transparent, sans frais cachés, sur tout type de vol.`,
     contentEn: `Private aviation suffers from a lack of pricing transparency that often deters first-time users. Here is an honest breakdown of costs, realistic price ranges and levers to optimise your budget.
@@ -339,11 +339,11 @@ Notre équipe est à votre disposition pour vous fournir un devis transparent, s
 
 ## How to optimise your budget
 
-**Empty legs** reduce costs by 40 to 75% on fixed routes. If your schedule is flexible, it's the best way to access private aviation.
+**Shared flights** reduce costs by 40 to 75% on fixed routes. If your schedule is flexible, it's the best way to access private aviation.
 
 **Group travel** naturally divides the per-passenger cost. A Falcon 2000 at €20,000 for a Paris–Mykonos return represents €2,000 per person for a group of 10.
 
-**Gold or Platinum memberships** provide access to preferential rates negotiated with our partner operators.
+**Azur or Astre memberships** provide access to preferential rates negotiated with our partner operators.
 
 Our team is available to provide you with a transparent quote, with no hidden fees, for any type of flight.`,
   },

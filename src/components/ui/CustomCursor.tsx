@@ -179,19 +179,19 @@ export default function CustomCursor() {
         />
       ))}
 
-      {/* Golden airplane */}
+      {/* Black airplane — a light halo keeps it legible on dark backgrounds too */}
       <div
         ref={planeRef}
         className="fixed top-0 left-0 pointer-events-none"
         style={{
           zIndex: 9999,
           opacity: 0,
-          filter: "drop-shadow(0 0 6px rgba(232,240,255,0.65))",
+          filter: "drop-shadow(0 0 4px rgba(255,255,255,0.6))",
           willChange: "transform, opacity",
           transition: "opacity 0.25s ease",
         }}
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#E8F0FF">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1a1a1a" stroke="#FFFFFF" strokeWidth={1.5} strokeLinejoin="round">
           <path d="M22 12 L3 4 L9 12 L3 20 Z" />
         </svg>
       </div>

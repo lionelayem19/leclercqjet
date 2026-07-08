@@ -6,20 +6,20 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Lang } from "@/lib/translations";
-import LogoMark from "@/components/ui/LogoMark";
+import NavSearch from "./NavSearch";
 
 type NavItem = { label: string; href: string };
 
 const EXPERTISES: Record<Lang, NavItem[]> = {
   fr: [
     { label: "Vols Privés", href: "/vols-prives" },
-    { label: "Empty Legs (Vols à vide)", href: "/empty-legs" },
+    { label: "Vols Partagés", href: "/empty-legs" },
     { label: "Charter Management", href: "/charter-management" },
     { label: "Acquisition", href: "/acquisition" },
   ],
   en: [
     { label: "Private Flights", href: "/vols-prives" },
-    { label: "Empty Legs", href: "/empty-legs" },
+    { label: "Shared Flights", href: "/empty-legs" },
     { label: "Charter Management", href: "/charter-management" },
     { label: "Acquisition", href: "/acquisition" },
   ],
@@ -41,45 +41,68 @@ const CONCIERGE: Record<Lang, NavItem[]> = {
   fr: [
     { label: "Chauffeur Privé", href: "/conciergerie/chauffeur" },
     { label: "Gastronomie & Personnalisation", href: "/conciergerie/gastronomie" },
+    { label: "Coiffeur & Visagiste", href: "/conciergerie/coiffeur-visagiste" },
     { label: "Détente & Relaxation", href: "/detente" },
     { label: "Événements Spéciaux", href: "/evenements" },
-    { label: "Animaux de compagnie", href: "/conciergerie/animaux" },
+    { label: "Carte Blanche", href: "/conciergerie#carte-blanche" },
+    { label: "Vos compagnons à bord", href: "/conciergerie/animaux" },
   ],
   en: [
     { label: "Private Chauffeur", href: "/conciergerie/chauffeur" },
     { label: "Gastronomy & Personalisation", href: "/conciergerie/gastronomie" },
+    { label: "Hair & Beauty", href: "/conciergerie/coiffeur-visagiste" },
     { label: "Relaxation & Wellness", href: "/detente" },
     { label: "Special Events", href: "/evenements" },
-    { label: "Pets on Board", href: "/conciergerie/animaux" },
+    { label: "Carte Blanche", href: "/conciergerie#carte-blanche" },
+    { label: "Your companions on board", href: "/conciergerie/animaux" },
   ],
   zh: [
     { label: "专属司机", href: "/conciergerie/chauffeur" },
     { label: "美食与个性化", href: "/conciergerie/gastronomie" },
+    { label: "发型与形象设计", href: "/conciergerie/coiffeur-visagiste" },
     { label: "放松与休闲", href: "/detente" },
     { label: "特别活动", href: "/evenements" },
-    { label: "宠物服务", href: "/conciergerie/animaux" },
+    { label: "Carte Blanche", href: "/conciergerie#carte-blanche" },
+    { label: "您的旅伴同行", href: "/conciergerie/animaux" },
   ],
   ar: [
     { label: "سائق خاص", href: "/conciergerie/chauffeur" },
     { label: "الغاسترونومي والتخصيص", href: "/conciergerie/gastronomie" },
+    { label: "تصفيف الشعر والتجميل", href: "/conciergerie/coiffeur-visagiste" },
     { label: "الاسترخاء والراحة", href: "/detente" },
     { label: "مناسبات خاصة", href: "/evenements" },
-    { label: "رعاية الحيوانات", href: "/conciergerie/animaux" },
+    { label: "Carte Blanche", href: "/conciergerie#carte-blanche" },
+    { label: "رفاقك على المتن", href: "/conciergerie/animaux" },
   ],
 };
 
-const DROPDOWN_LABELS: Record<Lang, { expertises: string; conciergerie: string }> = {
-  fr: { expertises: "Nos Expertises", conciergerie: "Conciergerie" },
-  en: { expertises: "Our Expertise", conciergerie: "Concierge" },
-  zh: { expertises: "我们的专长", conciergerie: "礼宾服务" },
-  ar: { expertises: "خبراتنا", conciergerie: "الكونسيرج" },
+const ABOUT: Record<Lang, NavItem[]> = {
+  fr: [{ label: "Organisation", href: "/organisation" }],
+  en: [{ label: "Organisation", href: "/organisation" }],
+  zh: [{ label: "组织架构", href: "/organisation" }],
+  ar: [{ label: "المنظمة", href: "/organisation" }],
 };
 
-const HISTOIRE_LABELS: Record<Lang, string> = {
-  fr: "Notre Histoire",
-  en: "Our Story",
-  zh: "我们的故事",
-  ar: "قصتنا",
+const ENGAGEMENTS_LABELS: Record<Lang, string> = {
+  fr: "Nos Engagements",
+  en: "Our Commitments",
+  zh: "我们的承诺",
+  ar: "التزاماتنا",
+};
+
+// Libellé navbar « Legacy » — nom de marque, identique dans toutes les langues.
+const CONTRIBUTION_LABELS: Record<Lang, string> = {
+  fr: "Legacy",
+  en: "Legacy",
+  zh: "Legacy",
+  ar: "Legacy",
+};
+
+const DROPDOWN_LABELS: Record<Lang, { expertises: string; conciergerie: string; about: string }> = {
+  fr: { expertises: "Nos Expertises", conciergerie: "Conciergerie", about: "À propos" },
+  en: { expertises: "Our Expertise", conciergerie: "Concierge", about: "About" },
+  zh: { expertises: "我们的专长", conciergerie: "礼宾服务", about: "关于我们" },
+  ar: { expertises: "خبراتنا", conciergerie: "الكونسيرج", about: "من نحن" },
 };
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -102,8 +125,8 @@ const DROPDOWN_PANEL: React.CSSProperties = {
 export default function Navbar() {
   const { t, lang, setLang } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState<null | "expertises" | "conciergerie">(null);
-  const [mobileExpanded, setMobileExpanded] = useState<null | "expertises" | "conciergerie">(null);
+  const [dropdownOpen, setDropdownOpen] = useState<null | "expertises" | "conciergerie" | "about">(null);
+  const [mobileExpanded, setMobileExpanded] = useState<null | "expertises" | "conciergerie" | "about">(null);
   const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
@@ -127,11 +150,15 @@ export default function Navbar() {
   const labels = DROPDOWN_LABELS[lang] || DROPDOWN_LABELS.fr;
   const expertiseItems = EXPERTISES[lang] || EXPERTISES.fr;
   const conciergeItems = CONCIERGE[lang] || CONCIERGE.fr;
+  // « À propos » : Organisation → Nos Engagements (Nos Engagements n'est plus un lien direct).
+  const aboutItems: NavItem[] = [
+    ...(ABOUT[lang] || ABOUT.fr),
+    { label: ENGAGEMENTS_LABELS[lang] || ENGAGEMENTS_LABELS.fr, href: "/nos-engagements" },
+  ];
 
   const topLinks: NavItem[] = [
-    { label: HISTOIRE_LABELS[lang] || HISTOIRE_LABELS.fr, href: "/notre-histoire" },
+    { label: CONTRIBUTION_LABELS[lang] || CONTRIBUTION_LABELS.fr, href: "/legacy" },
     { label: t.nav.memberships, href: "/formules" },
-    { label: t.nav.meteo, href: "/meteo" },
     { label: t.nav.contact, href: "/contact" },
   ];
 
@@ -145,11 +172,12 @@ export default function Navbar() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
   const expertisesActive = expertiseItems.some((i) => pathname === i.href);
   const conciergerieActive = conciergeItems.some((i) => pathname === i.href) || pathname === "/conciergerie";
+  const aboutActive = aboutItems.some((i) => pathname === i.href);
 
   const navBtnStyle = (active: boolean): React.CSSProperties => ({
-    fontSize: "10px",
+    fontSize: "12px",
     fontWeight: 600,
-    letterSpacing: "0.14em",
+    letterSpacing: "0.06em",
     color: active ? "#C9A96E" : "#E8EDF2",
     transition: "color 0.25s ease",
     textDecoration: "none",
@@ -158,7 +186,7 @@ export default function Navbar() {
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
-    gap: "5px",
+    gap: "4px",
     padding: 0,
     fontFamily: "var(--font-inter), Inter, sans-serif",
     textTransform: "uppercase",
@@ -180,14 +208,22 @@ export default function Navbar() {
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 glass-dark${scrolled ? " nav-scrolled" : ""}`} style={{ height: "72px" }}>
-        <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-4 h-full">
+        <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-5 2xl:gap-10 h-full">
           {/* Logo */}
-          <Link href="/" className="shrink-0" style={{ textDecoration: "none" }}>
-            <LogoMark />
+          <Link href="/" className="shrink-0" style={{ textDecoration: "none" }} aria-label="Leclercq'Jet International — Accueil">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-transparent.png"
+              alt="Leclercq'Jet International"
+              className="logo-premium block h-[52px] w-auto xl:h-[74px]"
+            />
           </Link>
 
-          {/* Desktop centre nav */}
-          <div className="hidden lg:flex items-center flex-1 justify-center flex-nowrap" style={{ gap: "24px" }}>
+          {/* Desktop cluster — menu + actions groupés à droite (aucun vide isolé) */}
+          <div className="hidden xl:flex items-center gap-6 2xl:gap-10">
+
+            {/* Desktop nav */}
+            <div className="flex items-center flex-nowrap gap-[18px] 2xl:gap-8">
 
             {/* Dropdown — NOS EXPERTISES */}
             <div
@@ -265,6 +301,7 @@ export default function Navbar() {
                           onMouseLeave={(e) => { e.currentTarget.style.color = pathname === item.href ? "#C9A96E" : "#E8EDF2"; e.currentTarget.style.background = "transparent"; }}
                         >
                           {item.label}
+                          {(item.href === "/conciergerie/coiffeur-visagiste" || item.href === "/conciergerie#carte-blanche") && <span className="nav-new-badge">NOUVEAU</span>}
                         </Link>
                       ))}
                     </div>
@@ -273,31 +310,78 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Direct links */}
-            {topLinks.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="font-sans uppercase whitespace-nowrap"
-                style={navBtnStyle(isActive(l.href))}
-                onMouseEnter={(e) => { if (!isActive(l.href)) e.currentTarget.style.color = "#C9A96E"; }}
-                onMouseLeave={(e) => { if (!isActive(l.href)) e.currentTarget.style.color = "#E8EDF2"; }}
+            {/* Direct links — « Legacy » distinguée en doré (rubrique signature) */}
+            {topLinks.map((l) =>
+              l.href === "/legacy" ? (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="font-sans uppercase whitespace-nowrap nav-legacy"
+                  style={{ ...navBtnStyle(isActive(l.href)), color: undefined }}
+                >
+                  {l.label}
+                </Link>
+              ) : (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="font-sans uppercase whitespace-nowrap"
+                  style={navBtnStyle(isActive(l.href))}
+                  onMouseEnter={(e) => { if (!isActive(l.href)) e.currentTarget.style.color = "#C9A96E"; }}
+                  onMouseLeave={(e) => { if (!isActive(l.href)) e.currentTarget.style.color = "#E8EDF2"; }}
+                >
+                  {l.label}
+                </Link>
+              )
+            )}
+
+            {/* Dropdown — À PROPOS */}
+            <div
+              className="relative"
+              onMouseEnter={() => setDropdownOpen("about")}
+              onMouseLeave={() => setDropdownOpen(null)}
+            >
+              <button
+                className="font-sans uppercase"
+                style={navBtnStyle(aboutActive)}
+                onMouseEnter={(e) => { if (!aboutActive) (e.currentTarget as HTMLElement).style.color = "#C9A96E"; }}
+                onMouseLeave={(e) => { if (!aboutActive) (e.currentTarget as HTMLElement).style.color = "#E8EDF2"; }}
               >
-                {l.label}
-              </Link>
-            ))}
+                {labels.about}
+                <ChevronIcon open={dropdownOpen === "about"} />
+              </button>
+              <AnimatePresence>
+                {dropdownOpen === "about" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 pt-3 z-50"
+                  >
+                    <div style={DROPDOWN_PANEL}>
+                      {aboutItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          style={dropdownItemStyle(pathname === item.href)}
+                          onMouseEnter={(e) => { e.currentTarget.style.color = "#C9A96E"; e.currentTarget.style.background = "rgba(201,169,110,0.04)"; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.color = pathname === item.href ? "#C9A96E" : "#E8EDF2"; e.currentTarget.style.background = "transparent"; }}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          {/* Desktop right */}
-          <div className="hidden lg:flex items-center shrink-0" style={{ gap: "20px" }}>
-            <a
-              href={`tel:${t.nav.phone.replace(/\s/g, "")}`}
-              className="font-sans"
-              style={{ fontSize: "12px", color: "#C9A96E", fontWeight: 600, letterSpacing: "0.05em", textDecoration: "none" }}
-            >
-              {t.nav.phone}
-            </a>
-            <div style={{ width: "1px", height: "16px", backgroundColor: "rgba(201,169,110,0.3)" }} />
+            {/* Desktop right */}
+            <div className="flex items-center shrink-0 gap-[18px] 2xl:gap-5">
+            {/* Search */}
+            <NavSearch />
 
             {/* Language picker */}
             <div className="relative" ref={langRef}>
@@ -348,22 +432,27 @@ export default function Navbar() {
 
             <Link
               href="/vols-prives"
-              className="btn-devis font-sans uppercase whitespace-nowrap"
-              style={{ padding: "10px 22px", fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", backgroundColor: "#C9A96E", color: "#0A1628", textDecoration: "none" }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a8874a")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C9A96E")}
+              className="btn-devis font-sans uppercase whitespace-nowrap shrink-0"
+              style={{ padding: "9px 16px", fontSize: "10px", fontWeight: 700, letterSpacing: "0.14em", background: "linear-gradient(135deg, #C9A96E, #E8C77E)", color: "#0A1628", textDecoration: "none" }}
             >
               {t.nav.cta}
             </Link>
+            </div>
           </div>
 
-          {/* Mobile hamburger */}
-          <button className="lg:hidden p-2 text-white" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
-            <div className="w-6 space-y-[5px]">
-              <span className={`block h-px bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
-              <span className={`block h-px bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`block h-px bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
-            </div>
+          {/* Mobile hamburger — pure-CSS morph into an X */}
+          <button
+            className="xl:hidden flex items-center justify-center text-white"
+            style={{ width: "48px", height: "48px" }}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+          >
+            <span className="hamburger" data-open={menuOpen}>
+              <span />
+              <span />
+              <span />
+            </span>
           </button>
         </nav>
       </header>
@@ -376,7 +465,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 pt-20 px-6 lg:hidden flex flex-col overflow-y-auto"
+            className="fixed inset-0 z-40 pt-20 px-6 xl:hidden flex flex-col overflow-y-auto"
             style={{ backgroundColor: "#0A1628" }}
           >
             <button
@@ -453,6 +542,7 @@ export default function Navbar() {
                           style={{ fontSize: "15px", color: pathname === item.href ? "#C9A96E" : "rgba(255,255,255,0.65)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.04)" }}
                         >
                           {item.label}
+                          {(item.href === "/conciergerie/coiffeur-visagiste" || item.href === "/conciergerie#carte-blanche") && <span className="nav-new-badge">NOUVEAU</span>}
                         </Link>
                       ))}
                     </motion.div>
@@ -460,29 +550,62 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              {/* Direct links */}
+              {/* Direct links — « Legacy » distinguée en doré (rubrique signature) */}
               {topLinks.map((l) => (
                 <Link
                   key={l.href}
                   href={l.href}
                   onClick={() => setMenuOpen(false)}
-                  className="font-serif py-3 block"
-                  style={{ fontSize: "26px", borderBottom: "1px solid rgba(255,255,255,0.06)", color: isActive(l.href) ? "#C9A96E" : "rgba(255,255,255,0.9)", textDecoration: "none", paddingBottom: "14px", paddingTop: "14px" }}
+                  className={`font-serif py-3 block${l.href === "/legacy" ? " nav-legacy" : ""}`}
+                  style={{ fontSize: "26px", borderBottom: "1px solid rgba(255,255,255,0.06)", color: l.href === "/legacy" ? undefined : (isActive(l.href) ? "#C9A96E" : "rgba(255,255,255,0.9)"), textDecoration: "none", paddingBottom: "14px", paddingTop: "14px" }}
                 >
                   {l.label}
                 </Link>
               ))}
+
+              {/* À propos */}
+              <div>
+                <button
+                  className="w-full text-left font-serif py-3 flex items-center justify-between"
+                  style={{ fontSize: "26px", color: aboutActive ? "#C9A96E" : "rgba(255,255,255,0.9)", background: "none", border: "none", borderBottom: "1px solid rgba(255,255,255,0.06)", cursor: "pointer", paddingBottom: "14px", paddingTop: "14px" }}
+                  onClick={() => setMobileExpanded(mobileExpanded === "about" ? null : "about")}
+                >
+                  <span>{labels.about}</span>
+                  <ChevronIcon open={mobileExpanded === "about"} />
+                </button>
+                <AnimatePresence>
+                  {mobileExpanded === "about" && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                      style={{ backgroundColor: "rgba(201,169,110,0.04)" }}
+                    >
+                      {aboutItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="block font-sans py-3 px-6"
+                          style={{ fontSize: "15px", color: pathname === item.href ? "#C9A96E" : "rgba(255,255,255,0.65)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             <div className="mt-8 space-y-4 pb-8">
-              <a href={`tel:${t.nav.phone.replace(/\s/g, "")}`} className="block font-sans" style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
-                {t.nav.phone}
-              </a>
               <Link
                 href="/vols-prives"
                 onClick={() => setMenuOpen(false)}
                 className="btn-devis block text-center font-sans uppercase"
-                style={{ fontSize: "12px", letterSpacing: "0.15em", backgroundColor: "#C9A96E", color: "#0A1628", padding: "14px 24px", textDecoration: "none", fontWeight: 700 }}
+                style={{ fontSize: "12px", letterSpacing: "0.15em", backgroundColor: "#E0BC6E", color: "#0A1628", padding: "14px 24px", textDecoration: "none", fontWeight: 700 }}
               >
                 {t.nav.cta}
               </Link>

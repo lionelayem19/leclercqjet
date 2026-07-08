@@ -1,26 +1,32 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactCTASection from "@/components/home/ContactCTASection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useModal } from "@/contexts/ModalContext";
 
-function CheckIcon() {
+function CheckIcon({ className = "w-4 h-4 shrink-0 mt-0.5", color = "#C9A96E" }: { className?: string; color?: string }) {
   return (
-    <svg className="w-4 h-4 text-gold shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className={className} style={{ color }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
   );
 }
 
+// Couleurs d'identité par formule : Aube (champagne), Azur (bleu), Astre (or intense)
+const PLAN_ACCENTS = [
+  { accent: "#E8C4A0", soft: "rgba(232,196,160,0.45)", glow: "" },
+  { accent: "#4FA3D9", soft: "rgba(79,163,217,0.5)", glow: "0 0 40px rgba(79,163,217,0.18)" },
+  { accent: "#D4A845", soft: "rgba(212,168,69,0.5)", glow: "0 0 30px rgba(212,168,69,0.16)" },
+];
+
 const ICON_PROPS = {
-  width: 26,
-  height: 26,
+  width: 34,
+  height: 34,
   fill: "none",
   viewBox: "0 0 24 24",
-  stroke: "#C9A96E",
+  stroke: "currentColor",
   strokeWidth: 1.4,
 } as const;
 
@@ -64,342 +70,197 @@ function IconPaw() {
   );
 }
 
-const PREMIUM_SERVICES: { Icon: () => React.JSX.Element; eyebrow: string; title: string; description: string }[] = [
-  {
-    Icon: IconSpa,
-    eyebrow: "Bien-être",
-    title: "Détente & Relaxation à bord",
-    description:
-      "Un spa privé en altitude pour voyager autrement : massage anti-jet-lag, aromathérapie sur mesure et lumière tamisée composent une ambiance zen, du décollage à l'atterrissage.",
-  },
-  {
-    Icon: IconGift,
-    eyebrow: "Célébrations",
-    title: "Événements spéciaux",
-    description:
-      "Mariage, anniversaire, baby shower ou lune de miel : une organisation clé en main avec décoration raffinée, champagne grand cru et service entièrement personnalisé à 12 000 mètres.",
-  },
-  {
-    Icon: IconFamily,
-    eyebrow: "Family Ready",
-    title: "Accompagnement bébés & familles",
-    description:
-      "Notre service Family Ready équipe la cabine pour les plus petits : siège adapté, berceau, repas sur mesure et personnel formé à l'accueil des jeunes enfants, pour des vols sereins en famille.",
-  },
-  {
-    Icon: IconPaw,
-    eyebrow: "Voyage à quatre pattes",
-    title: "Animaux de compagnie",
-    description:
-      "Vos compagnons voyagent en cabine, à vos côtés, dans un espace confort dédié. Repas, accessoires et soins attentionnés sont disponibles tout au long du trajet.",
-  },
+// Icônes des 4 services signature (textes via i18n f.signature.items)
+const SIGNATURE_ICONS = [IconSpa, IconGift, IconFamily, IconPaw];
+
+// Médaillons de l'échelle d'ascension (Aube · Azur · Astre)
+const BAND_ICON = {
+  width: 30, height: 30, fill: "none", viewBox: "0 0 24 24",
+  stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round",
+} as const;
+function IconPlaneBand() {
+  return <svg {...BAND_ICON}><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 4.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" /></svg>;
+}
+function IconCrown() {
+  return <svg {...BAND_ICON}><path d="M3 7l4 4 5-7 5 7 4-4v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" /><path d="M3 20h18" /></svg>;
+}
+function IconDiamond() {
+  return <svg {...BAND_ICON}><path d="M6 3h12l3 5-9 13L3 8z" /><path d="M3 8h18" /><path d="M9 3 7.5 8 12 21M15 3l1.5 5L12 21" /></svg>;
+}
+const BAND_MEDALLIONS = [
+  { Icon: IconPlaneBand, color: "#C0C0C0", border: "rgba(192,192,192,0.5)", bg: "rgba(192,192,192,0.08)" },
+  { Icon: IconCrown, color: "#E8C77E", border: "rgba(232,199,126,0.55)", bg: "rgba(232,199,126,0.1)" },
+  { Icon: IconDiamond, color: "#E8C77E", border: "rgba(232,199,126,0.5)", bg: "rgba(232,199,126,0.08)" },
 ];
 
-// Accents métalliques par niveau de fidélité (Silver · Gold · Platinum)
-const TIER_ACCENTS: { bar: string; text: string }[] = [
-  { bar: "linear-gradient(90deg, #8A95A5, #E8EDF2)", text: "#E8EDF2" },
-  { bar: "linear-gradient(90deg, #a8874a, #C9A96E)", text: "#C9A96E" },
-  { bar: "linear-gradient(90deg, #C0C8D4, #C9A96E)", text: "#FFFFFF" },
+// Étoiles dorées scintillantes — positions fixes (déterministes)
+const STARS = [
+  { top: "8%", left: "10%", delay: "0s" },
+  { top: "18%", left: "85%", delay: "1.2s" },
+  { top: "34%", left: "14%", delay: "0.6s" },
+  { top: "50%", left: "88%", delay: "1.8s" },
+  { top: "66%", left: "9%", delay: "0.9s" },
+  { top: "80%", left: "82%", delay: "2.2s" },
+  { top: "88%", left: "30%", delay: "1.5s" },
+  { top: "40%", left: "50%", delay: "0.3s" },
 ];
 
 export default function FormulesPage() {
   const { t } = useLanguage();
   const { openWaitlist } = useModal();
   const f = t.formules;
+  const e = f.echelle;
+  const sig = f.signature;
   const plans = t.home.memberships.plans;
 
   return (
     <>
       <Navbar />
-      <main className="bg-white">
-        {/* Hero */}
-        <section className="bg-navy pt-36 pb-20 px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="font-sans text-[11px] tracking-[0.28em] text-gold uppercase mb-4">
-              {f.hero.badge}
-            </p>
-            <h1 className="font-serif text-[36px] md:text-[56px] text-white mb-4 leading-tight">
-              {f.hero.title}
-            </h1>
-            <p className="font-sans text-[18px] text-white/50 max-w-lg mx-auto leading-relaxed">
-              {f.hero.subtitle}
-            </p>
-          </motion.div>
-        </section>
+      <main className="bg-navy">
+        {/* Échelle d'ascension — une seule présentation (100% CSS pur) */}
+        <section className="detente-spa" style={{ padding: "150px 6% 88px" }}>
+          <div className="detente-spa__halo" aria-hidden="true" />
+          {STARS.map((s, i) => (
+            <span key={i} className="spa-star" style={{ top: s.top, left: s.left, animationDelay: s.delay }} aria-hidden="true" />
+          ))}
 
-        {/* Plans */}
-        <section className="py-16 px-6">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans.map((plan, i) => {
-              const isDark = (plan as { dark?: boolean }).dark;
-              return (
-                <motion.div
-                  key={plan.name}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: i * 0.12 }}
-                  className={`relative flex flex-col ${
-                    isDark
-                      ? "bg-navy border border-gold/30"
-                      : plan.popular
-                      ? "bg-white border-2 border-gold shadow-card"
-                      : "bg-white border border-gray-150 shadow-card"
-                  }`}
-                  style={!plan.popular && !isDark ? { borderColor: "#E8E8E8" } : undefined}
-                >
-                  {plan.popular && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                      <span className="bg-gold text-white font-sans text-[10px] tracking-[0.15em] uppercase px-5 py-1.5">
-                        {f.popular}
-                      </span>
-                    </div>
-                  )}
+          <div className="relative" style={{ zIndex: 1 }}>
+            {/* En-tête */}
+            <div className="text-center mx-auto" style={{ maxWidth: "640px", marginBottom: "56px" }}>
+              <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", letterSpacing: "5px", color: "#C9A96E", marginBottom: "16px" }}>
+                {e.badge}
+              </p>
+              <h1 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "clamp(32px, 5vw, 44px)", lineHeight: 1.1, color: "#FFFFFF" }}>
+                {e.titlePlain}
+                <span style={{ fontStyle: "italic", color: "#E8C77E" }}>{e.titleAccent}</span>
+              </h1>
+              <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(18px, 2.2vw, 22px)", color: "#E8C77E", marginTop: "14px" }}>
+                {e.lead}
+              </p>
+            </div>
 
-                  <div className="p-8 md:p-10 flex flex-col flex-1">
-                    <div className="mb-7 pb-7 border-b" style={{ borderColor: isDark ? "rgba(255,255,255,0.08)" : "#F0F0F0" }}>
-                      <p className={`font-serif text-[32px] mb-2 ${isDark ? "text-white" : "text-text-dark"}`}>
+            {/* 3 bandes empilées */}
+            <div className="max-w-5xl mx-auto flex flex-col" style={{ gap: "18px" }}>
+              {plans.map((plan, i) => {
+                const med = BAND_MEDALLIONS[i] ?? BAND_MEDALLIONS[0];
+                const band = e.bands[i] ?? e.bands[0];
+                const acc = PLAN_ACCENTS[i] ?? PLAN_ACCENTS[0];
+                const MedIcon = med.Icon;
+                return (
+                  <div
+                    key={plan.name}
+                    className={`echelle-band${plan.popular ? " echelle-band--featured" : ""}`}
+                    style={{ "--accent": acc.accent, "--accent-soft": acc.soft, boxShadow: acc.glow || undefined } as React.CSSProperties}
+                  >
+                    {plan.popular && <span className="echelle-badge">{f.popular}</span>}
+
+                    {/* Panneau gauche */}
+                    <div className="echelle-band__panel">
+                      <div
+                        className="el-medallion"
+                        style={{ width: "58px", height: "58px", border: `1px solid ${med.border}`, backgroundColor: med.bg, color: med.color, marginBottom: "16px" }}
+                        aria-hidden="true"
+                      >
+                        <MedIcon />
+                      </div>
+                      <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "24px", color: acc.accent }}>
                         {plan.name}
                       </p>
-                      <div className="flex items-baseline gap-1 mb-3">
-                        <span className={`font-serif text-[42px] ${isDark ? "text-gold" : "text-navy"}`}>
-                          {plan.price}
-                        </span>
-                        <span className={`font-sans text-[13px] ${isDark ? "text-white/40" : "text-gray-400"}`}>
-                          {plan.period}
-                        </span>
+                      <div className="flex items-baseline justify-center" style={{ gap: "3px", marginTop: "4px" }}>
+                        <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "32px", color: "#C9A96E" }}>{plan.price}</span>
+                        <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>{plan.period}</span>
                       </div>
-                      <p className={`font-sans text-[13px] leading-relaxed ${isDark ? "text-white/45" : "text-gray-500"}`}>
-                        {plan.tagline}
-                      </p>
+                      <button
+                        onClick={() => openWaitlist(plan.name)}
+                        className="echelle-cta"
+                        type="button"
+                      >
+                        {f.waitlistCta}
+                      </button>
                     </div>
 
-                    <ul className="space-y-3.5 mb-10 flex-1">
-                      {plan.benefits.map((benefit) => (
-                        <li key={benefit} className="flex items-start gap-3">
-                          <CheckIcon />
-                          <span className={`font-sans text-[13px] leading-relaxed ${isDark ? "text-white/60" : "text-gray-600"}`}>
-                            {benefit}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <button
-                      onClick={() => openWaitlist(plan.name)}
-                      className={`w-full font-sans text-[11px] tracking-[0.2em] uppercase py-4 transition-all duration-300 ${
-                        isDark
-                          ? "bg-gold text-navy hover:bg-[#b8934a]"
-                          : plan.popular
-                          ? "bg-navy text-white hover:bg-navy-card"
-                          : "border border-gray-200 text-gray-600 hover:border-gold hover:text-gold"
-                      }`}
-                    >
-                      {f.waitlistCta}
-                    </button>
+                    {/* Contenu droit */}
+                    <div className="echelle-band__content">
+                      <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "20px", color: "#FFFFFF", lineHeight: 1.3 }}>
+                        {band.hook}
+                      </p>
+                      <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "11px", letterSpacing: "0.22em", color: "#C9A96E", marginTop: "8px", marginBottom: "20px" }}>
+                        {band.condition}
+                      </p>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2" style={{ columnGap: "28px", rowGap: "10px" }}>
+                        {plan.benefits.map((benefit) => (
+                          <li key={benefit} className="flex items-start gap-2.5">
+                            <CheckIcon className="w-4 h-4 shrink-0 mt-1" color={acc.accent} />
+                            <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "15px", color: "rgba(255,255,255,0.72)", lineHeight: 1.5 }}>
+                              {benefit}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
 
         {/* Note */}
         <section className="pb-20 px-6">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="font-sans text-[13px] text-gray-400 leading-relaxed">{f.note}</p>
+            <p className="font-sans text-[16px] text-white/50 leading-relaxed">{f.note}</p>
           </div>
         </section>
 
-        {/* Services premium à bord */}
-        <section style={{ backgroundColor: "#F7F8FA", paddingTop: "88px", paddingBottom: "88px", paddingLeft: "8%", paddingRight: "8%" }}>
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-center mb-14 max-w-2xl mx-auto"
-            >
-              <p className="font-sans uppercase mb-4" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-                Expériences signature
+        {/* Services signature — grille 2×2 premium (100% CSS pur) */}
+        <section className="detente-spa" style={{ paddingTop: "88px", paddingBottom: "88px", paddingLeft: "8%", paddingRight: "8%" }}>
+          <div className="detente-spa__halo" aria-hidden="true" />
+          {STARS.map((s, i) => (
+            <span key={`svc-${i}`} className="spa-star" style={{ top: s.top, left: s.left, animationDelay: s.delay }} aria-hidden="true" />
+          ))}
+
+          <div className="relative max-w-5xl mx-auto" style={{ zIndex: 1 }}>
+            <div className="text-center mb-14 max-w-2xl mx-auto">
+              <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "13px", letterSpacing: "5px", color: "#C9A96E", marginBottom: "16px" }}>
+                {sig.eyebrow}
               </p>
-              <h2 className="font-serif mb-5" style={{ fontSize: "clamp(32px, 4vw, 46px)", color: "#0A1628", lineHeight: 1.1 }}>
-                Des services pensés pour chaque voyage
+              <h2 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "clamp(30px, 4vw, 44px)", color: "#FFFFFF", lineHeight: 1.1 }}>
+                {sig.titlePlain}
+                <span style={{ fontStyle: "italic", color: "#E8C77E" }}>{sig.titleAccent}</span>
               </h2>
-              <p className="font-sans" style={{ fontSize: "15px", color: "#6B7280", lineHeight: 1.8 }}>
-                Au-delà du vol, une attention de chaque instant. Composez votre expérience à bord parmi nos prestations sur mesure.
+              <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "17px", color: "#C0C8D4", lineHeight: 1.8, marginTop: "14px" }}>
+                {sig.lead}
               </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
-              {PREMIUM_SERVICES.map(({ Icon, eyebrow, title, description }, i) => (
-                <motion.div
-                  key={title}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group relative flex flex-col overflow-hidden bg-white transition-all duration-300"
-                  style={{ border: "1px solid #E8E8E8" }}
-                  whileHover={{ y: -6 }}
-                >
-                  {/* Accent bar (revealed on hover) */}
-                  <div
-                    className="absolute top-0 left-0 h-[3px] w-full origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
-                    style={{ background: "linear-gradient(90deg, #a8874a, #C9A96E)" }}
-                  />
-
-                  <div className="flex flex-col flex-1 p-8">
-                    {/* Icon medallion */}
-                    <div
-                      className="flex items-center justify-center mb-6"
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        backgroundColor: "#0A1628",
-                        border: "1px solid rgba(201,169,110,0.3)",
-                      }}
-                    >
-                      <Icon />
-                    </div>
-
-                    <p className="font-sans uppercase mb-3" style={{ fontSize: "9px", letterSpacing: "0.22em", color: "#C9A96E" }}>
-                      {eyebrow}
-                    </p>
-                    <h3 className="font-serif mb-4" style={{ fontSize: "22px", color: "#0A1628", lineHeight: 1.25 }}>
-                      {title}
-                    </h3>
-
-                    <div style={{ width: "36px", height: "1px", backgroundColor: "#C9A96E", marginBottom: "18px" }} />
-
-                    <p className="font-sans flex-1" style={{ fontSize: "13.5px", color: "#5A6472", lineHeight: 1.75 }}>
-                      {description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
             </div>
 
-            <div className="text-center mt-12">
-              <button
-                onClick={() => openWaitlist("Services premium à bord")}
-                className="font-sans uppercase transition-all duration-300"
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.2em",
-                  backgroundColor: "#0A1628",
-                  color: "#FFFFFF",
-                  padding: "15px 42px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#152744")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0A1628")}
-              >
-                {f.waitlistCta}
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Programme de fidélité */}
-        <section style={{ backgroundColor: "#0A1628", paddingTop: "88px", paddingBottom: "88px", paddingLeft: "8%", paddingRight: "8%" }}>
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-center mb-14 max-w-2xl mx-auto"
-            >
-              <p className="font-sans uppercase mb-4" style={{ fontSize: "10px", letterSpacing: "0.35em", color: "#C9A96E" }}>
-                {f.fidelite.badge}
-              </p>
-              <h2 className="font-serif mb-5" style={{ fontSize: "clamp(32px, 4vw, 46px)", color: "#FFFFFF", lineHeight: 1.1 }}>
-                {f.fidelite.title}
-              </h2>
-              <p className="font-sans" style={{ fontSize: "15px", color: "#C0C8D4", lineHeight: 1.8 }}>
-                {f.fidelite.subtitle}
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
-              {f.fidelite.tiers.map((tier, i) => {
-                const accent = TIER_ACCENTS[i] ?? TIER_ACCENTS[0];
-                const isPlatinum = i === 2;
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {sig.items.map((item, i) => {
+                const Icon = SIGNATURE_ICONS[i] ?? SIGNATURE_ICONS[0];
+                const featured = i === 2;
                 return (
-                  <motion.div
-                    key={tier.name}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: i * 0.12 }}
-                    className="relative flex flex-col overflow-hidden"
-                    style={{
-                      background: isPlatinum ? "linear-gradient(135deg, #0D1E35, #060E1A)" : "#0D1E35",
-                      border: `1px solid ${isPlatinum ? "rgba(201,169,110,0.35)" : "rgba(201,169,110,0.15)"}`,
-                    }}
-                  >
-                    {/* Accent bar */}
-                    <div style={{ height: "3px", background: accent.bar }} />
-
-                    <div className="flex flex-col flex-1 p-8">
-                      {/* Tier name */}
-                      <p className="font-serif mb-3" style={{ fontSize: "30px", color: accent.text }}>
-                        {tier.name}
-                      </p>
-
-                      {/* Threshold */}
-                      <p className="font-sans uppercase mb-5" style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.4)" }}>
-                        {f.fidelite.reachLabel} · {tier.threshold}
-                      </p>
-
-                      {/* Tagline */}
-                      <p className="font-sans italic mb-5" style={{ fontSize: "14px", color: "#C0C8D4", lineHeight: 1.6 }}>
-                        {tier.tagline}
-                      </p>
-
-                      <div style={{ width: "40px", height: "1px", backgroundColor: "#C9A96E", marginBottom: "22px" }} />
-
-                      {/* Perks */}
-                      <ul className="flex-1" style={{ display: "flex", flexDirection: "column", gap: "13px" }}>
-                        {tier.perks.map((perk) => (
-                          <li key={perk} className="flex items-start gap-3">
-                            <CheckIcon />
-                            <span className="font-sans" style={{ fontSize: "13px", color: "rgba(255,255,255,0.62)", lineHeight: 1.6 }}>
-                              {perk}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                  <div key={item.title} className={`svc-card${featured ? " svc-card--featured" : ""}`}>
+                    {featured && <span className="svc-badge">SIGNATURE</span>}
+                    <div className="svc-card__visual" aria-hidden="true">
+                      <span style={{ color: "#E8C77E", display: "flex" }}><Icon /></span>
                     </div>
-                  </motion.div>
+                    <div style={{ padding: "26px 30px 32px" }}>
+                      <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "11px", letterSpacing: "0.24em", color: "#C9A96E", marginBottom: "10px" }}>
+                        {item.eyebrow}
+                      </p>
+                      <h3 style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "23px", color: "#FFFFFF", lineHeight: 1.25, marginBottom: "14px" }}>
+                        {item.title}
+                      </h3>
+                      <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "15px", color: "rgba(255,255,255,0.62)", lineHeight: 1.7 }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
                 );
               })}
             </div>
 
             <div className="text-center mt-12">
-              <button
-                onClick={() => openWaitlist("Programme de fidélité")}
-                className="font-sans uppercase transition-all duration-300"
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.2em",
-                  backgroundColor: "#C9A96E",
-                  color: "#0A1628",
-                  padding: "15px 42px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a8874a")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C9A96E")}
-              >
+              <button onClick={() => openWaitlist("Services signature")} className="pet-cta" type="button">
                 {f.waitlistCta}
               </button>
             </div>

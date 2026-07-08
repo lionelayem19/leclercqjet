@@ -30,7 +30,7 @@ export async function sendEmail({ subject, html }: EmailPayload): Promise<boolea
   try {
     await transporter.sendMail({
       from: `"LECLERCQ'JET INTERNATIONAL" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL || "contact@leclercqjet.com",
+      to: process.env.CONTACT_EMAIL || "contact@leclercqjetinternational.com",
       subject,
       html,
     });
@@ -66,7 +66,7 @@ export function emailTemplate(title: string, rows: Record<string, string>): stri
           ${rowsHtml}
         </table>
         <div style="padding:24px 16px;border-top:1px solid rgba(192,200,212,0.1);">
-          <p style="color:#C0C8D4;font-size:12px;margin:0;">contact@leclercqjet.com · +33 1 XX XX XX XX</p>
+          <p style="color:#C0C8D4;font-size:12px;margin:0;">contact@leclercqjetinternational.com · +33 6 98 85 57 37</p>
         </div>
       </div>
     </body>

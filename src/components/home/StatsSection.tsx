@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 function parseStatValue(value: string): { num: number | null; suffix: string; prefix: string } {
@@ -15,7 +14,61 @@ function parseStatValue(value: string): { num: number | null; suffix: string; pr
   };
 }
 
-function AnimatedStat({ value, label, delay }: { value: string; label: string; delay: number }) {
+// Icônes dorées fines (outline), style cohérent — 40px, stroke léger.
+function GlobeIcon() {
+  return (
+    <svg
+      className="stat-icon"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.7 2.4 4 5.6 4 9s-1.3 6.6-4 9c-2.7-2.4-4-5.6-4-9s1.3-6.6 4-9z" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg
+      className="stat-icon"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3.4 2" />
+    </svg>
+  );
+}
+
+const STAT_ICONS = [GlobeIcon, ClockIcon];
+
+function AnimatedStat({
+  value,
+  label,
+  delay,
+  Icon,
+}: {
+  value: string;
+  label: string;
+  delay: number;
+  Icon: () => React.ReactElement;
+}) {
   const { num, suffix, prefix } = parseStatValue(value);
   const [displayed, setDisplayed] = useState(0);
   const [triggered, setTriggered] = useState(false);
@@ -62,39 +115,47 @@ function AnimatedStat({ value, label, delay }: { value: string; label: string; d
   }, [triggered, num, delay]);
 
   const displayNum = num !== null ? (triggered ? displayed : 0) : null;
-  const formattedNum = displayNum !== null
-    ? displayNum >= 1000
-      ? displayNum.toLocaleString("fr-FR")
-      : String(displayNum)
-    : null;
+  const formattedNum =
+    displayNum !== null
+      ? displayNum >= 1000
+        ? displayNum.toLocaleString("fr-FR")
+        : String(displayNum)
+      : null;
+
+  const numStyle = { fontSize: "76px", color: "#FFFFFF", fontWeight: 600 } as const;
+  const goldStyle = { fontSize: "76px", color: "#C9A96E", fontWeight: 600 } as const;
 
   return (
-    <div ref={ref} className="text-center px-6 py-8">
-      <div className="flex items-baseline justify-center leading-none mb-4" style={{ gap: "0" }}>
+    <div ref={ref} className="stat-card">
+      <Icon />
+      <div className="stat-number font-serif mb-1">
         {prefix && (
-          <span className="font-serif" style={{ fontSize: "76px", color: "#FFFFFF", fontWeight: 600 }}>
+          <span className="font-serif" style={numStyle}>
             {prefix}
           </span>
         )}
         {formattedNum !== null ? (
           <>
-            <span className="font-serif" style={{ fontSize: "76px", color: "#FFFFFF", fontWeight: 600 }}>
+            <span className="font-serif" style={numStyle}>
               {formattedNum}
             </span>
             {suffix && (
-              <span className="font-serif" style={{ fontSize: "76px", color: "#C9A96E", fontWeight: 600 }}>
+              <span className="font-serif" style={goldStyle}>
                 {suffix}
               </span>
             )}
           </>
         ) : (
-          <span className="font-serif" style={{ fontSize: "76px", color: "#FFFFFF", fontWeight: 600 }}>
+          <span className="font-serif" style={numStyle}>
             {value}
           </span>
         )}
       </div>
-      <div className="mx-auto mb-4" style={{ width: "40px", height: "1px", backgroundColor: "#C9A96E" }} />
-      <p className="font-sans uppercase" style={{ fontSize: "10px", letterSpacing: "0.3em", color: "#C0C8D4" }}>
+      <div className="stat-underline" />
+      <p
+        className="font-sans uppercase"
+        style={{ fontSize: "10px", letterSpacing: "0.3em", color: "#C0C8D4" }}
+      >
         {label}
       </p>
     </div>
@@ -107,32 +168,30 @@ export default function StatsSection() {
 
   return (
     <section
+      className="texture-grain section-pad"
       style={{
         backgroundColor: "#0A1628",
-        paddingTop: "100px",
-        paddingBottom: "100px",
         paddingLeft: "8%",
         paddingRight: "8%",
       }}
     >
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-0"
-          style={{ borderLeft: "1px solid rgba(201,169,110,0.15)", borderTop: "1px solid rgba(201,169,110,0.15)" }}
-        >
-          {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              style={{ borderRight: "1px solid rgba(201,169,110,0.15)", borderBottom: "1px solid rgba(201,169,110,0.15)" }}
-            >
-              <AnimatedStat value={stat.value} label={stat.label} delay={i * 0.1} />
-            </div>
-          ))}
-        </motion.div>
+      <div className="mx-auto" style={{ maxWidth: "800px" }}>
+        <p className="stats-tagline font-serif text-center">{t.home.statsTagline}</p>
+        <div className="stats-cards">
+          <AnimatedStat
+            value={stats[0].value}
+            label={stats[0].label}
+            delay={0}
+            Icon={STAT_ICONS[0]}
+          />
+          <div className="stats-divider" aria-hidden="true" />
+          <AnimatedStat
+            value={stats[1].value}
+            label={stats[1].label}
+            delay={0.1}
+            Icon={STAT_ICONS[1]}
+          />
+        </div>
       </div>
     </section>
   );
