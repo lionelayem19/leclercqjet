@@ -4,7 +4,6 @@ import HeroSection from "@/components/home/HeroSection";
 import NotreHistoireSection from "@/components/home/NotreHistoireSection";
 import BookBlock from "@/components/ui/BookBlock";
 import WhyUsSection from "@/components/home/WhyUsSection";
-import StatsSection from "@/components/home/StatsSection";
 import ExperienceSection from "@/components/home/ExperienceSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import ConciergerieSection from "@/components/home/ConciergerieSection";
@@ -43,7 +42,6 @@ export default function HomePage() {
         />
         <WhyUsSection />
         <SectionBlend from={IVOIRE} to={NAVY} />
-        <StatsSection />
         <ExperienceSection />
         <SectionBlend from={NAVY} to={WHITE} />
         <ServicesSection />

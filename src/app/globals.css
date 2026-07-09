@@ -1575,26 +1575,29 @@ a.contact-channel:hover {
 .hero-engagement-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: 28px;
+  margin-top: 22px;
+  margin-bottom: 32px;
 }
 .hero-engagement-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-cormorant), Georgia, serif;
-  font-weight: 500;
-  font-size: 1rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
   color: #E8C77E;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   /* Pastille sombre semi-transparente pour garantir la lisibilité sur la photo */
-  background: rgba(10, 22, 40, 0.5);
-  border: 1px solid rgba(201, 169, 110, 0.45);
-  border-radius: 999px;
-  padding: 10px 22px;
+  background: rgba(10, 22, 40, 0.55);
+  border: 1.5px solid #C9A96E;
+  border-radius: 30px;
+  padding: 14px 32px;
   backdrop-filter: blur(2px);
   cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  /* Ombre portée pour détacher le bouton de la photo + léger halo doré */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(201, 169, 110, 0.25);
+  transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .hero-engagement-arrow {
   display: inline-block;
@@ -1602,9 +1605,11 @@ a.contact-channel:hover {
 }
 .hero-engagement-link:hover,
 .hero-engagement-link:focus-visible {
-  color: #F2D793;
-  background: rgba(10, 22, 40, 0.62);
-  border-color: rgba(232, 199, 126, 0.7);
+  transform: translateY(-3px);
+  background: rgba(10, 22, 40, 0.42);
+  border-color: #E8C77E;
+  /* Le halo doré s'intensifie et l'ombre s'accentue au survol */
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), 0 0 32px rgba(232, 199, 126, 0.5);
 }
 .hero-engagement-link:hover .hero-engagement-arrow,
 .hero-engagement-link:focus-visible .hero-engagement-arrow {

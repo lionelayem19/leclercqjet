@@ -22,32 +22,32 @@ type Content = {
 const CONTENT: Partial<Record<Lang, Content>> = {
   fr: {
     eyebrow: "L'Expérience Leclercq'Jet",
-    title: "Un voyage sans couture, du départ à l'arrivée.",
+    title: "Chaque étape de votre voyage",
     intro:
       "Service chauffeur premium 100% électrique, à l'aller comme au retour. De votre domicile à votre destination finale, nos équipes vous accompagnent sans rupture, tout au long du parcours.",
     globeTitle: "Voler avec du Sens",
     globeSubtitle: "S'élever ensemble, pour élever les autres.",
     steps: [
-      { num: "01", title: "Chauffeur privé", desc: "Pris en charge à domicile" },
+      { num: "01", title: "Chauffeur privé", desc: "À l'adresse et à l'heure de votre choix" },
       { num: "02", title: "Embarquement", desc: "Accès direct au tarmac" },
       { num: "03", title: "À bord", desc: "Gastronomie & confort" },
       { num: "04", title: "À destination", desc: "Conciergerie sur place" },
-      { num: "05", title: "Second chauffeur", desc: "Jusqu'à votre porte" },
+      { num: "05", title: "Second chauffeur", desc: "Jusqu'à votre destination finale" },
     ],
   },
   en: {
     eyebrow: "The Leclercq'Jet Experience",
-    title: "A seamless journey, from departure to arrival.",
+    title: "Every step of your journey",
     intro:
       "Premium all-electric chauffeur service, outbound and return alike. From your home to your final destination, our teams accompany you without a break, all along the way.",
     globeTitle: "Flying with Purpose",
     globeSubtitle: "Rising together, to lift others.",
     steps: [
-      { num: "01", title: "Private chauffeur", desc: "Picked up at home" },
+      { num: "01", title: "Private chauffeur", desc: "At the address and time of your choosing" },
       { num: "02", title: "Boarding", desc: "Direct tarmac access" },
       { num: "03", title: "On board", desc: "Gastronomy & comfort" },
       { num: "04", title: "At destination", desc: "Concierge on site" },
-      { num: "05", title: "Second chauffeur", desc: "All the way to your door" },
+      { num: "05", title: "Second chauffeur", desc: "To your final destination" },
     ],
   },
 };
@@ -100,12 +100,14 @@ function Globe({ title, subtitle }: { title: string; subtitle: string }) {
           {title}
         </h3>
         <p
-          className="font-sans"
           style={{
+            fontFamily: SERIF,
             fontStyle: "italic",
-            fontSize: "clamp(12px, 1.2vw, 15px)",
-            color: GOLD,
-            lineHeight: 1.5,
+            fontWeight: 600,
+            fontSize: "1.15rem",
+            color: "#E8C77E",
+            lineHeight: 1.6,
+            letterSpacing: "0.02em",
             maxWidth: "16em",
           }}
         >
@@ -221,7 +223,17 @@ export default function ExperienceSection() {
                   >
                     {step.title}
                   </h4>
-                  <p className="font-sans" style={{ fontSize: "14px", color: "#e5e7eb", lineHeight: 1.55 }}>
+                  <p
+                    style={{
+                      fontFamily: SERIF,
+                      fontStyle: "italic",
+                      fontWeight: 600,
+                      fontSize: "1.15rem",
+                      color: "#f8f5f0",
+                      lineHeight: 1.5,
+                      letterSpacing: "0.02em",
+                    }}
+                  >
                     {step.desc}
                   </p>
                 </div>
