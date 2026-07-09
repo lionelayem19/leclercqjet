@@ -112,6 +112,7 @@ export default function FormulesPage() {
   const e = f.echelle;
   const sig = f.signature;
   const plans = t.home.memberships.plans;
+  const guarantee = t.home.memberships.guarantee;
 
   return (
     <>
@@ -181,17 +182,19 @@ export default function FormulesPage() {
 
                     {/* Contenu droit */}
                     <div className="echelle-band__content">
-                      <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "20px", color: "#FFFFFF", lineHeight: 1.3 }}>
+                      <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 600, fontSize: "1.25rem", color: acc.accent, lineHeight: 1.3, marginBottom: "18px" }}>
                         {band.hook}
                       </p>
-                      <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "11px", letterSpacing: "0.22em", color: "#C9A96E", marginTop: "8px", marginBottom: "20px" }}>
-                        {band.condition}
-                      </p>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2" style={{ columnGap: "28px", rowGap: "10px" }}>
+                      {band.condition && (
+                        <p className="uppercase" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "11px", letterSpacing: "0.22em", color: "#C9A96E", marginTop: "-8px", marginBottom: "20px" }}>
+                          {band.condition}
+                        </p>
+                      )}
+                      <ul className="grid grid-cols-1 sm:grid-cols-2" style={{ columnGap: "28px", rowGap: "12px" }}>
                         {plan.benefits.map((benefit) => (
                           <li key={benefit} className="flex items-start gap-2.5">
-                            <CheckIcon className="w-4 h-4 shrink-0 mt-1" color={acc.accent} />
-                            <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 500, fontSize: "15px", color: "rgba(255,255,255,0.72)", lineHeight: 1.5 }}>
+                            <CheckIcon className="w-4 h-4 shrink-0 mt-1.5" color={acc.accent} />
+                            <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 600, fontSize: "1.35rem", color: "#f8f5f0", lineHeight: 1.75 }}>
                               {benefit}
                             </span>
                           </li>
@@ -201,6 +204,16 @@ export default function FormulesPage() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Bandeau garantie — rassurance centrée sous les 3 formules */}
+            <div className="text-center mx-auto" style={{ maxWidth: "760px", marginTop: "clamp(40px, 5vw, 56px)" }}>
+              <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 600, fontSize: "clamp(1.25rem, 2.4vw, 1.4rem)", color: "#E8C77E", lineHeight: 1.4, letterSpacing: "0.01em" }}>
+                {guarantee.title}
+              </p>
+              <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontSize: "1.05rem", color: "#f8f5f0", marginTop: "10px" }}>
+                {guarantee.note}
+              </p>
             </div>
           </div>
         </section>

@@ -104,11 +104,6 @@ export default function MembershipsSection() {
                 )}
 
                 <div className="flex flex-col flex-1 p-7">
-                  {/* Tier label */}
-                  <p className="font-sans uppercase mb-2" style={{ fontSize: "9px", letterSpacing: "0.2em", color: "#888888" }}>
-                    {i === 0 ? "SILVER" : i === 1 ? "GOLD" : "PLATINUM"}
-                  </p>
-
                   {/* Plan name */}
                   <p className="font-serif mb-1" style={{ fontSize: "26px", color: acc.accent }}>
                     {plan.name}
@@ -127,8 +122,8 @@ export default function MembershipsSection() {
                   {/* Accent separator */}
                   <div style={{ width: "40px", height: "1px", backgroundColor: acc.accent, margin: "12px 0" }} />
 
-                  {/* Tagline */}
-                  <p className="font-sans italic mb-6" style={{ fontSize: "16px", color: "#C0C8D4", lineHeight: 1.65 }}>
+                  {/* Accroche — italique, couleur d'accent de la formule */}
+                  <p className="font-serif italic mb-6" style={{ fontSize: "1.25rem", fontWeight: 600, color: acc.accent, lineHeight: 1.5 }}>
                     {plan.tagline}
                   </p>
 
@@ -137,7 +132,7 @@ export default function MembershipsSection() {
                     {plan.benefits.slice(0, 4).map((b) => (
                       <li key={b} className="flex items-start gap-2.5">
                         <CheckIcon color={acc.accent} />
-                        <span className="font-sans" style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                        <span style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontSize: "1.35rem", fontWeight: 600, color: "#f8f5f0", lineHeight: 1.75 }}>
                           {b}
                         </span>
                       </li>
@@ -162,6 +157,16 @@ export default function MembershipsSection() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Bandeau garantie — rassurance sous les 3 formules */}
+        <div className="text-center" style={{ marginTop: "clamp(36px, 5vw, 56px)" }}>
+          <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontWeight: 600, fontSize: "1.4rem", color: "#E8C77E", lineHeight: 1.4, letterSpacing: "0.01em" }}>
+            {mb.guarantee.title}
+          </p>
+          <p style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontSize: "1.05rem", color: "#f8f5f0", marginTop: "8px" }}>
+            {mb.guarantee.note}
+          </p>
         </div>
       </div>
     </section>
