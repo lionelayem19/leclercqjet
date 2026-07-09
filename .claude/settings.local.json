@@ -87,7 +87,8 @@
       "Bash(grep -i \"eslint\\\\|lint\" next.config.mjs)",
       "Bash(grep -n \"^  fr: {\\\\|^  en: {\\\\|^  zh: {\\\\|^  ar: {\\\\|^  },$\\\\|^} as const\\\\|^};\" src/lib/translations.ts)",
       "Bash(echo \"tsc-exit: $?\")",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(git check-ignore *)"
     ]
   }
 }
