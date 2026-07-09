@@ -55,8 +55,8 @@ export default function MembershipsSection() {
     <section
       style={{
         backgroundColor: "#0A1628",
-        paddingTop: "100px",
-        paddingBottom: "100px",
+        paddingTop: "clamp(52px, 9vw, 100px)",
+        paddingBottom: "clamp(52px, 9vw, 100px)",
         paddingLeft: "8%",
         paddingRight: "8%",
       }}

@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactCTASection from "@/components/home/ContactCTASection";
 import { useLanguage } from "@/contexts/LanguageContext";
-import GrillePhoto from "@/components/ui/GrillePhoto";
-import AirportInput from "@/components/ui/AirportInput";
 
 const MED_ICON = {
   width: 24,
@@ -73,97 +71,10 @@ function IconRecycle() {
   );
 }
 
-const ALL_FLIGHTS = [
-  {
-    from: "Paris Le Bourget", fromCode: "LFPB",
-    to: "Nice Côte d'Azur", toCode: "LFMN",
-    date: "Demain", time: "09h00",
-    aircraft: "Citation XLS", seats: 8, price: "4 500€",
-    type: "lastMinute",
-    zone: 9,
-  },
-  {
-    from: "Paris Le Bourget", fromCode: "LFPB",
-    to: "Londres Farnborough", toCode: "EGLF",
-    date: "Dans 2 jours", time: "11h30",
-    aircraft: "Phenom 300", seats: 6, price: "6 200€",
-    type: "emptyLeg",
-    zone: 10,
-  },
-  {
-    from: "Genève", fromCode: "LSGG",
-    to: "Ibiza", toCode: "LEIB",
-    date: "Dans 3 jours", time: "14h00",
-    aircraft: "Falcon 2000", seats: 10, price: "8 900€",
-    type: "emptyLeg",
-    zone: 11,
-  },
-  {
-    from: "Monaco", fromCode: "LNMC",
-    to: "Mykonos", toCode: "LGMK",
-    date: "Dans 4 jours", time: "10h15",
-    aircraft: "Hawker 800XP", seats: 8, price: "9 800€",
-    type: "emptyLeg",
-    zone: 12,
-  },
-  {
-    from: "Dubaï", fromCode: "OMDB",
-    to: "Paris Le Bourget", toCode: "LFPB",
-    date: "Dans 5 jours", time: "08h00",
-    aircraft: "Gulfstream G550", seats: 14, price: "38 000€",
-    type: "emptyLeg",
-    zone: 8,
-  },
-  {
-    from: "Cannes", fromCode: "LFMD",
-    to: "Zurich", toCode: "LSZH",
-    date: "Dans 6 jours", time: "16h45",
-    aircraft: "Learjet 45", seats: 7, price: "5 200€",
-    type: "lastMinute",
-    zone: 7,
-  },
-];
-
-// Icônes barre de recherche (contour, héritent de la couleur du texte)
-function IconSearch() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-3.2-3.2" />
-    </svg>
-  );
-}
-function IconRefresh() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 11a8 8 0 0 0-14.3-4.5M4 5v3.5h3.5" />
-      <path d="M4 13a8 8 0 0 0 14.3 4.5M20 19v-3.5h-3.5" />
-    </svg>
-  );
-}
-
 export default function EmptyLegsPage() {
   const { t, lang } = useLanguage();
   const el = t.emptyLegs;
   const isRTL = lang === "ar";
-
-  const [filterFrom, setFilterFrom] = useState("");
-  const [filterTo, setFilterTo] = useState("");
-  const [filterDate, setFilterDate] = useState("");
-  const [filterType, setFilterType] = useState("");
-
-  const filtered = ALL_FLIGHTS.filter((f) => {
-    if (filterFrom && !f.from.toLowerCase().includes(filterFrom.toLowerCase())) return false;
-    if (filterTo && !f.to.toLowerCase().includes(filterTo.toLowerCase())) return false;
-    if (filterType && f.type !== filterType) return false;
-    return true;
-  });
-
-  const scrollToResults = () => {
-    if (typeof document !== "undefined") {
-      document.getElementById("el-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
 
   return (
     <>
@@ -297,126 +208,35 @@ export default function EmptyLegsPage() {
           </div>
         </section>
 
-        {/* Filters */}
-        <section className="sticky top-0 z-30 bg-navy border-b border-white/10 py-5 px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="vl-search-frame" dir={isRTL ? "rtl" : "ltr"}>
-              <div className="vl-search-grid">
-                <div className="vl-field">
-                  <label className="vl-label">{el.filters.from}</label>
-                  <AirportInput value={filterFrom} onChange={setFilterFrom} placeholder="Paris..." className="vl-input" />
-                </div>
-                <div className="vl-field">
-                  <label className="vl-label">{el.filters.to}</label>
-                  <AirportInput value={filterTo} onChange={setFilterTo} placeholder="Nice..." className="vl-input" />
-                </div>
-                <div className="vl-field">
-                  <label className="vl-label">{el.filters.date}</label>
-                  <input type="date" value={filterDate} onChange={(e) => setFilterDate(e.target.value)} className="vl-input [color-scheme:dark]" />
-                </div>
-                <div className="vl-field">
-                  <label className="vl-label">{el.filters.type}</label>
-                  <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="vl-input">
-                    <option value="" className="text-text-dark">{el.filters.all}</option>
-                    <option value="emptyLeg" className="text-text-dark">{el.badges.emptyLeg}</option>
-                    <option value="lastMinute" className="text-text-dark">{el.badges.lastMinute}</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="vl-actions">
-                <button type="button" onClick={scrollToResults} className="vl-search-btn">
-                  <IconSearch />
-                  <span>{el.filters.search}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setFilterFrom(""); setFilterTo(""); setFilterDate(""); setFilterType(""); }}
-                  className="vl-reset"
-                >
-                  <IconRefresh />
-                  <span>{el.filters.reset}</span>
-                </button>
-              </div>
+        {/* Vols du moment — bloc de contact (remplace la grille de vols fictifs) */}
+        <section className="py-16 md:py-20 px-6 bg-navy">
+          <div className="mx-auto" style={{ maxWidth: "720px" }}>
+            <div className="el-current" dir={isRTL ? "rtl" : "ltr"}>
+              <h2
+                className="font-serif"
+                style={{ fontSize: "clamp(26px, 3.4vw, 38px)", lineHeight: 1.2, color: "#f8f5f0", marginBottom: "18px" }}
+              >
+                {el.current.title}
+              </h2>
+              <p
+                style={{
+                  fontFamily: "var(--font-cormorant), Georgia, serif",
+                  fontStyle: "italic",
+                  fontWeight: 600,
+                  fontSize: "1.15rem",
+                  color: "#E8C77E",
+                  letterSpacing: "0.02em",
+                  lineHeight: 1.6,
+                  maxWidth: "540px",
+                  margin: "0 auto 30px",
+                }}
+              >
+                {el.current.text}
+              </p>
+              <Link href="/contact" className="el-current__cta">
+                {el.current.cta}
+              </Link>
             </div>
-          </div>
-        </section>
-
-        {/* Grid */}
-        <section id="el-results" className="py-14 px-6" style={{ scrollMarginTop: "96px" }}>
-          <div className="max-w-6xl mx-auto">
-            <p className="[font-family:var(--font-cormorant)] font-medium text-[15px] text-white/50 mb-8">
-              {el.count(filtered.length)}
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((flight, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.06 }}
-                  className="gold-hover bg-navy-card border border-white/10 hover:border-gold/40 hover:shadow-card-hover transition-all duration-300 group overflow-hidden shadow-card"
-                >
-                  <div className="relative h-44 overflow-hidden">
-                    <GrillePhoto
-                      zone={flight.zone}
-                      className="w-full h-full transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className={`[font-family:var(--font-cormorant)] font-medium text-[11px] tracking-[0.12em] uppercase px-2.5 py-1 ${
-                        flight.type === "lastMinute"
-                          ? "bg-red-600 text-white"
-                          : "bg-navy-card/90 text-white/80"
-                      }`}>
-                        {flight.type === "lastMinute" ? el.badges.lastMinute : el.badges.emptyLeg}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="flex-1">
-                        <p className="[font-family:var(--font-cormorant)] font-medium text-[20px] text-white leading-tight">{flight.from}</p>
-                        <p className="[font-family:var(--font-cormorant)] font-medium text-[12px] text-white/50 tracking-widest">{flight.fromCode}</p>
-                      </div>
-                      <svg className="w-4 h-4 text-gold/60 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                      </svg>
-                      <div className="flex-1 text-right">
-                        <p className="[font-family:var(--font-cormorant)] font-medium text-[20px] text-white leading-tight">{flight.to}</p>
-                        <p className="[font-family:var(--font-cormorant)] font-medium text-[12px] text-white/50 tracking-widest">{flight.toCode}</p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-1 mb-4">
-                      <span className="[font-family:var(--font-cormorant)] font-medium text-[14px] text-white/50">{flight.date} · {flight.time}</span>
-                      <span className="[font-family:var(--font-cormorant)] font-medium text-[14px] text-white/60 text-right">{flight.aircraft}</span>
-                      <span className="[font-family:var(--font-cormorant)] font-medium text-[14px] text-white/50">{flight.seats} pax</span>
-                      <span className="[font-family:var(--font-cormorant)] font-medium text-[22px] text-gold text-right leading-none">{flight.price}</span>
-                    </div>
-
-                    {/* FBO badge */}
-                    <p className="[font-family:var(--font-cormorant)] font-medium text-[13px] tracking-[0.12em] text-gold/70 mb-4">
-                      {el.fbo}
-                    </p>
-
-                    <a
-                      href="/vols-prives"
-                      className="block w-full text-center bg-gold text-navy [font-family:var(--font-cormorant)] font-medium text-[13px] tracking-[0.18em] uppercase py-3 hover:bg-[#a8874a] transition-colors"
-                    >
-                      {el.cardCta}
-                    </a>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {filtered.length === 0 && (
-              <div className="text-center py-20">
-                <p className="[font-family:var(--font-cormorant)] font-medium text-[18px] text-white/50 leading-[1.7]">{el.noResults}</p>
-              </div>
-            )}
           </div>
         </section>
 

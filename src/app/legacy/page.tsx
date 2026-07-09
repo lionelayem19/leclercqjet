@@ -26,7 +26,7 @@ type Content = {
 
 const CONTENT: Record<Lang, Content> = {
   fr: {
-    eyebrow: "Legacy",
+    eyebrow: "Notre Promesse",
     title: "Chaque vol rapproche un enfant de son avenir.",
     subtitle: "L'engagement n'est pas une promesse. C'est un pourcentage.",
     // NOTE : à remplacer par « [chiffre] % » lorsque le pourcentage officiel sera validé.
@@ -46,7 +46,7 @@ const CONTENT: Record<Lang, Content> = {
     concreteCaption: "Voler avec Leclercq'Jet, c'est offrir un avenir.",
   },
   en: {
-    eyebrow: "Legacy",
+    eyebrow: "Our Promise",
     title: "Every flight brings a child closer to their future.",
     subtitle: "Commitment is not a promise. It is a percentage.",
     figureHeadline: "A share of every flight",
@@ -65,7 +65,7 @@ const CONTENT: Record<Lang, Content> = {
     concreteCaption: "To fly with Leclercq'Jet is to offer a future.",
   },
   zh: {
-    eyebrow: "Legacy",
+    eyebrow: "我们的承诺",
     title: "每一次飞行，都让一个孩子离未来更近一步。",
     subtitle: "承诺不是一句诺言，而是一个百分比。",
     figureHeadline: "每一次飞行的一部分",
@@ -83,7 +83,7 @@ const CONTENT: Record<Lang, Content> = {
     concreteCaption: "选择勒克莱尔公务机，就是赠予一个未来。",
   },
   ar: {
-    eyebrow: "Legacy",
+    eyebrow: "وعدنا",
     title: "كل رحلة تقرّب طفلاً من مستقبله.",
     subtitle: "الالتزام ليس وعداً. إنه نسبة مئوية.",
     figureHeadline: "جزء من كل رحلة",

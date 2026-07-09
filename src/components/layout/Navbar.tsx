@@ -77,10 +77,10 @@ const CONCIERGE: Record<Lang, NavItem[]> = {
 };
 
 const ABOUT: Record<Lang, NavItem[]> = {
-  fr: [{ label: "Organisation", href: "/organisation" }],
-  en: [{ label: "Organisation", href: "/organisation" }],
-  zh: [{ label: "组织架构", href: "/organisation" }],
-  ar: [{ label: "المنظمة", href: "/organisation" }],
+  fr: [{ label: "Notre équipe", href: "/organisation" }],
+  en: [{ label: "Our Team", href: "/organisation" }],
+  zh: [{ label: "我们的团队", href: "/organisation" }],
+  ar: [{ label: "فريقنا", href: "/organisation" }],
 };
 
 const ENGAGEMENTS_LABELS: Record<Lang, string> = {
@@ -90,12 +90,12 @@ const ENGAGEMENTS_LABELS: Record<Lang, string> = {
   ar: "التزاماتنا",
 };
 
-// Libellé navbar « Legacy » — nom de marque, identique dans toutes les langues.
+// Libellé navbar « Notre Promesse » — rubrique signature (route /legacy conservée).
 const CONTRIBUTION_LABELS: Record<Lang, string> = {
-  fr: "Legacy",
-  en: "Legacy",
-  zh: "Legacy",
-  ar: "Legacy",
+  fr: "Notre Promesse",
+  en: "Our Promise",
+  zh: "我们的承诺",
+  ar: "وعدنا",
 };
 
 const DROPDOWN_LABELS: Record<Lang, { expertises: string; conciergerie: string; about: string }> = {

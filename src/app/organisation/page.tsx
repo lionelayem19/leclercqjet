@@ -12,7 +12,7 @@ const BADGE: Record<string, string> = {
   fr: "À PROPOS", en: "ABOUT", zh: "关于我们", ar: "من نحن",
 };
 const TITLE: Record<string, string> = {
-  fr: "Organisation", en: "Organisation", zh: "组织架构", ar: "المنظمة",
+  fr: "Notre équipe", en: "Our Team", zh: "我们的团队", ar: "فريقنا",
 };
 const SUBTITLE: Record<string, string> = {
   fr: "Une maison structurée autour d'une seule exigence : l'excellence à chaque étape de votre voyage.",

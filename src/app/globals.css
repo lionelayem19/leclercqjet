@@ -400,6 +400,38 @@ html[dir="rtl"] body {
   margin: 18px auto;
 }
 
+/* ─── Vols Partagés — encadré « Nos vols du moment » (100 % CSS pur) ─── */
+.el-current {
+  text-align: center;
+  background: rgba(201, 169, 110, 0.05);
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 56px);
+}
+.el-current__cta {
+  display: inline-block;
+  padding: 15px 40px;
+  border-radius: 999px;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0A1628;
+  background: linear-gradient(135deg, #C9A96E, #E8C77E);
+  box-shadow: 0 6px 20px rgba(201, 169, 110, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.el-current__cta:hover,
+.el-current__cta:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(232, 199, 126, 0.45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .el-current__cta { transition: none; }
+}
+
 /* ─── Vols Partagés — barre de recherche premium (100 % CSS pur) ─── */
 .vl-search-frame {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
@@ -1528,14 +1560,14 @@ a.contact-channel:hover {
   background: transparent;
   border: 0;
   border-bottom: 1px solid rgba(201, 169, 110, 0.3);
-  color: #ffffff;
+  color: #f8f5f0;
   padding: 9px 2px;
-  font-size: 14px;
+  font-size: 1rem;
   outline: none;
   transition: border-color 0.3s ease;
 }
 .contact-field::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(248, 245, 240, 0.45);
 }
 .contact-field:focus {
   border-bottom-color: #E8C77E;
@@ -1620,39 +1652,204 @@ a.contact-channel:hover {
   .hero-engagement-arrow { transition: none; }
 }
 
-/* ─── Navbar : entrée « Legacy » (rubrique signature) ───
-   Doré lumineux uni en permanence (color: #E8C77E, jamais transparent) + une
-   lueur dorée qui « respire » lentement en boucle. SEULE la lueur (text-shadow)
-   est animée, jamais le texte. Au survol : le glow s'intensifie.
+/* ──────────────────────────────────────────────────────────────
+   Modale « Composez votre vol » — ouverte au clic sur PRENDRE MON ENVOL.
+   100% CSS pur (entrée en @keyframes, aucune dépendance JS d'animation).
+   ────────────────────────────────────────────────────────────── */
+@keyframes frm-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes frm-panel-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.frm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  overflow-y: auto;
+  animation: frm-overlay-in 0.25s ease both;
+}
+.frm-panel {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin: auto;
+  background: #0A1628;
+  border: 1px solid #C9A96E;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  padding: 40px 36px 34px;
+  animation: frm-panel-in 0.3s ease both;
+}
+.frm-close {
+  position: absolute;
+  top: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(248, 245, 240, 0.5);
+  font-size: 26px;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.25s ease;
+}
+.frm-close:hover,
+.frm-close:focus-visible { color: #E8C77E; }
+
+/* Résumé de la recherche (lecture seule) */
+.frm-summary {
+  border: 1px solid rgba(201, 169, 110, 0.28);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 26px;
+  background: rgba(201, 169, 110, 0.05);
+}
+.frm-summary__label {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 110, 0.7);
+  margin-bottom: 10px;
+}
+.frm-summary__route {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f8f5f0;
+  line-height: 1.3;
+}
+.frm-summary__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 12.5px;
+  color: rgba(248, 245, 240, 0.6);
+}
+
+/* Champs de saisie : ligne dorée fine qui s'illumine au focus */
+.frm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.frm-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.35);
+  color: #f8f5f0;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 15px;
+  padding: 8px 2px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.frm-input::placeholder { color: rgba(248, 245, 240, 0.35); }
+.frm-input:focus {
+  border-bottom-color: #E8C77E;
+  box-shadow: 0 1px 0 0 #E8C77E;
+}
+
+/* Bouton doré */
+.frm-submit {
+  width: 100%;
+  margin-top: 28px;
+  padding: 15px 0;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0A1628;
+  background: linear-gradient(135deg, #C9A96E, #E8C77E);
+  box-shadow: 0 6px 20px rgba(201, 169, 110, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+.frm-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(232, 199, 126, 0.45);
+}
+.frm-submit:disabled { opacity: 0.6; cursor: default; }
+
+/* Coche de confirmation */
+.frm-check {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 169, 110, 0.45);
+  background: rgba(201, 169, 110, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+/* Mobile : marges réduites, champs empilés */
+@media (max-width: 520px) {
+  .frm-overlay { padding: 14px; }
+  .frm-panel { padding: 32px 22px 28px; border-radius: 14px; }
+  .frm-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .frm-overlay,
+  .frm-panel { animation: none; }
+  .frm-input,
+  .frm-submit,
+  .frm-close { transition: none; }
+}
+
+/* ─── Navbar : entrée « Notre Promesse » (rubrique signature) ───
+   Nuance d'or UNIQUE à cette entrée : #F0D68A (or clair lumineux), couleur unie
+   et pleine opacité, jamais utilisée ailleurs sur le site. Un glow doux (text-shadow)
+   « respire » lentement en boucle, retinté sur cette même teinte. SEULE la lueur
+   est animée, jamais le texte. Au survol : la couleur s'éclaircit (#F7E3A8),
+   transition douce sur color uniquement.
    Aucun background-clip, aucun texte transparent. Opacités dans [0,1]. */
 .nav-legacy {
-  color: #E8C77E;
+  color: #F0D68A;
   animation: navLegacyGlow 3s ease-in-out infinite;
-  transition: color 0.25s ease, text-shadow 0.25s ease;
+  transition: color 0.25s ease;
 }
 @keyframes navLegacyGlow {
   0%, 100% {
-    text-shadow: 0 0 6px rgba(232, 199, 126, 0.25),
-      0 0 10px rgba(232, 199, 126, 0.15);
+    text-shadow: 0 0 6px rgba(240, 214, 138, 0.25),
+      0 0 10px rgba(240, 214, 138, 0.15);
   }
   50% {
-    text-shadow: 0 0 8px rgba(232, 199, 126, 0.6),
-      0 0 14px rgba(232, 199, 126, 0.4);
+    text-shadow: 0 0 8px rgba(240, 214, 138, 0.6),
+      0 0 14px rgba(240, 214, 138, 0.4);
   }
 }
 .nav-legacy:hover,
 .nav-legacy:focus-visible {
-  color: #FBE6B8;
+  color: #F7E3A8;
   /* on fige l'animation pour laisser le glow renforcé s'appliquer */
   animation: none;
-  text-shadow: 0 0 10px rgba(232, 199, 126, 0.75),
-    0 0 18px rgba(232, 199, 126, 0.5);
+  text-shadow: 0 0 10px rgba(240, 214, 138, 0.75),
+    0 0 18px rgba(240, 214, 138, 0.5);
 }
 @media (prefers-reduced-motion: reduce) {
   .nav-legacy {
     animation: none;
-    text-shadow: 0 0 8px rgba(232, 199, 126, 0.5),
-      0 0 14px rgba(232, 199, 126, 0.3);
+    text-shadow: 0 0 8px rgba(240, 214, 138, 0.5),
+      0 0 14px rgba(240, 214, 138, 0.3);
   }
 }
 
@@ -3930,4 +4127,37 @@ a.contact-channel:hover {
   .book-block__cta,
   .book-block__link,
   .book-block__link::after { transition: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   FILET DE SÉCURITÉ MOBILE (≤ 767px) — n'affecte JAMAIS le desktop.
+   Placé en fin de fichier pour gagner sur les règles précédentes à
+   spécificité égale. 100% CSS pur, aucune valeur hors [0, 1].
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* 1. Anti-débordement média : aucune image/vidéo/carte ne dépasse l'écran. */
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* 2. Zoom iOS : Safari zoome au focus si la police d'un champ < 16px.
+        On force 16px sur mobile → plus de saut de mise en page à la saisie.
+        (Le champ Hero portait déjà cette règle ; ici on couvre tous les
+        formulaires : Contact, Vols Privés, modales.) */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  /* 3. Zones de saisie confortables au doigt (≥ 44px de haut) sur les
+        champs de formulaire dédiés — sans toucher aux petits boutons
+        (steppers passagers, cases du calendrier) qui doivent rester compacts. */
+  .contact-field,
+  .frm-input,
+  .vl-input {
+    min-height: 44px;
+  }
 }

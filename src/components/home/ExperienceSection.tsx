@@ -146,7 +146,7 @@ export default function ExperienceSection() {
     <section
       aria-label={c.eyebrow}
       className="texture-grain"
-      style={{ backgroundColor: NAVY, padding: "110px 0" }}
+      style={{ backgroundColor: NAVY, padding: "clamp(56px, 10vw, 110px) 0" }}
     >
       <div className="mx-auto" style={{ maxWidth: "1280px", paddingLeft: "8%", paddingRight: "8%" }}>
         {/* Header — centred */}

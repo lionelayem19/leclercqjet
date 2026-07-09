@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import FlightRequestModal from "@/components/home/FlightRequestModal";
 
 const ICON_PROPS = {
   className: "hero-field__icon shrink-0",
@@ -464,7 +465,7 @@ export default function HeroSection() {
   const [date, setDate] = useState("");
   const [passengers, setPassengers] = useState(2);
   const [error, setError] = useState(false);
-  const [confirmed, setConfirmed] = useState<null | { from: string; to: string; date: string; passengers: number; ref: string }>(null);
+  const [requestOpen, setRequestOpen] = useState(false);
 
   const guarantee = GUARANTEES[lang] || GUARANTEES.fr;
   const tagline = TAGLINE[lang] || TAGLINE.fr;
@@ -490,16 +491,7 @@ export default function HeroSection() {
       return;
     }
     setError(false);
-    const ref = `LJ-${new Date().getFullYear()}-${String(Date.now()).slice(-5)}`;
-    setConfirmed({ from, to, date, passengers, ref });
-  };
-
-  const resetSearch = () => {
-    setConfirmed(null);
-    setFrom("");
-    setTo("");
-    setDate("");
-    setPassengers(2);
+    setRequestOpen(true);
   };
 
   return (
@@ -735,102 +727,16 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Premium confirmation modal */}
-      <AnimatePresence>
-        {confirmed && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-6"
-            style={{ backgroundColor: "rgba(6,12,24,0.78)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}
-            onClick={resetSearch}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 24, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 16, scale: 0.98 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              className="glass-panel"
-              style={{
-                position: "relative", width: "100%", maxWidth: "460px",
-                borderTop: `3px solid ${GOLD}`, boxShadow: "0 40px 90px rgba(0,0,0,0.55)",
-                padding: "44px 40px 38px",
-              }}
-            >
-              {/* Close */}
-              <button
-                type="button"
-                aria-label="Fermer"
-                onClick={resetSearch}
-                style={{ position: "absolute", top: "16px", right: "18px", background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.45)", fontSize: "22px", lineHeight: 1, transition: "color 0.2s ease" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}
-              >
-                ×
-              </button>
-
-              {/* Gold check */}
-              <div className="flex justify-center mb-6">
-                <motion.div
-                  initial={{ scale: 0, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.12, type: "spring", stiffness: 200, damping: 14 }}
-                  style={{ width: "66px", height: "66px", borderRadius: "50%", border: `1px solid rgba(201,169,110,0.45)`, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(201,169,110,0.08)" }}
-                >
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 13l4 4L19 7" />
-                  </svg>
-                </motion.div>
-              </div>
-
-              <p className="font-sans uppercase text-center" style={{ fontSize: "10px", letterSpacing: "0.32em", color: GOLD, marginBottom: "12px" }}>
-                {h.search.confirmBadge}
-              </p>
-              <h3 className="font-serif text-center" style={{ fontSize: "28px", fontWeight: 700, color: "#FFFFFF", lineHeight: 1.2, marginBottom: "10px" }}>
-                {h.search.confirmTitle}
-              </h3>
-              <p className="font-sans text-center" style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6, marginBottom: "26px" }}>
-                {h.search.confirmLead}<span style={{ color: GOLD }}>{h.search.confirmHighlight}</span>{h.search.confirmLeadEnd}
-              </p>
-
-              {/* Itinerary summary */}
-              <div style={{ border: "1px solid rgba(201,169,110,0.18)", padding: "20px 22px", marginBottom: "24px" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: "16px" }}>
-                  <div style={{ maxWidth: "42%" }}>
-                    <p className="font-sans uppercase" style={{ fontSize: "8px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.7)", marginBottom: "4px" }}>{h.from}</p>
-                    <p className="font-sans" style={{ fontSize: "14px", color: "#FFFFFF", fontWeight: 600 }}>{confirmed.from}</p>
-                  </div>
-                  <span aria-hidden="true" style={{ color: GOLD, fontSize: "16px" }}>✈</span>
-                  <div style={{ maxWidth: "42%", textAlign: "right" }}>
-                    <p className="font-sans uppercase" style={{ fontSize: "8px", letterSpacing: "0.2em", color: "rgba(201,169,110,0.7)", marginBottom: "4px" }}>{h.to}</p>
-                    <p className="font-sans" style={{ fontSize: "14px", color: "#FFFFFF", fontWeight: 600 }}>{confirmed.to}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "14px" }}>
-                  <span className="font-sans" style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)" }}>{formatDateFR(confirmed.date)}</span>
-                  <span className="font-sans" style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)" }}>{confirmed.passengers} {confirmed.passengers > 1 ? h.passengerMany : h.passengerOne}</span>
-                </div>
-              </div>
-
-              <p className="font-sans text-center" style={{ fontSize: "11px", letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)", marginBottom: "22px" }}>
-                {h.search.reference}&nbsp;: <span style={{ color: GOLD, fontWeight: 600 }}>{confirmed.ref}</span>
-              </p>
-
-              <button
-                type="button"
-                onClick={resetSearch}
-                className="font-sans uppercase w-full transition-opacity hover:opacity-90"
-                style={{ backgroundColor: GOLD, color: NAVY, fontSize: "11px", letterSpacing: "0.2em", fontWeight: 700, padding: "15px 0", border: "none", cursor: "pointer" }}
-              >
-                {h.search.done}
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Modale de recueil des coordonnées — ouverte au clic sur « Prendre mon envol » */}
+      <FlightRequestModal
+        open={requestOpen}
+        onClose={() => setRequestOpen(false)}
+        from={from}
+        to={to}
+        dateLabel={formatDateFR(date)}
+        dateISO={date}
+        passengers={passengers}
+      />
     </section>
   );
 }

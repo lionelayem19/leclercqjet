@@ -94,8 +94,25 @@ export default function ContactPage() {
     }
   };
 
-  const labelClass = "block font-sans uppercase mb-2";
-  const labelStyle: React.CSSProperties = { fontSize: "11px", letterSpacing: "0.18em", color: "#C9A96E", fontWeight: 600 };
+  const labelClass = "block mb-2";
+  const labelStyle: React.CSSProperties = {
+    fontFamily: "var(--font-cormorant), Georgia, serif",
+    fontSize: "1.05rem",
+    letterSpacing: "0.02em",
+    color: "#f8f5f0",
+    fontWeight: 600,
+  };
+  // Texte d'aide sous le label Message — italique doré, pleine opacité, bien lisible.
+  const helpStyle: React.CSSProperties = {
+    fontFamily: "var(--font-cormorant), Georgia, serif",
+    fontStyle: "italic",
+    fontWeight: 600,
+    fontSize: "1.15rem",
+    color: "#E8C77E",
+    lineHeight: 1.6,
+    marginTop: "-2px",
+    marginBottom: "10px",
+  };
 
   const mapSrc = "https://www.google.com/maps?q=121%20rue%20de%20Rennes%2C%2075006%20Paris&z=15&output=embed";
   const waHref = `https://wa.me/${c.info.phone.replace(/\D/g, "")}`;
@@ -241,14 +258,14 @@ export default function ContactPage() {
 
                         <div>
                           <label className={labelClass} style={labelStyle}>{c.form.message}</label>
+                          <p style={helpStyle}>{c.form.messageHelp}</p>
                           <textarea
                             rows={5}
-                            required
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                             placeholder={c.form.messagePlaceholder}
                             className="contact-field font-sans"
-                            style={{ resize: "none" }}
+                            style={{ resize: "none", height: "140px" }}
                           />
                         </div>
 
