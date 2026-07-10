@@ -91,7 +91,9 @@
       "Bash(git check-ignore *)",
       "Bash(echo \"=== tsc exit: $? ===\")",
       "Bash(git diff *)",
-      "Bash(break)"
+      "Bash(break)",
+      "Bash(echo \"tsc exit: $?\")",
+      "Bash(awk '/^@media/{mq=$0; inmq=1; buf=\"\"} inmq && /hero/{print NR\": [\"mq\"] \"$0}' src/app/globals.css)"
     ]
   }
 }

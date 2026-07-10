@@ -2918,6 +2918,35 @@ a.contact-channel:hover {
 }
 
 /* Hero clouds : pure-CSS drifting haze, no asset and no JS, seamless loop */
+/* ── Hero : hauteur de section + cadrage de la photo de fond ──
+   100dvh = hauteur réellement visible sur mobile (barre d'adresse exclue).
+   La déclaration 100vh qui précède sert de repli aux navigateurs sans dvh. */
+.hero-section {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Desktop (≥ md) : valeurs inchangées. La photo déborde de 17,5 % en haut et
+   en bas (height 135%) pour absorber les 140px de dérive de la parallaxe. */
+.hero-bg-img {
+  top: -17.5%;
+  left: 0;
+  width: 100%;
+  height: 135%;
+  object-position: center 40%;
+}
+
+/* Sous md : la parallaxe est neutralisée côté JS (amplitude 0), donc plus
+   besoin de marge de débordement. On réduit le surdimensionnement et on
+   remonte le cadrage pour que le jet ne soit plus rogné en portrait. */
+@media (max-width: 767px) {
+  .hero-bg-img {
+    top: -5%;
+    height: 110%;
+    object-position: center 35%;
+  }
+}
+
 .hero-clouds {
   position: absolute;
   inset: 0;

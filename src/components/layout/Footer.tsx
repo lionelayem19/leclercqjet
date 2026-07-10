@@ -121,7 +121,7 @@ export default function Footer() {
           className="font-serif italic text-center mb-12"
           style={{ fontSize: "23px", letterSpacing: "0.04em", color: "rgba(201,169,110,0.55)", lineHeight: 1.6 }}
         >
-          Courage, Confidence, Love, Hope
+          {f.motto}
         </p>
 
         {/* Premium newsletter */}

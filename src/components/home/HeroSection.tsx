@@ -484,6 +484,19 @@ export default function HeroSection() {
   const { scrollY } = useScroll();
   const parallaxY = useTransform(scrollY, [0, 800], [0, 140]);
 
+  // Sous md (< 768px, même seuil que la media query de .hero-bg-img), la photo
+  // n'est plus surdimensionnée : elle n'a plus la marge nécessaire pour dériver.
+  // On annule donc l'amplitude de la parallaxe. matchMedia et non media query CSS,
+  // car `y` est piloté en JS par framer-motion.
+  const [isBelowMd, setIsBelowMd] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const sync = () => setIsBelowMd(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!from.trim() || !to.trim() || !date) {
@@ -495,7 +508,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative flex flex-col" style={{ minHeight: "100vh" }}>
+    <section className="hero-section relative flex flex-col">
       {/* Background layers wrapper — clips the oversized parallax image + clouds
           to the hero WITHOUT an overflow:hidden on the <section> itself, which
           was cropping the search-bar suggestion dropdowns. */}
@@ -505,14 +518,9 @@ export default function HeroSection() {
         <motion.img
           src="/images/acquisition.png"
           alt="Falcon en vol au-dessus des nuages"
-          className="absolute object-cover"
+          className="hero-bg-img absolute object-cover"
           style={{
-            top: "-17.5%",
-            left: 0,
-            width: "100%",
-            height: "135%",
-            objectPosition: "center 40%",
-            y: prefersReducedMotion ? 0 : parallaxY,
+            y: prefersReducedMotion || isBelowMd ? 0 : parallaxY,
             willChange: "transform",
           }}
         />

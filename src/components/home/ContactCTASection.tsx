@@ -78,7 +78,7 @@ export default function ContactCTASection({ dark = false }: { dark?: boolean }) 
 
             {/* WHATSAPP */}
             <a
-              href="https://wa.me/33600000000"
+              href="https://wa.me/33698855737"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-lift font-sans uppercase whitespace-nowrap flex items-center gap-2"

@@ -287,7 +287,7 @@ export default function ContactPage() {
 
             {/* Signature finale */}
             <p className="text-center" style={{ fontFamily: "var(--font-cormorant), Georgia, serif", fontStyle: "italic", fontWeight: 500, fontSize: "clamp(28px, 5vw, 48px)", color: "#E8C77E", lineHeight: 1.3, marginTop: "72px" }}>
-              Courage, Confidence, Love, Hope
+              {t.footer.motto}
             </p>
           </section>
         </div>
