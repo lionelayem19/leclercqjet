@@ -37,8 +37,9 @@ const NEWSLETTER: Record<Lang, { title: string; subtitle: string; placeholder: s
   },
 };
 
-// Réseaux sociaux — pour ajouter Facebook / TikTok, ajoutez simplement une entrée ici.
-const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
+// Réseaux sociaux — pour en ajouter un, ajoutez simplement une entrée ici.
+// ariaLabel est optionnel : à défaut, le label sert de libellé accessible.
+const SOCIALS: { label: string; ariaLabel?: string; href: string; icon: React.ReactNode }[] = [
   {
     label: "Instagram",
     href: "https://www.instagram.com/leclercqjet/",
@@ -50,8 +51,26 @@ const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
       </svg>
     ),
   },
-  // { label: "Facebook", href: "https://www.facebook.com/...", icon: (<svg …/>) },
-  // { label: "TikTok",   href: "https://www.tiktok.com/@...",  icon: (<svg …/>) },
+  {
+    label: "Facebook",
+    ariaLabel: "Facebook Leclercq'Jet",
+    href: "https://www.facebook.com/profile.php?id=61591892307784",
+    icon: (
+      <svg width="23" height="23" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 10v4h3v7h4v-7h3l1-4h-4V8a1 1 0 011-1h3V3h-3a5 5 0 00-5 5v2H7z" />
+      </svg>
+    ),
+  },
+  {
+    label: "TikTok",
+    ariaLabel: "TikTok Leclercq'Jet",
+    href: "https://www.tiktok.com/@leclercqjet.inter",
+    icon: (
+      <svg width="23" height="23" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.92v4.03a9.95 9.95 0 01-5-1.95v4.5a6.5 6.5 0 11-8-6.33v4.33a2.5 2.5 0 104 2V3h4.08A6 6 0 0021 7.92z" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Footer() {
@@ -256,15 +275,16 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Social icons — rangée extensible (Facebook / TikTok à ajouter dans SOCIALS) */}
+        {/* Social icons — rangée extensible (voir SOCIALS) */}
         <div className="flex justify-center items-center gap-6 mb-8">
           {SOCIALS.map((s) => (
             <a
               key={s.label}
+              className="footer-social"
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={s.label}
+              aria-label={s.ariaLabel ?? s.label}
               style={{
                 display: "inline-flex",
                 color: "#C9A96E",
@@ -302,7 +322,7 @@ export default function Footer() {
           className="font-sans text-center mb-6"
           style={{ fontSize: "10px", letterSpacing: "0.05em", color: "rgba(248,245,240,0.28)", lineHeight: 1.8 }}
         >
-          Jet privé Paris · Empty Legs · Jet Card · Charter VIP · Affrètement d&apos;avion privé · Aviation d&apos;affaires
+          Jet privé Paris · Jet Card · Charter VIP · Affrètement d&apos;avion privé · Aviation d&apos;affaires
         </p>
 
         {/* Bottom row */}

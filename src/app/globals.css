@@ -4161,3 +4161,43 @@ a.contact-channel:hover {
     min-height: 44px;
   }
 }
+
+/* ── Icônes réseaux sociaux du footer ──
+   Les icônes font 23px et sont espacées de 24px (gap-6), soit 47px entre
+   deux centres. Le pseudo-élément centré porte la zone de clic à 44x44px
+   (recommandation tactile) sans toucher à la taille ni à l'espacement
+   visuel des icônes, et sans que deux zones voisines ne se chevauchent. */
+.footer-social {
+  position: relative;
+}
+.footer-social::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+
+/* ── Message d'erreur de formulaire ──
+   Partagé par la page Contact, le formulaire Vols Privés et FlightRequestModal.
+   Les propriétés logiques (border-inline-start, padding-inline) assurent
+   le bon rendu en RTL (arabe) sans règle dédiée. */
+.form-error {
+  display: block;
+  margin-top: 16px;
+  padding: 13px 16px;
+  border: 1px solid rgba(229, 115, 115, 0.38);
+  border-inline-start: 3px solid #E57373;
+  border-radius: 4px;
+  background: rgba(198, 60, 60, 0.12);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: #FFB3A7;
+  opacity: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+}

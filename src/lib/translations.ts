@@ -2,7 +2,7 @@ export type Lang = "fr" | "en" | "zh" | "ar";
 
 export const translations = {
   fr: {
-    common: { formError: "Une erreur est survenue. Veuillez réessayer.", select: "— Sélectionner —" },
+    common: { formError: "Une erreur est survenue. Contactez-nous directement au +33 6 98 85 57 37.", select: "— Sélectionner —" },
     nav: {
       flights: "Vols Privés",
       emptyLegs: "Vols Partagés",
@@ -692,7 +692,7 @@ export const translations = {
     },
   },
   en: {
-    common: { formError: "An error occurred. Please try again.", select: "— Select —" },
+    common: { formError: "An error occurred. Please contact us directly at +33 6 98 85 57 37.", select: "— Select —" },
     nav: {
       flights: "Private Flights",
       emptyLegs: "Shared Flights",
@@ -1178,7 +1178,7 @@ export const translations = {
     },
   },
   zh: {
-    common: { formError: "发生错误，请重试。", select: "— 请选择 —" },
+    common: { formError: "发生错误。请直接致电 +33 6 98 85 57 37 联系我们。", select: "— 请选择 —" },
     nav: { flights: "私人飞行", emptyLegs: "空机腿", conciergerie: "礼宾服务", memberships: "会员计划", ownJet: "购买飞机", charterManagement: "包机管理", gastronomie: "美食", meteo: "天气", actualites: "新闻", contact: "联系我们", phone: "+33 6 98 85 57 37", cta: "获取报价", lang: "中文" },
     home: {
       hero: { title: "决定，起飞", dest1: "巴黎 · 伦敦 · 日内瓦 · 摩纳哥 · 戛纳 · 米科诺斯 · 伊比萨 · 迪拜", dest2: "纽约 · 迈阿密 · 马拉喀什 · 东京 · 新加坡 · 新德里 · 悉尼 · 开普敦", from: "出发地", fromPlaceholder: "出发城市或机场", to: "目的地", toPlaceholder: "到达城市或机场", date: "日期", datePlaceholder: "日期", passengers: "乘客", passengerOne: "位乘客", passengerMany: "位乘客", cta: "展翅启航", ctaExpert: "联系专家", ctaEmpty: "查看空机腿", search: { errorRequired: "请填写出发地、目的地和航班日期。", confirmBadge: "请求已收到", confirmTitle: "您的搜索已确认", confirmLead: "LeclercqJet 顾问将", confirmHighlight: "尽快", confirmLeadEnd: "联系您并提供机型选择。", reference: "参考编号", done: "好的，谢谢" }, request: { title: "定制您的航班", subtitle: "留下几项信息，我们将尽快与您联系。", summary: "您的搜索", lastName: "姓", firstName: "名", email: "电子邮件", phone: "电话", optional: "选填", send: "发送我的请求", sending: "发送中…", success: "感谢您，我们将很快与您联系。", errorRequired: "必填项", errorEmail: "电子邮件地址无效" } },
@@ -1210,7 +1210,7 @@ export const translations = {
     book: { label: "了解更多", title: "艾曼纽·勒克莱尔的著作", bookTitle: "La vie est un combat. Accepte-le !", subtitle: "一个被特蕾莎修女救起的孤儿的非凡历程。他以自己的话语讲述的人生故事。", discover: "了解这本书", cta: "购买本书", coverAlt: "艾曼纽·勒克莱尔的著作封面", note: "艾曼纽·勒克莱尔是天生的企业家，一位专注于项目的人。每一个项目都是将他的人生历程化为动力的新方式：给予、创造、传承。只要还有一个项目等待诞生，就有一个未来等待建造。" },
   },
   ar: {
-    common: { formError: "حدث خطأ. يرجى المحاولة مرة أخرى.", select: "— اختر —" },
+    common: { formError: "حدث خطأ. يرجى الاتصال بنا مباشرة على ⁦+33 6 98 85 57 37⁩.", select: "— اختر —" },
     nav: { flights: "رحلات خاصة", emptyLegs: "رحلات فارغة", conciergerie: "الكونسيرج", memberships: "عضويات", ownJet: "اقتن طائرتك", charterManagement: "إدارة الشارتر", gastronomie: "الغاسترونومي", meteo: "الطقس", actualites: "أخبار", contact: "اتصل بنا", phone: "+33 6 98 85 57 37", cta: "طلب عرض سعر", lang: "عربي" },
     home: {
       hero: { title: "قرّر، انطلق", dest1: "باريس · لندن · جنيف · موناكو · كان · ميكونوس · إيبيزا · دبي", dest2: "نيويورك · ميامي · مراكش · طوكيو · سنغافورة · نيودلهي · سيدني · كيب تاون", from: "المغادرة", fromPlaceholder: "مدينة أو مطار المغادرة", to: "الوصول", toPlaceholder: "مدينة أو مطار الوصول", date: "التاريخ", datePlaceholder: "التاريخ", passengers: "المسافرون", passengerOne: "مسافر", passengerMany: "مسافرون", cta: "حلّق عالياً", ctaExpert: "تحدث مع خبير", ctaEmpty: "الرحلات الفارغة", search: { errorRequired: "يرجى تحديد المغادرة والوصول وتاريخ الرحلة.", confirmBadge: "تم استلام الطلب", confirmTitle: "تم تأكيد بحثك", confirmLead: "سيتواصل معك مستشار LeclercqJet ", confirmHighlight: "في أقرب وقت", confirmLeadEnd: " مع مجموعة مختارة من الطائرات.", reference: "المرجع", done: "ممتاز، شكراً" }, request: { title: "صمّم رحلتك", subtitle: "بعض المعلومات وسنعاود الاتصال بك.", summary: "بحثك", lastName: "الاسم", firstName: "الاسم الأول", email: "البريد الإلكتروني", phone: "الهاتف", optional: "اختياري", send: "أرسل طلبي", sending: "جارٍ الإرسال…", success: "شكراً لك، سنعاود الاتصال بك قريباً جداً.", errorRequired: "حقل مطلوب", errorEmail: "عنوان بريد إلكتروني غير صالح" } },

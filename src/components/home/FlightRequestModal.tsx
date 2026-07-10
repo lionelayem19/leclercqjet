@@ -226,7 +226,7 @@ export default function FlightRequestModal({
               </div>
 
               {status === "error" && (
-                <p style={{ ...errStyle, marginTop: "16px" }}>{t.common.formError}</p>
+                <p className="form-error" role="alert">{t.common.formError}</p>
               )}
 
               <button type="submit" className="frm-submit" disabled={status === "sending"}>

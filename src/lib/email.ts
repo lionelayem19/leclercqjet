@@ -23,8 +23,8 @@ interface EmailPayload {
 export async function sendEmail({ subject, html }: EmailPayload): Promise<boolean> {
   const transporter = createTransporter();
   if (!transporter) {
-    console.log("[Email] SMTP non configuré — email non envoyé:", subject);
-    return true;
+    console.error("[Email] SMTP non configuré — email non envoyé:", subject);
+    return false;
   }
 
   try {

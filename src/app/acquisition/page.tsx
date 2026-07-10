@@ -274,7 +274,7 @@ export default function AcquisitionPage() {
                 </div>
 
                 {status === "error" && (
-                  <p className="font-sans text-[13px] text-red-500">{t.common.formError}</p>
+                  <p className="form-error" role="alert">{t.common.formError}</p>
                 )}
 
                 <button

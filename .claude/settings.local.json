@@ -88,7 +88,10 @@
       "Bash(grep -n \"^  fr: {\\\\|^  en: {\\\\|^  zh: {\\\\|^  ar: {\\\\|^  },$\\\\|^} as const\\\\|^};\" src/lib/translations.ts)",
       "Bash(echo \"tsc-exit: $?\")",
       "Bash(git mv *)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(echo \"=== tsc exit: $? ===\")",
+      "Bash(git diff *)",
+      "Bash(break)"
     ]
   }
 }

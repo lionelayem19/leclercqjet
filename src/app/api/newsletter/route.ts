@@ -6,10 +6,13 @@ export async function POST(request: NextRequest) {
     const { email } = await request.json();
     if (!email) return NextResponse.json({ error: "Email requis" }, { status: 400 });
 
-    await sendEmail({
+    const sent = await sendEmail({
       subject: "Nouvelle inscription newsletter",
       html: emailTemplate("Nouvelle inscription newsletter", { Email: email }),
     });
+    if (!sent) {
+      return NextResponse.json({ error: "Envoi impossible" }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true });
   } catch {

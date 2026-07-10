@@ -96,7 +96,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Type inconnu" }, { status: 400 });
     }
 
-    await sendEmail({ subject, html: emailTemplate(subject, rows) });
+    const sent = await sendEmail({ subject, html: emailTemplate(subject, rows) });
+    if (!sent) {
+      return NextResponse.json({ error: "Envoi impossible" }, { status: 500 });
+    }
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Erreur interne" }, { status: 500 });

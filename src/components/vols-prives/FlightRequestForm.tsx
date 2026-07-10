@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -71,6 +71,7 @@ export default function FlightRequestForm() {
   const isRTL = lang === "ar";
   const params = useSearchParams();
   const router = useRouter();
+  const [submitError, setSubmitError] = useState(false);
 
   const {
     register,
@@ -86,14 +87,23 @@ export default function FlightRequestForm() {
     if (params.get("passengers")) setValue("passengers", params.get("passengers") as string);
   }, [params, setValue]);
 
+  // On ne redirige vers la confirmation que si l'email est réellement parti.
   const onSubmit = async (data: FormData) => {
+    setSubmitError(false);
     try {
-      await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "vol", ...data }),
       });
-    } catch {}
+      if (!res.ok) {
+        setSubmitError(true);
+        return;
+      }
+    } catch {
+      setSubmitError(true);
+      return;
+    }
     router.push("/vols-prives/confirmation");
   };
 
@@ -235,6 +245,12 @@ export default function FlightRequestForm() {
               <label className={labelClass}>{vp.form.message}</label>
               <textarea {...register("message")} rows={4} placeholder={vp.form.messagePlaceholder} className={inputClass + " resize-none"} />
             </div>
+
+            {submitError && (
+              <p className="form-error" role="alert" dir={isRTL ? "rtl" : "ltr"}>
+                {t.common.formError}
+              </p>
+            )}
 
             <button
               type="submit"

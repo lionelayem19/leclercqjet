@@ -270,7 +270,9 @@ export default function ContactPage() {
                         </div>
 
                         {status === "error" && (
-                          <p className="font-sans text-[13px] text-red-500">{t.common.formError}</p>
+                          <p className="form-error" role="alert" dir={lang === "ar" ? "rtl" : "ltr"}>
+                            {t.common.formError}
+                          </p>
                         )}
 
                         <button type="submit" disabled={status === "sending"} className="pet-cta" style={{ width: "100%", border: "none", cursor: status === "sending" ? "default" : "pointer", opacity: status === "sending" ? 0.7 : 1 }}>
