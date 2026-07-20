@@ -76,6 +76,13 @@ const TAGLINE: Record<string, string> = {
   ar: "وساطة الطيران الخاص من باريس",
 };
 
+const DISCOVER_STORY: Record<string, string> = {
+  fr: "Découvrir notre histoire",
+  en: "Discover our story",
+  zh: "了解我们的故事",
+  ar: "اكتشف قصتنا",
+};
+
 // Animated hero quote — alternates FR/EN every 3s, one language at a time.
 const HERO_QUOTE: Record<"fr" | "en", string> = {
   fr: "Chaque vol rapproche un enfant de son avenir.",
@@ -469,6 +476,7 @@ export default function HeroSection() {
 
   const guarantee = GUARANTEES[lang] || GUARANTEES.fr;
   const tagline = TAGLINE[lang] || TAGLINE.fr;
+  const discoverStory = DISCOVER_STORY[lang] || DISCOVER_STORY.fr;
 
   // Hero quote alternates FR ⇄ EN every 3s, looping infinitely.
   const [quoteLang, setQuoteLang] = useState<"fr" | "en">("fr");
@@ -612,7 +620,7 @@ export default function HeroSection() {
             placé sous le slogan animé (n'affecte pas l'animation FR/EN). */}
         <div className="hero-engagement-wrap">
           <Link href="/legacy" className="hero-engagement-link">
-            <span>Découvrir notre histoire</span>
+            <span>{discoverStory}</span>
             <span className="hero-engagement-arrow" aria-hidden="true">→</span>
           </Link>
         </div>

@@ -90,6 +90,13 @@ const ENGAGEMENTS_LABELS: Record<Lang, string> = {
   ar: "التزاماتنا",
 };
 
+const VISION_LABELS: Record<Lang, string> = {
+  fr: "Notre Vision",
+  en: "Our Vision",
+  zh: "我们的愿景",
+  ar: "رؤيتنا",
+};
+
 // Libellé navbar « Notre Promesse » — rubrique signature (route /legacy conservée).
 const CONTRIBUTION_LABELS: Record<Lang, string> = {
   fr: "Notre Promesse",
@@ -154,6 +161,7 @@ export default function Navbar() {
   const aboutItems: NavItem[] = [
     ...(ABOUT[lang] || ABOUT.fr),
     { label: ENGAGEMENTS_LABELS[lang] || ENGAGEMENTS_LABELS.fr, href: "/nos-engagements" },
+    { label: VISION_LABELS[lang] || VISION_LABELS.fr, href: "/notre-vision" },
   ];
 
   const topLinks: NavItem[] = [
